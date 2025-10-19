@@ -8,12 +8,12 @@ import { Register } from "@/src/controller/app/AuthController";
 
 export const LoginForm = () => {
 
-    const val = useAction(Register)
     const { executeAsync, hasErrored, result, input } = useAction(Register)
 
     return (
         <form 
             action={async (formData) => {
+               // await fetch("/api/auth/csrf", { method: "GET", credentials: "include" });
                 const email = formData.get('email') as string;
                 const password = formData.get('password') as string;
                 executeAsync({email, password});
@@ -26,6 +26,7 @@ export const LoginForm = () => {
             </div>
             <Input 
                 errors={result.validationErrors?.email} 
+                value="barbeynicolas.basly@gmail.com"
                 required 
                 type="text" 
                 name="email" 
@@ -35,6 +36,7 @@ export const LoginForm = () => {
             />
             <Input 
                 errors={result.validationErrors?.password} 
+                value="password"
                 required 
                 type="password" 
                 name="password" 

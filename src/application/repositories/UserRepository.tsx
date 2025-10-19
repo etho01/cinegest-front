@@ -1,6 +1,8 @@
-import { UserLog } from "@/src/domain/entities/User";
+import { User, UserLog } from "@/src/domain/entities/User";
 
 
 export interface UserRepository {
-    connect : (userLog : UserLog) => Promise<void>
+    connect : (userLog : UserLog) => Promise<string>,
+    logout : () => Promise<void>,
+    getUser : () => Promise<User>
 }

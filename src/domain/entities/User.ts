@@ -6,6 +6,19 @@ export type UserLog = {
 }
 
 export const UserLogSchema = z.object({
-    email : z.string().max(255),
+    email : z.email(),
     password : z.string().max(255),
 })
+
+export type User = {
+    id: Number,
+    email : string
+}
+
+export class Unauthenticated extends Error
+{
+    constructor()
+    {
+        super("L'utilisateur n'est pas authentifier");
+    }
+}
