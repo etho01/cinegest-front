@@ -1,4 +1,4 @@
-import { UserLog } from "@/src/domain/entities/User";
+import { UserLog } from "@/src/domain/User";
 import { UserRepository } from "../../repositories/UserRepository";
 import { cookies } from "next/headers";
 

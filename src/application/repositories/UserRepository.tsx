@@ -1,4 +1,4 @@
-import { User, UserLog } from "@/src/domain/entities/User";
+import { User, UserLog } from "@/src/domain/User";
 
 
 export interface UserRepository {

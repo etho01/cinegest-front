@@ -12,7 +12,10 @@ export const UserLogSchema = z.object({
 
 export type User = {
     id: Number,
-    email : string
+    email : string,
+    firstname : string,
+    lastname: string,
+    phone : string | null
 }
 
 export class Unauthenticated extends Error

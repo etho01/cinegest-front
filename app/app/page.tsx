@@ -1,12 +1,15 @@
-import { getUser } from "@/src/application/useCases/User/getUser";
-import { Logout } from "@/src/controller/app/AuthController"
-import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
-
+import { ShowMenu } from "@/src/component/menu/showMenu";
+import { User } from "@/src/domain/User";
 
 
 export default async function Page () {
-
     return (
-        <div>fe</div>
+        <ShowMenu body={async (user : User) => {
+            return (
+                <div>
+                    {user.email}
+                </div>
+            )
+        }} />
     )
 }

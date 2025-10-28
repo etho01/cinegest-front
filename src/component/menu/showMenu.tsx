@@ -1,21 +1,20 @@
 import { getUser } from "@/src/application/useCases/User/getUser";
 import { logout } from "@/src/application/useCases/User/logout";
-import { UnauthenticatedComponent } from "@/src/component/auth/unauthenticated-component";
-import { GestLayout } from "@/src/component/ui/gest-layout";
-import { Unauthenticated } from "@/src/domain/entities/User";
+import { Unauthenticated, User } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { PropsWithChildren } from "react";
+import { GestLayout } from "../ui/gest-layout";
+import { UnauthenticatedComponent } from "../auth/unauthenticated-component";
+import { Menu } from "./menu";
+import React from "react";
 
-interface Props extends PropsWithChildren {
-
+interface ShowMenuProps {
+    body : (user : User) => Promise<React.ReactNode>
 }
 
-export default async function Layout({ children } : Props) {
-
+export const ShowMenu = async ({ body }: ShowMenuProps) => {
+    let user = null;
     try {
-        await getUser(UserRepositoryImpl)
+        user = await getUser(UserRepositoryImpl)
     } catch (e)
     {
         if (e instanceof Unauthenticated)
@@ -32,12 +31,10 @@ export default async function Layout({ children } : Props) {
             throw e
         }
     }
-
-    console.log('d')
     
     return (
-        <div>
-            {children}
-        </div>
+        <Menu user={user}>
+            { await body(user) }
+        </Menu>
     )
 }

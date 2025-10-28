@@ -1,5 +1,5 @@
 import { UserRepository } from "@/src/application/repositories/UserRepository";
-import { Unauthenticated, UserLog } from "@/src/domain/entities/User";
+import { Unauthenticated, User, UserLog } from "@/src/domain/User";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
 import fsPromises from 'fs/promises';
 
@@ -15,7 +15,7 @@ export const UserRepositoryImpl: UserRepository = {
     logout: async () => {
       await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/logout`, {}, {});
     },
-    getUser: async () => {
+    getUser: async () : Promise<User> => {
       let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/me`, {}, {});
 
       if (resp.status == 401)
@@ -25,6 +25,13 @@ export const UserRepositoryImpl: UserRepository = {
 
       let text = await resp.text();
       let body = JSON.parse(text);
-      console.log(body, resp);
+      
+      return {
+        id : body['id'],
+        email : body['email'],
+        firstname : body['firstname'],
+        lastname : body['lastname'],
+        phone : body['phone']
+      }
     }
 }
