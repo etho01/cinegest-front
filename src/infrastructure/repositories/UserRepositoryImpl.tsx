@@ -25,13 +25,24 @@ export const UserRepositoryImpl: UserRepository = {
 
       let text = await resp.text();
       let body = JSON.parse(text);
+
+      let roles = body['roles'].map((roleData: any) => {
+        return {
+          id : roleData['id'],
+          name : roleData['name'],
+          cinemaId : roleData['pivot']['cinema_id'],
+          entityId : roleData['entity_id']
+        }
+      });
       
       return {
         id : body['id'],
         email : body['email'],
         firstname : body['firstname'],
         lastname : body['lastname'],
-        phone : body['phone']
+        phone : body['phone'],
+        roles : roles,
+        isSuperAdmin : body['isSuperAdmin']
       }
     }
 }

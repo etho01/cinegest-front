@@ -4,7 +4,7 @@ import { User } from "@/src/domain/User";
 
 export default async function Page () {
     return (
-        <ShowMenu body={async (user : User) => {
+        <ShowMenu page="dashboard" entityId={null} cinemaId={null} body={async (user : User) => {
             return (
                 <div>
                     {user.email}

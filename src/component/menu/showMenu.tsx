@@ -8,10 +8,20 @@ import { Menu } from "./menu";
 import React from "react";
 
 interface ShowMenuProps {
-    body : (user : User) => Promise<React.ReactNode>
+    body : (user : User) => Promise<React.ReactNode>;
+    entityId : number | null;
+    cinemaId : number | null;
+    page : string;
 }
 
-export const ShowMenu = async ({ body }: ShowMenuProps) => {
+export interface MenuProps {
+    user : User;
+    entity : number | null;
+    cinema : number | null;
+    page : string;
+}
+
+export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps) => {
     let user = null;
     try {
         user = await getUser(UserRepositoryImpl)
@@ -31,9 +41,10 @@ export const ShowMenu = async ({ body }: ShowMenuProps) => {
             throw e
         }
     }
+    console.log(user);
     
     return (
-        <Menu user={user}>
+        <Menu user={user} entity={entityId} cinema={cinemaId} page={page}>
             { await body(user) }
         </Menu>
     )

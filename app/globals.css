@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+.leftMenu.open .menuTitle
+{
+    @apply block
+}
