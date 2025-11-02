@@ -41,7 +41,6 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
             throw e
         }
     }
-    console.log(user);
     
     return (
         <Menu user={user} entity={entityId} cinema={cinemaId} page={page}>
