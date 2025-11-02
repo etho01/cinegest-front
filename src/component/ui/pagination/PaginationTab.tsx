@@ -53,7 +53,7 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
                 }
             </tbody>
         </table>
-        <Pagination currentPage={page} lastPage={data?.lastPage} onPageChange={setPage} disabled={isPending} />
+        <Pagination currentPage={page} lastPage={data?.last_page} onPageChange={setPage} disabled={isPending} />
         </>
     )
 });
