@@ -6,7 +6,12 @@ export type Entity = {
     name : string;
 };
 
+export const EntityEmpty : Entity = {
+    id: 0,
+    name: ""
+}
 
-export const EntityLogSchema = z.object({
+export const EntitySchema = z.object({
+    id: z.number().min(0),
     name: z.string().max(255),
 })

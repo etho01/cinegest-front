@@ -1,4 +1,5 @@
 import { cookies, headers } from "next/headers";
+import { withSearchParams } from "../url";
 
 type ParsedCookie = {
     name: string;
@@ -23,6 +24,7 @@ export class ApiRequestServeur {
     }
 
     static async GET(url: string, params: any, header: any): Promise<Response> {
+        url = withSearchParams(url, params);
         let headers = await ApiRequestServeur.getHeader();
         return fetch(url, {
             method: "GET",

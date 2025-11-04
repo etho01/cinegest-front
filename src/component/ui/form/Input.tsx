@@ -8,10 +8,10 @@ interface Props extends
   React.ComponentPropsWithRef<'input'> {
     label : string,
     containerClassName : string,
-    errors : formError | undefined
+    errors : formError | undefined
 };
 
-export default function Input({className = '', type, label = '', containerClassName, errors, ...props} : Props)
+export default function Input({className = '', type, label = '', containerClassName = '', errors = undefined, ...props} : Props)
 {
     let htmlFor = "";
     if (props['id'] != undefined)

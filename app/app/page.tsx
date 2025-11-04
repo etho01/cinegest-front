@@ -1,4 +1,4 @@
-import { ShowMenu } from "@/src/component/menu/showMenu";
+import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { User } from "@/src/domain/User";
 
 

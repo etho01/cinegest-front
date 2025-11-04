@@ -4,6 +4,8 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../utils';
+import { Button } from '../btn/button';
+import { PropsWithChildren, HTMLAttributes } from 'react';
 
 // Modal variants pour différentes tailles
 const modalVariants = cva(
@@ -295,7 +297,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(({
                     <button
                         ref={closeButtonRef}
                         onClick={handleCloseClick}
-                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 rounded-md p-1 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 rounded-md p-1 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         aria-label="Fermer la modal"
                         type="button"
                     >
@@ -335,16 +337,18 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(({
     return modalContent;
 });
 
-Modal.displayName = 'Modal';
+interface ModalHeaderProps extends
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren {
+    className?: string;
+}
 
-// Composants de structure améliorés avec useRef et contexte
-export const ModalHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({
+export const ModalHeader = ({
     className,
     children,
     ...props
-}, ref) => (
+}: ModalHeaderProps) => (
     <div
-        ref={ref}
         className={cn(
             'px-6 py-4 border-b border-gray-200',
             className
@@ -353,19 +357,23 @@ export const ModalHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes
     >
         {children}
     </div>
-));
-ModalHeader.displayName = 'ModalHeader';
+);
 
-export const ModalTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(({
+interface ModalTitleProps extends
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren {
+    className?: string;
+}
+
+export const ModalTitle = ({
     className,
     children,
     ...props
-}, ref) => {
+} : ModalTitleProps) => {
     const { titleId } = useModalContext();
     
     return (
         <h2
-            ref={ref}
             id={titleId}
             className={cn(
                 'text-lg font-semibold text-gray-900',
@@ -376,19 +384,23 @@ export const ModalTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttribu
             {children}
         </h2>
     );
-});
-ModalTitle.displayName = 'ModalTitle';
+};
 
-export const ModalBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({
+interface ModalBodyProps extends
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren {
+    className?: string;
+}
+
+export const ModalBody = ({
     className,
     children,
     ...props
-}, ref) => {
+} : ModalBodyProps) => {
     const { modalId } = useModalContext();
     
     return (
         <div
-            ref={ref}
             id={`${modalId}-description`}
             className={cn(
                 'px-6 py-4',
@@ -399,16 +411,20 @@ export const ModalBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
             {children}
         </div>
     );
-});
-ModalBody.displayName = 'ModalBody';
+};
 
-export const ModalFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({
+interface ModalFooterProps extends
+    HTMLAttributes<HTMLDivElement>,
+    PropsWithChildren {
+    className?: string;
+}
+
+export const ModalFooter = ({
     className,
     children,
     ...props
-}, ref) => (
+} : ModalFooterProps) => (
     <div
-        ref={ref}
         className={cn(
             'px-6 py-4 border-t border-gray-200 flex justify-end space-x-2',
             className
@@ -417,5 +433,4 @@ export const ModalFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes
     >
         {children}
     </div>
-));
-ModalFooter.displayName = 'ModalFooter';
+);

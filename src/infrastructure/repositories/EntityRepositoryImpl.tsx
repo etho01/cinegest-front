@@ -12,5 +12,20 @@ export const EntityRepositoryImpl: EntityRepository = {
         let text = await resp.text();
         let body = JSON.parse(text);
         return body as Paginator<Entity>;
+    },
+    addEntity: async (entity: Entity) : Promise<Entity> => {    
+        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/superAdmin/entity`, entity, {});
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as Entity;
+    },
+    updateEntity: async (entity: Entity) : Promise<Entity> => {    
+        let resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/superAdmin/entity/${entity.id}`, entity, {});
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as Entity;
+    },
+    delete: async (entityId: number) : Promise<void> => {    
+        await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/superAdmin/entity/${entityId}`, {}, {});
     }
-}
+};

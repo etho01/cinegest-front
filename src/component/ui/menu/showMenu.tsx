@@ -2,8 +2,8 @@ import { getUser } from "@/src/application/useCases/User/getUser";
 import { logout } from "@/src/application/useCases/User/logout";
 import { Unauthenticated, User } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
-import { GestLayout } from "../ui/gest-layout";
-import { UnauthenticatedComponent } from "../auth/unauthenticated-component";
+import { GestLayout } from "../gest-layout";
+import { UnauthenticatedComponent } from "../../auth/unauthenticated-component";
 import { Menu } from "./menu";
 import React from "react";
 

@@ -1,5 +1,5 @@
 import { fetchEntities, PropsFetchEntities } from "@/src/application/useCases/Entity/fetchEntities";
-import { ShowMenu } from "@/src/component/menu/showMenu";
+import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import EntityManager from "@/src/component/superadmin/entity/EntityManager";
 import { EntityRepositoryImpl } from "@/src/infrastructure/repositories/EntityRepositoryImpl";
 

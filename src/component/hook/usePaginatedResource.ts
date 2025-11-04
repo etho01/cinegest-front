@@ -3,6 +3,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Paginator } from "../ui/pagination/PaginationType";
+import { withSearchParams } from "@/src/lib/url";
 
 type Fetcher<T> = (url: string, init?: RequestInit) => Promise<Paginator<T>>;
 
@@ -11,15 +12,6 @@ export function defaultFetcher<T>(url: string, init?: RequestInit) {
         if (!r.ok) throw new Error(`Erreur API (${r.status})`);
         return (await r.json()) as Paginator<T>;
     });
-}
-
-function withSearchParams(base: string, params: Record<string, unknown>) {
-    const u = new URL(base, typeof window !== "undefined" ? window.location.origin : "http://local");
-    Object.entries(params).forEach(([k, v]) => {
-        if (v === undefined || v === null || v === "") return;
-        u.searchParams.set(k, String(v));
-    });
-    return u.toString();
 }
 
 export type PaginatedOptions<T> = {
@@ -47,7 +39,7 @@ export function usePaginatedResource<T>({
     const [page, setPage] = useState(initialData?.current_page ?? initialPage);
     const [params, setParamsState] = useState<Record<string, unknown>>(initialParams);
     const [error, setError] = useState<Error | null>(null);
-    const [isPending, startTransition] = useTransition();
+    const [isPending, setIsPending] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
 
     const url = useMemo(() => {
@@ -56,12 +48,14 @@ export function usePaginatedResource<T>({
 
     const runFetch = useCallback(
         async (u: string) => {
+            setIsPending(true);
             if (abortRef.current) abortRef.current.abort();
             const ctrl = new AbortController();
             abortRef.current = ctrl;
             setError(null);
             const res = await fetcher<T>(u, { signal: ctrl.signal });
             setData(res);
+            setIsPending(false);
         },
         [fetcher]
     );
@@ -76,9 +70,7 @@ export function usePaginatedResource<T>({
 
         setIsInit(true);
         //if (!data) return; // si déjà SSR, on attend une interaction
-        startTransition(() => {
             runFetch(url).catch((e) => setError(e as Error));
-        });
     }, [url]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Sync URL (page/per_page/params)
@@ -101,11 +93,9 @@ export function usePaginatedResource<T>({
             });
             setPage(p);
             setParamsState(rest);
-            startTransition(() => {
-                runFetch(withSearchParams(endpoint, { page: p, ...rest })).catch((e) =>
-                    setError(e as Error)
-                );
-            });
+            runFetch(withSearchParams(endpoint, { page: p, ...rest })).catch((e) =>
+                setError(e as Error)
+            );
         };
         window.addEventListener("popstate", onPop);
         return () => window.removeEventListener("popstate", onPop);
@@ -130,6 +120,6 @@ export function usePaginatedResource<T>({
         setPage,
         setParams,   // 👈 exposé
         updateParam, // 👈 exposé
-        refetch: () => startTransition(() => runFetch(url).catch((e) => setError(e as Error))),
+        refresh: () => runFetch(url).catch((e) => setError(e as Error)),
     };
 }

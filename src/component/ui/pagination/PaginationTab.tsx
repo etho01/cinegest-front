@@ -14,10 +14,11 @@ export interface PaginationTabProps {
 
 export type PaginationTabRef = {
     updateParam: (key: string, value: unknown) => void;
+    refresh: () => void;
 }
 
 export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams, lineRenderer, colList }: PaginationTabProps, ref) => {
-    const { data, error, isPending, page, setPage, setParams, updateParam } = usePaginatedResource<any>({
+    const { data, error, isPending, page, setPage, setParams, updateParam, refresh } = usePaginatedResource<any>({
         endpoint,
         initialData,
         initialParams,
@@ -25,7 +26,8 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
 
     // Expose the updateParam function to the ref
     useImperativeHandle(ref, () => ({
-        updateParam
+        updateParam,
+        refresh
     }));
 
 
@@ -49,6 +51,8 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
                         { data?.data.map((item, index) => (
                             <tr className={(index % 2 === 0 ? "hover:bg-gray-300 bg-gray-200" : "hover:bg-gray-100")} key={item.id}>{lineRenderer(item, index)}</tr>
                         ))}
+
+                        { data?.data.length === 0 ? <tr><td className="text-center my-5">Aucun élément</td></tr> : null}
                     </>
                 }
             </tbody>
