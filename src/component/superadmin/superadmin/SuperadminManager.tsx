@@ -8,6 +8,8 @@ import { Superadmin } from "@/src/domain/superadmin";
 import { Paginator } from "../../ui/pagination/PaginationType";
 import { useRef } from "react";
 import { EntityModal } from "../entity/EntityModal";
+import { SuperadminModal } from "./SuperadminModal";
+import { deleteSuperadminController } from "@/src/controller/app/SuperadminController";
 
 interface PropsFetchEntities {
     initialData : Paginator<Superadmin>;
@@ -40,7 +42,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
             <PaginationTab 
                 initialData={initialData} 
                 initialParams={initialParams} 
-                endpoint="api/entity" 
+                endpoint="api/superadmin" 
                 ref={paginationRef} 
                 lineRenderer={(item : Superadmin, index) => (
                     <>
@@ -54,7 +56,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                             {item.phone ?? "Pas de téléphone"}
                         </td>
                         <td className="py-2 px-1 text-right">
-                            <Button onClick={() => modalRef.current?.loadFromEntity(item)}
+                            <Button onClick={() => modalRef.current?.loadFromSuperadmin(item)}
                                 variant="outline"
                             >
                                 Modifier
@@ -64,10 +66,10 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                                 onClick={() => {
                                     confirmationModalRef.current?.open(
                                         "Confirmer la suppression",
-                                        `Êtes-vous sûr de vouloir supprimer l'entité "${item.name}" ? Cette action est irréversible.`,
+                                        `Êtes-vous sûr de vouloir supprimer le superadmin "${item.firstname} ${item.lastname}" ? Cette action est irréversible.`,
                                         async () => {
                                             // Call delete endpoint
-                                            await deleteEntityController({ id: item.id });
+                                            await deleteSuperadminController({ id: item.id });
                                             paginationRef.current?.refresh();
                                         }
                                     );
@@ -80,8 +82,8 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                 )} 
                 colList={["Nom", "Email", "Téléphone", ""]} 
             />
-            <EntityModal 
-                onSaved={(entity) => {console.log('d'); paginationRef.current?.refresh();}} 
+            <SuperadminModal 
+                onSaved={(entity) => {paginationRef.current?.refresh();}} 
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 

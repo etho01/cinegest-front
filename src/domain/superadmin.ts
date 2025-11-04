@@ -6,11 +6,19 @@ export type fetchSuperadminProps = {
 };
 
 export type Superadmin = {
-    id: Number,
+    id: number,
     email : string,
     phone : string | null,
     firstname : string,
     lastname: string,
+}
+
+export const SuperadminEmpty : Superadmin = {
+    id: 0,
+    email : "",
+    phone : null,
+    firstname : "",
+    lastname: "",
 }
 
 export const SuperadminSchema = z.object({

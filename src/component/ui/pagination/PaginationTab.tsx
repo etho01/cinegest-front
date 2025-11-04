@@ -44,7 +44,7 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
             <tbody>
                 { isPending ?
                     <tr>
-                        <td className="text-center my-5">Chargement...</td>
+                        <td colSpan={colList.length} className="text-center my-5">Chargement...</td>
                     </tr>
                 : 
                     <>
@@ -52,12 +52,12 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
                             <tr className={(index % 2 === 0 ? "hover:bg-gray-300 bg-gray-200" : "hover:bg-gray-100")} key={item.id}>{lineRenderer(item, index)}</tr>
                         ))}
 
-                        { data?.data.length === 0 ? <tr><td className="text-center my-5">Aucun élément</td></tr> : null}
+                        { data?.data.length === 0 ? <tr><td colSpan={colList.length} className="text-center my-5">Aucun élément</td></tr> : null}
                     </>
                 }
             </tbody>
         </table>
-        <Pagination currentPage={page} lastPage={data?.last_page} onPageChange={setPage} disabled={isPending} />
+        { !isPending ? <Pagination currentPage={page} lastPage={data?.last_page} onPageChange={setPage} disabled={isPending} /> : null }
         </>
     )
 });

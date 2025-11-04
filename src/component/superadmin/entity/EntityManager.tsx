@@ -73,7 +73,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                         </td>
                     </>
                 )} 
-                colList={["Name", ""]} 
+                colList={["Nom", ""]} 
             />
             <EntityModal 
                 onSaved={(entity) => {console.log('d'); paginationRef.current?.refresh();}} 
