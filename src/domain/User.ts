@@ -42,3 +42,11 @@ export class Unauthenticated extends Error
         super("L'utilisateur n'est pas authentifier");
     }
 }
+
+export class Unauthorized extends Error
+{
+    constructor()
+    {
+        super("L'utilisateur n'est pas autorisé");
+    }
+}
