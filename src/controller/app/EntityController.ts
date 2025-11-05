@@ -7,6 +7,17 @@ import { EntityRepositoryImpl } from "@/src/infrastructure/repositories/EntityRe
 import { actionClient } from "@/src/lib/safe-action-client";
 import z from "zod";
 
+export const addOrUpdateEntityController = actionClient.schema(
+    EntitySchema
+).action(async ({parsedInput: entity}) => {
+    let entitySaved : Entity;
+    if (entity.id === 0) {
+        entitySaved = await addEntity(EntityRepositoryImpl, entity);
+    } else {
+        entitySaved =  await updateEntity(EntityRepositoryImpl, entity);
+    }
+    return entitySaved;
+});
 
 export const addEntityController = actionClient.schema(
     EntitySchema

@@ -7,11 +7,12 @@ import { FormError, formError } from "./FormError";
 interface Props extends 
   React.ComponentPropsWithRef<'input'> {
     label : string,
-    containerClassName : string,
-    errors : formError | undefined
+    containerClassName? : string,
+    errors? : formError | undefined
+    showErrors?: boolean
 };
 
-export default function Input({className = '', type, label = '', containerClassName = '', errors = undefined, ...props} : Props)
+export default function Input({className = '', type, label = '', containerClassName = '', errors = undefined, showErrors = true, ...props} : Props)
 {
     let htmlFor = "";
     if (props['id'] != undefined)
@@ -31,7 +32,7 @@ export default function Input({className = '', type, label = '', containerClassN
                 {...props}
 
             />
-            {errors ? <FormError errors={errors} /> : null}
+            {errors && showErrors ? <FormError errors={errors} /> : null}
         </div>
     )
 }

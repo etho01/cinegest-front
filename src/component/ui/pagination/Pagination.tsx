@@ -1,7 +1,7 @@
 "use client";
 type Props = {
     currentPage: number;
-    lastPage: number;
+    lastPage: number | undefined;
     onPageChange: (p: number) => void;
     disabled?: boolean;
     windowSize?: number;
@@ -9,6 +9,9 @@ type Props = {
 
 export default function Pagination({ currentPage, lastPage, onPageChange, disabled, windowSize = 2 }: Props) {
     const start = Math.max(1, currentPage - windowSize);
+    if (lastPage === undefined) {
+        return null;
+    }
     const end = Math.min(lastPage, currentPage + windowSize);
     const pages = [];
     for (let p = start; p <= end; p++) pages.push(p);

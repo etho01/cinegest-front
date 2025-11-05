@@ -4,8 +4,9 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
 import Input from "../../ui/form/Input";
-import { addEntityController, updateEntityController } from "@/src/controller/app/EntityController";
+import { addEntityController, addOrUpdateEntityController, updateEntityController } from "@/src/controller/app/EntityController";
 import { en } from "zod/locales";
+import { useAction } from "next-safe-action/hooks";
 
 interface EntityModelProps {
     isOpen: boolean;
@@ -20,8 +21,11 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
         initialEntity = EntityEmpty;
     }
 
+    const { executeAsync, hasErrored, result, input } = useAction(addOrUpdateEntityController)
+
     const [entity, setEntity] = useState<Entity>(initialEntity);
     const [isOpenState, setIsOpenState] = useState(isOpen);
+    const [showErrors, setShowErrors] = useState(false);
 
     const loadFromId = async () => {};
 
@@ -29,12 +33,14 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
         setEntity(entity);
         setIsEdit(true);
         setIsOpenState(true);
+        setShowErrors(false);
     }
 
     const createNew = () => {
         setEntity(EntityEmpty);
         setIsEdit(false);
         setIsOpenState(true);
+        setShowErrors(false);
     }
 
     useImperativeHandle(ref, () => ({
@@ -47,11 +53,15 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
         <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="md">
             <form onSubmit={async (e) => {
                 e.preventDefault();
+                setShowErrors(true);
                 let entityTemp = entity;
-                if (entity.id == 0) {
-                    entityTemp = (await addEntityController(entity))?.data ?? EntityEmpty;
-                } else {
-                    entityTemp = (await updateEntityController(entity))?.data ?? entity;
+                let result = await executeAsync(entity);
+                if (result?.data) {
+                    entityTemp = result.data;
+                }
+
+                if (result.serverError || result.validationErrors) {
+                    return;
                 }
 
                 setIsOpenState(false);
@@ -65,6 +75,9 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         onChange={(e) => setEntity({ ...entity, name: e.target.value })} 
                         label="Nom de l'entité" 
                         value={entity?.name || ""} 
+                        required
+                        errors={result.validationErrors?.name}
+                        showErrors={showErrors}
                     />
                 </ModalBody>
                 <ModalFooter>
