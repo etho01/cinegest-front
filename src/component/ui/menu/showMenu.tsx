@@ -1,11 +1,13 @@
 import { getUser } from "@/src/application/useCases/User/getUser";
 import { logout } from "@/src/application/useCases/User/logout";
-import { Unauthenticated, User } from "@/src/domain/User";
+import { Unauthenticated, Unauthorized, User, UserHaveAccessToCinema, UserHaveAccessToEntity } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
 import { GestLayout } from "../gest-layout";
 import { UnauthenticatedComponent } from "../../auth/unauthenticated-component";
 import { Menu } from "./menu";
 import React from "react";
+import { Entity } from "@/src/domain/Entity";
+import { Cinema } from "@/src/domain/Cinema";
 
 interface ShowMenuProps {
     body : (user : User) => Promise<React.ReactNode>;
@@ -16,15 +18,34 @@ interface ShowMenuProps {
 
 export interface MenuProps {
     user : User;
-    entity : number | null;
-    cinema : number | null;
+    entity : Entity | null;
+    cinema : Cinema | null;
     page : string;
 }
 
 export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps) => {
     let user = null;
+    let entity = null;
+    let cinema = null;
     try {
         user = await getUser(UserRepositoryImpl)
+
+        if (entityId !== null)
+        {
+            if (!UserHaveAccessToEntity(user, entityId)) {
+                throw new Unauthorized('Vous n\'avez pas accès à cette entité.');
+            }
+            entity = user.entities?.find((e) => e.id === entityId) || null;
+
+            if (cinemaId !== null && entity)
+            {
+                if (!UserHaveAccessToCinema(user, entityId, cinemaId)) {
+                    throw new Unauthorized('Vous n\'avez pas accès à ce cinéma.');
+                }
+                cinema = entity.cinemas?.find((c) => c.id === cinemaId) || null;
+            }
+        }
+
     } catch (e)
     {
         if (e instanceof Unauthenticated)
@@ -43,7 +64,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
     }
     
     return (
-        <Menu user={user} entity={entityId} cinema={cinemaId} page={page}>
+        <Menu user={user} entity={entity} cinema={cinema} page={page}>
             { await body(user) }
         </Menu>
     )

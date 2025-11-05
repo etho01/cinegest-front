@@ -17,7 +17,7 @@ export const Menu = ({user, entity, cinema, page, children} : Props) => {
 
                 </div>
                 <div>
-                    <Breadcrumb entity={entity} cinema={cinema} page={page} />
+                    <Breadcrumb entity={entity} cinema={cinema} page={page} user={user} />
                     <div className="xl:w-7xl mx-auto">
                         {children}
                     </div>

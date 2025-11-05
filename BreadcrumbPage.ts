@@ -13,5 +13,12 @@ export const BreadcrumbPageList: Record<string, BreadcrumbLevel> = {
             link : '/app/entity'
         }
     },
-    
+    'superadmin': {
+        name : 'Tableau de bord',
+        link : '/app',
+        subLevel : {
+            name : 'Gestion des superadmins',
+            link : '/app/superadmin'
+        }
+    }
 }

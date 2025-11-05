@@ -5,11 +5,13 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SuperAdminMenu } from "./SuperAdminMenu";
 import { useState } from "react";
+import { Entity } from "@/src/domain/Entity";
+import { Cinema } from "@/src/domain/Cinema";
 
 export interface MenuProps {
     user : User;
-    entity : number | null;
-    cinema : number | null;
+    entity : Entity | null;
+    cinema : Cinema | null;
     page : string;
 }
 

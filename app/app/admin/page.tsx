@@ -14,7 +14,7 @@ export default async function AdminPage({searchParams}: AdminPageProps) {
     const search = params.search ? String(params.search) : "";
 
     return (
-        <ShowMenu page="admin" entityId={null} cinemaId={null} body={async (user) => {
+        <ShowMenu page="superadmin" entityId={null} cinemaId={null} body={async (user) => {
             let admins = await fetchSuperadmins(SuperadminRepositoryImpl, { page, search });
 
             return (

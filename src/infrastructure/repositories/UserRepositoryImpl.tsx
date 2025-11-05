@@ -25,6 +25,7 @@ export const UserRepositoryImpl: UserRepository = {
 
       let text = await resp.text();
       let body = JSON.parse(text);
+      console.log(body);
 
       let roles = body['roles'].map((roleData: any) => {
         return {
@@ -34,7 +35,15 @@ export const UserRepositoryImpl: UserRepository = {
           entityId : roleData['entity_id']
         }
       });
-      
+
+      let entities = body['entities'].map((entityData: any) => {
+        return {
+          id : entityData['id'],
+          name : entityData['name'],
+          cinemas : entityData['cinemas']
+        }
+      });
+
       return {
         id : body['id'],
         email : body['email'],
@@ -42,7 +51,8 @@ export const UserRepositoryImpl: UserRepository = {
         lastname : body['lastname'],
         phone : body['phone'],
         roles : roles,
-        isSuperAdmin : body['isSuperAdmin']
+        isSuperAdmin : body['isSuperAdmin'],
+        entities : entities,
       }
     }
 }

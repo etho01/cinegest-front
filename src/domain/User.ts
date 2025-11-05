@@ -1,4 +1,5 @@
 import z from "zod"
+import { Entity } from "./Entity";
 
 export type UserLog = {
     email : string,
@@ -25,10 +26,32 @@ export type User = {
     phone : string | null,
     roles : Role[],
     isSuperAdmin : boolean
+    entities? : Entity[];
 }
 
 export const UserIsSuperAdmin = (user : User) : boolean => {
     return user.isSuperAdmin;
+}
+
+export const UserHaveAccessToEntity = (user : User, entityId : number) : boolean => {
+    if (UserIsSuperAdmin(user)) {
+        return true;
+    }
+
+    return user.entities?.some((entity) => entity.id === entityId) ?? false;
+}
+
+export const UserHaveAccessToCinema = (user : User, entityId : number, cinemaId : number) : boolean => {
+    if (UserIsSuperAdmin(user)) {
+        return true;
+    }
+
+    const entity = user.entities?.find((entity) => entity.id === entityId);
+    if (!entity) {
+        return false;
+    }
+
+    return entity.cinemas?.some((cinema) => cinema.id === cinemaId) ?? false;
 }
 
 export const UserHasRole = (user : User, roleName : string, cinemaId : number | null) : boolean => {
@@ -45,8 +68,9 @@ export class Unauthenticated extends Error
 
 export class Unauthorized extends Error
 {
-    constructor()
+    constructor(message?: string)
     {
-        super("L'utilisateur n'est pas autorisé");
+        let baseMessage = "L'utilisateur n'est pas autorisé";
+        super(message || baseMessage);
     }
 }
