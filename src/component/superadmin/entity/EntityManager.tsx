@@ -64,6 +64,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                                             // Call delete endpoint
                                             await deleteEntityController({ id: item.id });
                                             paginationRef.current?.refresh();
+                                            location.reload();
                                         }
                                     );
                                 }}
@@ -76,7 +77,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                 colList={["Nom", ""]} 
             />
             <EntityModal 
-                onSaved={(entity) => {console.log('d'); paginationRef.current?.refresh();}} 
+                onSaved={(entity) => {location.reload(); paginationRef.current?.refresh();}} 
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 

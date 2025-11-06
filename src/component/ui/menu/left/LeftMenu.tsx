@@ -1,12 +1,14 @@
 "use client";
 
 import { User, UserIsSuperAdmin } from "@/src/domain/User";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SuperAdminMenu } from "./SuperAdminMenu";
 import { useState } from "react";
 import { Entity } from "@/src/domain/Entity";
 import { Cinema } from "@/src/domain/Cinema";
+import { MenuElement } from "./MenuElement";
+import { EntityMenu } from "./EntityMenu";
 
 export interface MenuProps {
     user : User;
@@ -25,6 +27,16 @@ export const LeftMenu = ({ user, entity, cinema, page }: MenuProps) => {
                     <FontAwesomeIcon icon={faBars} />
                 </button>
             </div>
+            { UserIsSuperAdmin(user) && (
+                <>
+                    <MenuElement active={page === "dashboard"} link="/app" title="Tableau de bord" icon={faChartLine} />
+                </>
+            ) }
+            { entity && (
+                <>
+                    <EntityMenu user={user} page={page} entity={entity} />
+                </>
+            ) }
             { UserIsSuperAdmin(user) && (
                 <>
                     <SuperAdminMenu page={page} />

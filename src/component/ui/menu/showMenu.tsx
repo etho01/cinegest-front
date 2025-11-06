@@ -44,6 +44,12 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
                 }
                 cinema = entity.cinemas?.find((c) => c.id === cinemaId) || null;
             }
+            else if (entity && entity.cinemas && entity.cinemas.length === 1) {
+                cinema = entity.cinemas[0];
+            }
+        }
+        else if (user.entities && user.entities.length === 1) {
+            entity = user.entities[0];
         }
 
     } catch (e)
