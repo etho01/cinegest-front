@@ -10,7 +10,7 @@ import { Entity } from "@/src/domain/Entity";
 import { Cinema } from "@/src/domain/Cinema";
 
 interface ShowMenuProps {
-    body : (user : User) => Promise<React.ReactNode>;
+    body : (user : User, entity : Entity | null, cinema : Cinema | null) => Promise<React.ReactNode>;
     entityId : number | null;
     cinemaId : number | null;
     page : string;
@@ -32,9 +32,11 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
 
         if (entityId !== null)
         {
-            if (!UserHaveAccessToEntity(user, entityId)) {
+            if (!UserHaveAccessToEntity(user, entityId)) 
+            {
                 throw new Unauthorized('Vous n\'avez pas accès à cette entité.');
             }
+
             entity = user.entities?.find((e) => e.id === entityId) || null;
 
             if (cinemaId !== null && entity)
@@ -42,13 +44,16 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
                 if (!UserHaveAccessToCinema(user, entityId, cinemaId)) {
                     throw new Unauthorized('Vous n\'avez pas accès à ce cinéma.');
                 }
+                
                 cinema = entity.cinemas?.find((c) => c.id === cinemaId) || null;
             }
-            else if (entity && entity.cinemas && entity.cinemas.length === 1) {
+            else if (entity && entity.cinemas && entity.cinemas.length === 1) 
+            {
                 cinema = entity.cinemas[0];
             }
         }
-        else if (user.entities && user.entities.length === 1) {
+        else if (user.entities && user.entities.length === 1) 
+        {
             entity = user.entities[0];
         }
 
@@ -71,7 +76,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
     
     return (
         <Menu user={user} entity={entity} cinema={cinema} page={page}>
-            { await body(user) }
+            { await body(user, entity, cinema) }
         </Menu>
     )
 }

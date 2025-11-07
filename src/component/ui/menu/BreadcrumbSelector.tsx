@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/src/domain/User";
-import Select from "../form/Select";
+import { Select } from "../form/Select";
 import { Cinema } from "@/src/domain/Cinema";
 import { Entity } from "@/src/domain/Entity";
 

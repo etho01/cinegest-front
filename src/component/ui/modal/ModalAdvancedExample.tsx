@@ -49,7 +49,6 @@ export const ModalAdvancedExample = () => {
     // Gestionnaires de formulaire
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
         formModal.closeModal();
         setFormData({ name: '', email: '' });
     };
