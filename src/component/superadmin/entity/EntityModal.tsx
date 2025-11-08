@@ -72,7 +72,7 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                 </ModalHeader>
                 <ModalBody>
                     <Input 
-                        onChange={(e) => setEntity({ ...entity, name: e.target.value })} 
+                        onChange={(value) => setEntity({ ...entity, name: value })} 
                         label="Nom de l'entité" 
                         value={entity?.name || ""} 
                         required

@@ -26,8 +26,8 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                 <Input 
                     label="Rechercher une entité" 
                     placeholder="Rechercher une entité" 
-                    onChange={(e) => {
-                        paginationRef.current?.updateParam("search", e.target.value);
+                    onChange={(value) => {
+                        paginationRef.current?.updateParam("search", value);
                     }} 
                 />
                 <Button 

@@ -24,20 +24,31 @@ interface SelectPropsWithOptions extends SelectProps {
 
 export const Select = ( {className = '', type, label = '', containerClassName = '', errors = undefined, showErrors = true, options, onChange, value, isMulti = false, ...props}: SelectPropsWithOptions) => {
     let htmlFor = "";
-    const [selectedValue, setSelectedValue] = useState<any>(value);
+    let defaultValue : any = isMulti ? [] : null;
+    options.forEach(option => {
+        if (isMulti && Array.isArray(value)) {
+            if (value.includes(option.value)) {
+                (defaultValue as Array<any>).push(option);
+            }
+        } else {
+            if (option.value === value) {
+                defaultValue = option;
+            }
+        }
+    });
+
+    const [selectedValue, setSelectedValue] = useState<any>(defaultValue);
     if (props['id'] != undefined)
     {
         htmlFor = props['id']
     }
 
-    console.log("Select value:", isMulti);
-
     const onChangeFunction = (selectedOption: any) => {
+        setSelectedValue(selectedOption);
         if (onChange) {
             if (isMulti) {
                 const values = selectedOption ? selectedOption.map((option: any) => option.value) : [];
                 onChange(values, selectedOption);
-                setSelectedValue(values);
                 return;
             }
             onChange(selectedOption ? selectedOption.value : null, selectedOption);
@@ -47,7 +58,7 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
     return (
         <div className={containerClassName}>
             { label != '' ? <Label htmlFor={htmlFor}>{label}</Label> : '' }
-            <SelectReact isMulti={isMulti} options={options} onChange={onChangeFunction} {...props} />
+            <SelectReact value={selectedValue} isMulti={isMulti} options={options} onChange={onChangeFunction} {...props} />
             {errors && showErrors ? <FormError errors={errors} /> : null}
         </div>
     );

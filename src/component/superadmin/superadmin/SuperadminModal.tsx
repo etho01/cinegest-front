@@ -75,8 +75,8 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                             errors={result.validationErrors?.firstname}
                             label="Prénom" 
                             value={superadmin.firstname} 
-                            onChange={(e) => {
-                                setSuperadmin({ ...superadmin, firstname: e.target.value });
+                            onChange={(value) => {
+                                setSuperadmin({ ...superadmin, firstname: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -86,8 +86,8 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                             errors={result.validationErrors?.lastname}
                             label="Nom" 
                             value={superadmin.lastname} 
-                            onChange={(e) => {
-                                setSuperadmin({ ...superadmin, lastname: e.target.value });
+                            onChange={(value) => {
+                                setSuperadmin({ ...superadmin, lastname: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -98,8 +98,8 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                             label="Email" 
                             type="email"
                             value={superadmin.email} 
-                            onChange={(e) => {
-                                setSuperadmin({ ...superadmin, email: e.target.value });
+                            onChange={(value) => {
+                                setSuperadmin({ ...superadmin, email: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -110,8 +110,8 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                             label="Téléphone" 
                             type="tel"
                             value={superadmin.phone || ""} 
-                            onChange={(e) => {
-                                setSuperadmin({ ...superadmin, phone: e.target.value });
+                            onChange={(value) => {
+                                setSuperadmin({ ...superadmin, phone: value });
                             }} 
                             showErrors={showErrors}
                             containerClassName=""

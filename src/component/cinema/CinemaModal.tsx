@@ -33,6 +33,8 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
         loadFromObject,
         createNew
     }));
+
+    console.log("CinemaModal render, isOpenState:", entity);
     
     return (
         <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
@@ -48,8 +50,8 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                             errors={result.validationErrors?.name}
                             label="Nom" 
                             value={entity.name} 
-                            onChange={(e) => {
-                                setEntity({ ...entity, name: e.target.value });
+                            onChange={(value) => {
+                                setEntity({ ...entity, name: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -59,8 +61,8 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                             errors={result.validationErrors?.address}
                             label="Adresse" 
                             value={entity.address} 
-                            onChange={(e) => {
-                                setEntity({ ...entity, address: e.target.value });
+                            onChange={(value) => {
+                                setEntity({ ...entity, address: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -70,8 +72,8 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                             errors={result.validationErrors?.address_complement}
                             label="Adresse complémentaire" 
                             value={entity.address_complement} 
-                            onChange={(e) => {
-                                setEntity({ ...entity, address_complement: e.target.value });
+                            onChange={(value) => {
+                                setEntity({ ...entity, address_complement: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -81,8 +83,8 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                             errors={result.validationErrors?.postal_code}
                             label="Code postal" 
                             value={entity.postal_code} 
-                            onChange={(e) => {
-                                setEntity({ ...entity, postal_code: e.target.value });
+                            onChange={(value) => {
+                                setEntity({ ...entity, postal_code: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -92,8 +94,8 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                             errors={result.validationErrors?.city}
                             label="Ville" 
                             value={entity.city} 
-                            onChange={(e) => {
-                                setEntity({ ...entity, city: e.target.value });
+                            onChange={(value) => {
+                                setEntity({ ...entity, city: value });
                             }} 
                             required
                             showErrors={showErrors}

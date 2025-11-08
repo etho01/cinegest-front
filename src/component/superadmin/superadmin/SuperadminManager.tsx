@@ -27,9 +27,10 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                 <Input 
                     label="Rechercher un superadmin" 
                     placeholder="Rechercher un superadmin" 
-                    onChange={(e) => {
-                        paginationRef.current?.updateParam("search", e.target.value);
+                    onChange={(value) => {
+                        paginationRef.current?.updateParam("search", value);
                     }} 
+                    initialValue={initialParams?.search || ""}
                 />
                 <Button
                     className="mt-auto" 

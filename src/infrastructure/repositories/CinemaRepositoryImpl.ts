@@ -18,5 +18,15 @@ export const CinemaRepositoryImpl: CinemaRepository = {
         let text = await resp.text();
         let body = JSON.parse(text);
         return body as Cinema;
+    },
+    updateCinema : async (entityId : number, cinema : Cinema) : Promise<Cinema> => {
+        let resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinema.id}`, cinema, {});
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as Cinema;
+    },
+    deleteCinema : async (entityId : number, cinemaId : number) : Promise<void> => {
+        await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}`, {}, {});
     }
 };

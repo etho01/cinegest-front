@@ -25,7 +25,7 @@ export default async function CinemaPage({ params, searchParams }: CinemaPagePro
                 });
 
                 return (
-                    <CinemaManager initialData={cinemas} initialParams={{ search, page, entityId: entityId ? parseInt(entityId, 10) : 0 }} />
+                    <CinemaManager initialData={cinemas} initialParams={{ search, page }} entityId={entityId ? parseInt(entityId, 10) : 0} />
                 );
             }}
             entityId={entityId ? parseInt(entityId, 10) : null}
