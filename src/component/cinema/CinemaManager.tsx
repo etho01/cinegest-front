@@ -87,7 +87,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
             <CinemaModal entityId={entityId} isOpen={false} ref={modalRef} onSaved={(cinema) => {
                 paginationRef.current?.refresh();
             } } onClose={function (): void {
-            } } initialEntity={null} />
+            } } initialObject={null} />
         </Card>
     );
 }

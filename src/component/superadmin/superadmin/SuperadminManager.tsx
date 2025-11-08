@@ -10,6 +10,7 @@ import { useRef } from "react";
 import { EntityModal } from "../entity/EntityModal";
 import { SuperadminModal } from "./SuperadminModal";
 import { deleteSuperadminController } from "@/src/controller/app/SuperadminController";
+import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
 
 interface PropsFetchEntities {
     initialData : Paginator<Superadmin>;
@@ -18,7 +19,7 @@ interface PropsFetchEntities {
 
 export default function SuperadminManager({ initialData, initialParams }: PropsFetchEntities) {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef(null);
+    const modalRef = useRef<LoadObjectAndShowModalRef<Superadmin>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     
     return (
@@ -57,7 +58,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                             {item.phone ?? "Pas de téléphone"}
                         </td>
                         <td className="py-2 px-1 text-right">
-                            <Button onClick={() => modalRef.current?.loadFromSuperadmin(item)}
+                            <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
@@ -88,7 +89,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 
-                initialEntity={null} 
+                initialObject={null} 
             />
             <ConfirmationModal ref={confirmationModalRef} />
         </Card>

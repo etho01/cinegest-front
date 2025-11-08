@@ -7,33 +7,33 @@ export interface LoadObjectAndShowModalRef<T> {
 }
 
 export interface loadObjectAndShowModalObjectProps<T> {
-    initialEntity: T | null;
+    initialObject: T | null;
     isOpen: boolean;
     showErrorsBase : boolean;
     emptyObject: T;
 
 }
 
-export function loadObjectAndShowModal<T>({ initialEntity, isOpen, showErrorsBase, emptyObject }: loadObjectAndShowModalObjectProps<T>) {
-    const [isEdit, setIsEdit] = useState(!!initialEntity);
-    if (initialEntity == null) {
-        initialEntity = emptyObject;
+export function loadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBase, emptyObject }: loadObjectAndShowModalObjectProps<T>) {
+    const [isEdit, setIsEdit] = useState(!!initialObject);
+    if (initialObject == null) {
+        initialObject = emptyObject;
     }
 
-    const [entity, setEntity] = useState<T>(initialEntity);
+    const [object, setObject] = useState<T>(initialObject);
     const [isOpenState, setIsOpenState] = useState(isOpen);
     const [showErrors, setShowErrors] = useState(showErrorsBase);
 
 
-    const loadFromObject = async (entity: T) => {
-        setEntity(entity);
+    const loadFromObject = async (object: T) => {
+        setObject(object);
         setIsEdit(true);
         setIsOpenState(true);
         setShowErrors(false);
     }
 
     const createNew = () => {
-        setEntity(emptyObject);
+        setObject(emptyObject);
         setIsEdit(false);
         setIsOpenState(true);
         setShowErrors(false);
@@ -41,13 +41,13 @@ export function loadObjectAndShowModal<T>({ initialEntity, isOpen, showErrorsBas
 
     return {
         isEdit,
-        entity,
+        object,
         isOpenState,
         showErrors,
         setIsOpenState,
         setShowErrors,
         loadFromObject,
         createNew,
-        setEntity
+        setObject
     };
 }

@@ -10,14 +10,14 @@ import { addOrUpdateCinemaController } from "@/src/controller/app/CinemaControll
 interface CinemaModalProps {
     isOpen: boolean;
     onClose: () => void;
-    initialEntity : Cinema | null;
+    initialObject: Cinema | null;
     onSaved?: (entity: Cinema) => void | Promise<void>;
     entityId?: number;
 }
 
-export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved, entityId }: CinemaModalProps, ref) => {
-    const { isEdit, entity, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setEntity, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Cinema>({
-        initialEntity: initialEntity ? initialEntity : null,
+export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId }: CinemaModalProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Cinema>({
+        initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: CinemaEmpty,
@@ -33,8 +33,6 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
         loadFromObject,
         createNew
     }));
-
-    console.log("CinemaModal render, isOpenState:", entity);
     
     return (
         <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
@@ -49,9 +47,9 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         <Input 
                             errors={result.validationErrors?.name}
                             label="Nom" 
-                            value={entity.name} 
+                            value={object.name} 
                             onChange={(value) => {
-                                setEntity({ ...entity, name: value });
+                                setObject({ ...object, name: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -60,9 +58,9 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         <Input 
                             errors={result.validationErrors?.address}
                             label="Adresse" 
-                            value={entity.address} 
+                            value={object.address} 
                             onChange={(value) => {
-                                setEntity({ ...entity, address: value });
+                                setObject({ ...object, address: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -71,9 +69,9 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         <Input 
                             errors={result.validationErrors?.address_complement}
                             label="Adresse complémentaire" 
-                            value={entity.address_complement} 
+                            value={object.address_complement} 
                             onChange={(value) => {
-                                setEntity({ ...entity, address_complement: value });
+                                setObject({ ...object, address_complement: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -82,9 +80,9 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         <Input 
                             errors={result.validationErrors?.postal_code}
                             label="Code postal" 
-                            value={entity.postal_code} 
+                            value={object.postal_code} 
                             onChange={(value) => {
-                                setEntity({ ...entity, postal_code: value });
+                                setObject({ ...object, postal_code: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -93,9 +91,9 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         <Input 
                             errors={result.validationErrors?.city}
                             label="Ville" 
-                            value={entity.city} 
+                            value={object.city} 
                             onChange={(value) => {
-                                setEntity({ ...entity, city: value });
+                                setObject({ ...object, city: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -104,9 +102,9 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved
                         <SelectCountry
                             errors={result.validationErrors?.country}
                             label="Pays"
-                            value={entity.country}
+                            value={object.country}
                             onChange={(value) => {
-                                setEntity({ ...entity, country: value });
+                                setObject({ ...object, country: value });
                             }}
                             required
                             showErrors={showErrors}

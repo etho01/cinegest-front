@@ -9,6 +9,7 @@ import { Button } from "../../ui/btn/button";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { deleteEntityController } from "@/src/controller/app/EntityController";
 import Card from "../../ui/card";
+import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
 
 interface PropsFetchEntities {
     initialData : Paginator<Entity>;
@@ -17,7 +18,7 @@ interface PropsFetchEntities {
 
 export default function EntityManager({ initialData, initialParams }: PropsFetchEntities) {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef(null);
+    const modalRef = useRef<LoadObjectAndShowModalRef<Entity>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (
@@ -49,7 +50,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                             {item.name}
                         </td>
                         <td className="py-2 px-1 text-right">
-                            <Button onClick={() => modalRef.current?.loadFromEntity(item)}
+                            <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
@@ -81,7 +82,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 
-                initialEntity={null} 
+                initialObject={null} 
             />
             <ConfirmationModal ref={confirmationModalRef} />
         </Card>

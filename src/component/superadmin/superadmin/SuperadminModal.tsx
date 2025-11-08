@@ -5,66 +5,37 @@ import Input from "../../ui/form/Input";
 import { Superadmin, SuperadminEmpty } from "@/src/domain/superadmin";
 import { useAction } from "next-safe-action/hooks";
 import { addOrUpdateSuperadminController, addSuperadminController } from "@/src/controller/app/SuperadminController";
+import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
 
 interface SuperadminModelProps {
     isOpen: boolean;
     onClose: () => void;
-    initialEntity : Superadmin | null;
+    initialObject : Superadmin | null;
     onSaved?: (entity: Superadmin) => void | Promise<void>;
 }
 
-export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onSaved }: SuperadminModelProps, ref) => {
-    const [isEdit, setIsEdit] = useState(!!initialEntity);
-    if (initialEntity == null) {
-        initialEntity = SuperadminEmpty;
-    }
+export const SuperadminModal = forwardRef(({ isOpen, onClose, initialObject, onSaved }: SuperadminModelProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Superadmin>({
+        initialObject: initialObject ? initialObject : null,
+        isOpen: isOpen,
+        showErrorsBase: false,
+        emptyObject: SuperadminEmpty,
+        action: addOrUpdateSuperadminController,
+        onSaved: onSaved,
+    });
 
-    const { executeAsync, hasErrored, result, input } = useAction(addOrUpdateSuperadminController)
-
-    const [superadmin, setSuperadmin] = useState<Superadmin>(initialEntity);
-    const [isOpenState, setIsOpenState] = useState(isOpen);
-    const [showErrors, setShowErrors] = useState(false);
-
-    const loadFromId = async () => {};
-
-    const loadFromSuperadmin = async (superadmin: Superadmin) => {
-        setSuperadmin(superadmin);
-        setIsEdit(true);
-        setIsOpenState(true);
-        setShowErrors(false);
-    }
-
-    const createNew = () => {
-        setSuperadmin(SuperadminEmpty);
-        setIsEdit(false);
-        setIsOpenState(true);
-        setShowErrors(false);
-    }
+    const loadFromId = async (id : number) => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
-        loadFromSuperadmin,
+        loadFromObject,
         createNew
     }));
 
     return (
         <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
             <form onSubmit={async (e) => {
-                e.preventDefault();
-                setShowErrors(true);
-                let superadminTemp = superadmin;
-                let result = await executeAsync(superadmin);
-                if (result?.data) {
-                    superadminTemp = result.data;
-                }
-
-                if (result.serverError || result.validationErrors) {
-                    return;
-                }
-
-                setIsOpenState(false);
-                onSaved && onSaved(superadminTemp);
-
+                await onSubmit(e);
             }}>
                 <ModalHeader>
                     <ModalTitle>{isEdit ? "Modifier le superadmin" : "Créer un nouveau superadmin"}</ModalTitle>
@@ -74,9 +45,9 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                         <Input 
                             errors={result.validationErrors?.firstname}
                             label="Prénom" 
-                            value={superadmin.firstname} 
+                            value={object.firstname} 
                             onChange={(value) => {
-                                setSuperadmin({ ...superadmin, firstname: value });
+                                setObject({ ...object, firstname: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -85,9 +56,9 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                         <Input 
                             errors={result.validationErrors?.lastname}
                             label="Nom" 
-                            value={superadmin.lastname} 
+                            value={object.lastname} 
                             onChange={(value) => {
-                                setSuperadmin({ ...superadmin, lastname: value });
+                                setObject({ ...object, lastname: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -97,9 +68,9 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                             errors={result.validationErrors?.email}
                             label="Email" 
                             type="email"
-                            value={superadmin.email} 
+                            value={object.email} 
                             onChange={(value) => {
-                                setSuperadmin({ ...superadmin, email: value });
+                                setObject({ ...object, email: value });
                             }} 
                             required
                             showErrors={showErrors}
@@ -109,9 +80,9 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialEntity, onS
                             errors={result.validationErrors?.phone}
                             label="Téléphone" 
                             type="tel"
-                            value={superadmin.phone || ""} 
+                            value={object.phone || ""} 
                             onChange={(value) => {
-                                setSuperadmin({ ...superadmin, phone: value });
+                                setObject({ ...object, phone: value });
                             }} 
                             showErrors={showErrors}
                             containerClassName=""

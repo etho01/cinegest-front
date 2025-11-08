@@ -7,9 +7,9 @@ interface LoadObjectAndShowModalUpdateProps<T> extends loadObjectAndShowModalObj
     customData?: any;
 }
 
-export function loadObjectAndShowModalUpdate<T>({ initialEntity, isOpen, showErrorsBase, emptyObject, action, onSaved, customData }: LoadObjectAndShowModalUpdateProps<T>) {
-    const { isEdit, entity, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setEntity } = loadObjectAndShowModal<T>({
-        initialEntity,
+export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData }: LoadObjectAndShowModalUpdateProps<T>) {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject } = loadObjectAndShowModal<T>({
+        initialObject: initialObject ? initialObject : null,
         isOpen,
         showErrorsBase,
         emptyObject
@@ -20,15 +20,14 @@ export function loadObjectAndShowModalUpdate<T>({ initialEntity, isOpen, showErr
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setShowErrors(true);
-        let entityTemp = entity;
-        console.log("Submitting entity:", entityTemp, customData);
-        let formData = entity;
+        let objectTemp = object;
+        let formData = object;
         if (customData) {
-            formData = { ...entity, ...customData };
+            formData = { ...object, ...customData };
         }
         let result = await executeAsync(formData);
         if (result?.data) {
-            entityTemp = result.data;
+            objectTemp = result.data;
         }
 
         if (result.serverError || result.validationErrors) {
@@ -36,19 +35,19 @@ export function loadObjectAndShowModalUpdate<T>({ initialEntity, isOpen, showErr
         }
 
         setIsOpenState(false);
-        onSaved && onSaved(entityTemp);
+        onSaved && onSaved(objectTemp);
     }
 
     return {
         isEdit,
-        entity,
+        object,
         isOpenState,
         showErrors,
         setIsOpenState,
         setShowErrors,
         loadFromObject,
         createNew,
-        setEntity,
+        setObject,
         onSubmit,
         hasErrored,
         result,
