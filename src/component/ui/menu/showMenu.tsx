@@ -37,7 +37,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
                 throw new Unauthorized('Vous n\'avez pas accès à cette entité.');
             }
 
-            entity = user.entities?.find((e) => e.id === entityId) || null;
+            entity = user.entities?.find((e) => e.id == entityId) || null;
 
             if (cinemaId !== null && entity)
             {
@@ -45,7 +45,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
                     throw new Unauthorized('Vous n\'avez pas accès à ce cinéma.');
                 }
                 
-                cinema = entity.cinemas?.find((c) => c.id === cinemaId) || null;
+                cinema = entity.cinemas?.find((c) => c.id == cinemaId) || null;
             }
             else if (entity && entity.cinemas && entity.cinemas.length === 1) 
             {

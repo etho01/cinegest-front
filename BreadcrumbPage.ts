@@ -44,5 +44,21 @@ export const BreadcrumbPageList: Record<string, BreadcrumbLevel> = {
                 link : '/app/[entityId]/user'
             }
         }
+    },
+    'userReview': {
+        name : 'Tableau de bord',
+        link : '/app',
+        subLevel : {
+            name : 'Gestion des entités',
+            link : '/app/entity',
+            subLevel : {
+                name : 'Gestion des utilisateurs',
+                link : (entity) => '/app/' + entity?.id + '/user',
+                subLevel : {
+                    name : 'Détail utilisateur',
+                    link : (entityId, userId) => '/app/' + entityId + '/user/' + userId
+                }
+            }
+        }
     }
 }

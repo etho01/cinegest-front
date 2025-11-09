@@ -61,6 +61,17 @@ export const UserRepositoryImpl: UserRepository = {
         let body = JSON.parse(text);
         return body as Paginator<User>;
     },
+    getUser : async (entityId : number, userId : number) : Promise<User | null> => {
+        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
+        if (resp.status === 404) {
+            return null;
+        }
+        await throwErrorResponse(resp);
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as User;
+    },
     addUser : async (entityId : number, user : User) : Promise<User> => {
         let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users`, user, {});
         await throwErrorResponse(resp);

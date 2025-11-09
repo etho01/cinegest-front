@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../utils';
 import { useFormStatus } from 'react-dom';
+import Link from 'next/link';
 
 
 export const buttonVariants = cva(
@@ -9,7 +10,7 @@ export const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: 'cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90',
+                default: 'cursor-pointer bg-primary text-white hover:bg-primary/90',
                 destructive:
                     'bg-destructive text-destructive-foreground hover:bg-destructive/90',
                 outline:
@@ -51,5 +52,22 @@ export const Button = ({ variant, size, className, children, ref, ...props }: Bu
         >
             {children}
         </button>
+    )
+};
+
+interface LinkButtonProps
+    extends
+    React.ComponentPropsWithRef<typeof Link>,
+    VariantProps<typeof buttonVariants> {
+}
+
+export const LinkButton = ({ variant, size, className, children, ...props }: LinkButtonProps) => {
+    return (
+        <Link
+            className={cn(buttonVariants({ variant, size, className }))}
+            {...props}
+        >
+            {children}
+        </Link>
     )
 };

@@ -2,12 +2,10 @@
 
 import { Button, ButtonProps } from "./button";
 
-export const FormButton = ({variant, children, ...props} : ButtonProps) => 
+export const FormButton = ({variant, children, type, ...props} : ButtonProps) => 
 {
-    
-
     return (
-        <Button variant={variant} {...props}>
+        <Button type="submit" variant={variant} {...props}>
             {children}
         </Button>
     )

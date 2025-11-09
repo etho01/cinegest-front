@@ -19,7 +19,7 @@ export type Role = {
 };
 
 export type User = {
-    id: Number,
+    id: number,
     email : string,
     firstname : string,
     lastname: string,

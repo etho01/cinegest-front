@@ -8,7 +8,7 @@ import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
 import { useRef } from "react";
 import Card from "../ui/card";
 import Input from "../ui/form/Input";
-import { Button } from "../ui/btn/button";
+import { Button, LinkButton } from "../ui/btn/button";
 import { UserCreationModal } from "./userCreationModal";
 
 interface PropsFetchEntities {
@@ -61,11 +61,11 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                             {item.phone ?? "Pas de téléphone"}
                         </td>
                         <td className="py-2 px-1 text-right">
-                            <Button onClick={() => modalRef.current?.loadFromObject(item)}
+                            <LinkButton href={'/app/' + entityId + '/user/' + item.id}
                                 variant="outline"
                             >
                                 Modifier
-                            </Button>
+                            </LinkButton>
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
