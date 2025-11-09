@@ -24,10 +24,30 @@ export type User = {
     firstname : string,
     lastname: string,
     phone : string | null,
-    roles : Role[],
+    roles? : Role[],
     isSuperAdmin : boolean
     entities? : Entity[];
 }
+
+export const UserEmpty : User = {
+    id: 0,
+    email : "",
+    firstname : "",
+    lastname: "",
+    phone : null,
+    roles : [],
+    isSuperAdmin : false,
+    entities: []
+}
+
+export const UserSchema = z.object({
+    id: z.number(),
+    email : z.string().email(),
+    firstname : z.string().max(100),
+    lastname: z.string().max(100),
+    phone : z.string().max(20).nullable(),
+    isSuperAdmin : z.boolean().nullable().default(false),
+});
 
 export const UserIsSuperAdmin = (user : User) : boolean => {
     return user.isSuperAdmin;
@@ -55,7 +75,7 @@ export const UserHaveAccessToCinema = (user : User, entityId : number, cinemaId 
 }
 
 export const UserHasRole = (user : User, roleName : string, cinemaId : number | null) : boolean => {
-    return user.roles.some((role) => role.name === roleName && role.cinemaId === cinemaId);
+    return user?.roles?.some((role) => role.name === roleName && role.cinemaId === cinemaId) ?? false;
 }
 
 export class Unauthenticated extends Error

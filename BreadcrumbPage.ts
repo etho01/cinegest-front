@@ -20,5 +20,29 @@ export const BreadcrumbPageList: Record<string, BreadcrumbLevel> = {
             name : 'Gestion des superadmins',
             link : '/app/superadmin'
         }
+    },
+    'cinemaManager': {
+        name : 'Tableau de bord',
+        link : '/app',
+        subLevel : {
+            name : 'Gestion des entités',
+            link : '/app/entity',
+            subLevel : {
+                name : 'Gestion des cinémas',
+                link : '/app/[entityId]/cinema'
+            }
+        }
+    },
+    'userManager': {
+        name : 'Tableau de bord',
+        link : '/app',
+        subLevel : {
+            name : 'Gestion des entités',
+            link : '/app/entity',
+            subLevel : {
+                name : 'Gestion des utilisateurs',
+                link : '/app/[entityId]/user'
+            }
+        }
     }
 }

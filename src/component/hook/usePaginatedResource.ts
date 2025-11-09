@@ -4,11 +4,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Paginator } from "../ui/pagination/PaginationType";
 import { withSearchParams } from "@/src/lib/url";
+import { Unauthorized } from "@/src/domain/User";
 
 type Fetcher<T> = (url: string, init?: RequestInit) => Promise<Paginator<T>>;
 
 export function defaultFetcher<T>(url: string, init?: RequestInit) {
     return fetch(url, init).then(async (r) => {
+        if (r.status === 403) throw new Unauthorized();
         if (!r.ok) throw new Error(`Erreur API (${r.status})`);
         return (await r.json()) as Paginator<T>;
     });
@@ -26,7 +28,7 @@ export type PaginatedOptions<T> = {
 
 export function usePaginatedResource<T>({
     endpoint,
-    fetcher = defaultFetcher,
+    fetcher = defaultFetcher<T>,
     initialParams = {},
     initialPage = 1,
     initialData,
@@ -53,8 +55,14 @@ export function usePaginatedResource<T>({
             const ctrl = new AbortController();
             abortRef.current = ctrl;
             setError(null);
-            const res = await fetcher<T>(u, { signal: ctrl.signal });
-            setData(res);
+            try {
+                const res = await fetcher(u, { signal: ctrl.signal });
+                setData(res);
+            } 
+            catch (error) 
+            {
+                setError(error as Error);
+            }
             setIsPending(false);
         },
         [fetcher]

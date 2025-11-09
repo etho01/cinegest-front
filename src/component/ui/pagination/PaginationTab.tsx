@@ -4,7 +4,7 @@ import { Paginator } from "./PaginationType";
 import Pagination from "./Pagination";
 
 export interface PaginationTabProps {
-    initialData: Paginator<any>;
+    initialData?: Paginator<any>;
     endpoint: string;
     initialParams?: Record<string, any>;
     lineRenderer: (item: any, index: number) => React.ReactNode;
@@ -30,7 +30,6 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
         refresh
     }));
 
-
     return (
         <>
         <table className="w-full mt-4">
@@ -55,6 +54,12 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
                         { data?.data.length === 0 ? <tr><td colSpan={colList.length} className="text-center my-5">Aucun élément</td></tr> : null}
                     </>
                 }
+
+                { error ?
+                    <tr>
+                        <td colSpan={colList.length} className="text-center my-5 text-red-500">Erreur lors du chargement des données : {error.message}</td>
+                    </tr>
+                : null}
             </tbody>
         </table>
         { !isPending ? <Pagination currentPage={page} lastPage={data?.last_page} onPageChange={setPage} disabled={isPending} /> : null }

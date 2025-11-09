@@ -1,12 +1,13 @@
-import { getCinemas } from "@/src/application/useCases/Cinema/getCinemas";
+import { getUsers } from "@/src/application/useCases/User/getUsers";
 import { Unauthorized } from "@/src/domain/User";
-import { CinemaRepositoryImpl } from "@/src/infrastructure/repositories/CinemaRepositoryImpl";
+import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
 
-interface GetCinemasApiProps {
+
+interface GetUsersApiProps {
     params: Promise<{ entityId: number }>;
 }
 
-export async function GET(req : Request, { params } : GetCinemasApiProps) {
+export async function GET(req : Request, { params } : GetUsersApiProps) {
     try 
     {
         const { searchParams } = new URL(req.url);
@@ -15,12 +16,16 @@ export async function GET(req : Request, { params } : GetCinemasApiProps) {
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';
 
-        const cinemas = await getCinemas(CinemaRepositoryImpl, {entityId: paramsObj.entityId, page, search})
+        const users = await getUsers(UserRepositoryImpl, paramsObj.entityId, {
+            page,
+            search
+        })
 
-        return Response.json(cinemas);
-    }
+        return Response.json(users);
+    } 
     catch (error) 
     {
+        console.error(error);
         if (error instanceof Unauthorized) {
             return new Response('Unauthorized', { status: 403 });
         }

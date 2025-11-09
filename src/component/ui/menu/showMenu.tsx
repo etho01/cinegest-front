@@ -1,4 +1,4 @@
-import { getUser } from "@/src/application/useCases/User/getUser";
+import { me } from "@/src/application/useCases/User/me";
 import { logout } from "@/src/application/useCases/User/logout";
 import { Unauthenticated, Unauthorized, User, UserHaveAccessToCinema, UserHaveAccessToEntity } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
@@ -28,7 +28,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
     let entity = null;
     let cinema = null;
     try {
-        user = await getUser(UserRepositoryImpl)
+        user = await me(UserRepositoryImpl)
 
         if (entityId !== null)
         {
