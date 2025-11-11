@@ -1,13 +1,12 @@
-import { getUsers } from "@/src/application/useCases/User/getUsers";
+import { getRoles } from "@/src/application/useCases/Role/getRoles";
 import { Unauthorized } from "@/src/domain/User";
-import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
+import { RoleRepositoryImpl } from "@/src/infrastructure/repositories/RoleRepositoryImpl";
 
-
-interface GetUsersApiProps {
+interface GetRolesApiProps {
     params: Promise<{ entityId: number }>;
 }
 
-export async function GET(req : Request, { params } : GetUsersApiProps) {
+export async function GET(req : Request, { params } : GetRolesApiProps) {
     try 
     {
         const { searchParams } = new URL(req.url);
@@ -16,13 +15,10 @@ export async function GET(req : Request, { params } : GetUsersApiProps) {
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';
 
-        const users = await getUsers(UserRepositoryImpl, paramsObj.entityId, {
-            page,
-            search
-        })
+        const roles = await getRoles(RoleRepositoryImpl, paramsObj.entityId, { search, page });
 
-        return Response.json(users);
-    } 
+        return Response.json(roles);
+    }
     catch (error) 
     {
         if (error instanceof Unauthorized) {

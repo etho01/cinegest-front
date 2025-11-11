@@ -9,10 +9,18 @@ export interface ApiRequestInterface {
 }
 
 export const throwErrorResponse = async (resp: Response) => {
-    if (resp.status == 403) {
+    if (resp.status == 403)
+    {
         throw new Unauthorized();
     }
-    if (resp.status == 401) {
+    else if (resp.status == 401) 
+    {
         throw new Unauthenticated();
+    }
+    else if (!resp.ok)
+    {
+        const errorData = await resp.json();
+        console.error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
+        throw new Error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
     }
 }

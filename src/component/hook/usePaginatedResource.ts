@@ -48,20 +48,29 @@ export function usePaginatedResource<T>({
         return withSearchParams(endpoint, { page, ...params });
     }, [endpoint, page, params]);
 
+    const setErrorState = (err: Error | null) => {
+        if (err instanceof DOMException && err.name === 'AbortError')
+        {
+            return ;
+        }
+        setError(err);
+    }
+
     const runFetch = useCallback(
         async (u: string) => {
             setIsPending(true);
-            if (abortRef.current) abortRef.current.abort();
-            const ctrl = new AbortController();
-            abortRef.current = ctrl;
-            setError(null);
             try {
+                if (abortRef.current) abortRef.current.abort();
+                const ctrl = new AbortController();
+                abortRef.current = ctrl;
+                setErrorState(null);
                 const res = await fetcher(u, { signal: ctrl.signal });
                 setData(res);
+                setErrorState(null);
             } 
             catch (error) 
             {
-                setError(error as Error);
+                setErrorState(error as Error);
             }
             setIsPending(false);
         },
@@ -78,7 +87,7 @@ export function usePaginatedResource<T>({
 
         setIsInit(true);
         //if (!data) return; // si déjà SSR, on attend une interaction
-            runFetch(url).catch((e) => setError(e as Error));
+            runFetch(url).catch((e) => setErrorState(e as Error));
     }, [url]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Sync URL (page/per_page/params)

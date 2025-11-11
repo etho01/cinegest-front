@@ -12,11 +12,28 @@ export const UserLogSchema = z.object({
 })
 
 export type Role = {
-    id : Number,
+    id : number,
     name : string,
-    cinemaId : Number | null,
-    entityId : Number | null
+    cinemaId : number | null,
+    entityId : number | null,
+    rights?: string[]
 };
+
+export const RoleEmpty : Role = {
+    id : 0,
+    name : "",
+    cinemaId : null,
+    entityId : null,
+    rights: []
+};
+
+export const RoleSchema = z.object({
+    id : z.number(),
+    name : z.string().max(100),
+    cinemaId : z.number().nullable().optional(),
+    entityId : z.number(),
+    rights: z.array(z.string()).optional()
+});
 
 export type User = {
     id: number,

@@ -1,18 +1,18 @@
 "use client";
-import { useRef } from "react";
+import { Role } from "@/src/domain/User";
+import { Paginator } from "../ui/pagination/PaginationType";
+import Card from "../ui/card";
+import Input from "../ui/form/Input";
 import { Button } from "../ui/btn/button";
 import { PaginationTab, PaginationTabRef } from "../ui/pagination/PaginationTab";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
-import Card from "../ui/card";
-import Input from "../ui/form/Input";
-import { Paginator } from "../ui/pagination/PaginationType";
-import { Cinema } from "@/src/domain/Cinema";
-import { CinemaModal } from "./CinemaModal";
 import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
-import { deleteCinemaController } from "@/src/controller/app/CinemaController";
+import { useRef } from "react";
+import { deleteRoleController } from "@/src/controller/app/RoleController";
+import { RoleModal } from "./RoleModal";
 
-interface PropsFetchEntities {
-    initialData : Paginator<Cinema>;
+interface PropsFetchRoles {
+    initialData : Paginator<Role>;
     initialParams?: {
         search?: string;
         page?: number;
@@ -20,17 +20,17 @@ interface PropsFetchEntities {
     entityId: number;
 }
 
-export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFetchEntities) => {
+export const RoleManager = ({ initialData, initialParams, entityId }: PropsFetchRoles) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Cinema>>(null);
+    const modalRef = useRef<LoadObjectAndShowModalRef<Role>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (
         <Card>
             <div className="flex justify-between">
                 <Input 
-                    label="Rechercher un cinema" 
-                    placeholder="Rechercher un cinema" 
+                    label="Rechercher un rôle"
+                    placeholder="Rechercher un rôle"
                     onChange={(value) => {
                         paginationRef.current?.updateParam("search", value);
                     }} 
@@ -41,23 +41,19 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                     variant="default" 
                     onClick={() => modalRef.current?.createNew()}
                 >
-                    Créer un cinema
+                    Créer un rôle
                 </Button>
             </div>
             <PaginationTab 
-                initialData={initialData} 
-                initialParams={initialParams} 
-                endpoint={`api/${entityId}/cinema`} 
-                ref={paginationRef} 
-                lineRenderer={(item : Cinema, index) => (
+                initialData={initialData}
+                initialParams={initialParams}
+                endpoint={`api/${entityId}/roles`}
+                ref={paginationRef}
+                lineRenderer={(item : Role, index) => (
                     <>
                         <td className="py-2 px-1">{item.name}</td>
-                        <td className="py-2 px-1">
-                            {item.address}<br />
-                            {item.postal_code} {item.city}
-                        </td>
                         <td className="py-2 px-1 text-right">
-                            <Button onClick={() => modalRef.current?.loadFromObject(item)}
+                            <Button onClick={() => modalRef.current?.loadFromId(item.id)}
                                 variant="outline"
                             >
                                 Modifier
@@ -67,10 +63,10 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                                 onClick={() => {
                                     confirmationModalRef.current?.open(
                                         "Confirmer la suppression",
-                                        `Êtes-vous sûr de vouloir supprimer le cinéma "${item.name}" ? Cette action est irréversible.`,
+                                        `Êtes-vous sûr de vouloir supprimer le rôle "${item.name}" ? Cette action est irréversible.`,
                                         async () => {
                                             // Call delete endpoint
-                                            await deleteCinemaController({ entityId, cinemaId: item.id });
+                                            await deleteRoleController({ entityId: parseInt(entityId + ''), roleId: item.id });
                                             paginationRef.current?.refresh();
                                         }
                                     );
@@ -81,19 +77,19 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                         </td>
                     </>
                 )} 
-                colList={["Nom", "Adresse", ""]} 
+                colList={["Nom", ""]} 
             />
-            <ConfirmationModal ref={confirmationModalRef} />
-            <CinemaModal 
+            <RoleModal 
                 entityId={entityId} 
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(cinema) => {
+                onSaved={(role) => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 
                 initialObject={null} 
             />
+            <ConfirmationModal ref={confirmationModalRef} />
         </Card>
     );
 }

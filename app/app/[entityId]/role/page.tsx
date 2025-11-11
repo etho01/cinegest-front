@@ -1,0 +1,31 @@
+import { getRoles } from "@/src/application/useCases/Role/getRoles";
+import { RoleManager } from "@/src/component/role/RoleManager";
+import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { RoleRepositoryImpl } from "@/src/infrastructure/repositories/RoleRepositoryImpl";
+
+interface CinemaPageProps {
+    params: Promise<{ entityId: number }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function Page(props: CinemaPageProps) {
+    const { params, searchParams } = props;
+    const { entityId } = await params;
+    const searchParamsObj = await searchParams;
+    const page = searchParamsObj.page ? Number(searchParamsObj.page) : 1;
+    const search = searchParamsObj.search ? String(searchParamsObj.search) : "";
+    return (
+        <ShowMenu
+            body={async (user, entity, cinema) => {
+                const roles = await getRoles(RoleRepositoryImpl, entityId, { search, page });
+
+                return (
+                    <RoleManager initialData={roles} initialParams={{ search, page }} entityId={entityId}  />
+                );
+            }}
+            entityId={entityId}
+            cinemaId={null}
+            page="roleList"
+        />
+    );
+}
