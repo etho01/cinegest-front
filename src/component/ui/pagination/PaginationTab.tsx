@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { usePaginatedResource } from "../../hook/usePaginatedResource";
 import { Paginator } from "./PaginationType";
 import Pagination from "./Pagination";
+import { Table, Tbody, Td, Th, Thead, Tr } from "../table/Table";
 
 export interface PaginationTabProps {
     initialData?: Paginator<any>;
@@ -32,36 +33,36 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
 
     return (
         <>
-        <table className="w-full mt-4">
-            <thead className="text-gray-400 border-gray-300 border-b-2 text-left">
-                <tr>
+        <Table>
+            <Thead>
+                <Tr>
                     {colList.map((colName) => (
-                        <th className="pb-3" key={colName}>{colName}</th>
+                        <Th className="pb-3" key={colName}>{colName}</Th>
                     ))}
-                </tr>
-            </thead>
-            <tbody>
+                </Tr>
+            </Thead>
+            <Tbody>
                 { isPending ?
-                    <tr>
-                        <td colSpan={colList.length} className="text-center my-5">Chargement...</td>
-                    </tr>
+                    <Tr>
+                        <Td colSpan={colList.length} className="text-center my-5">Chargement...</Td>
+                    </Tr>
                 : 
                     <>
                         { data?.data.map((item, index) => (
-                            <tr className={(index % 2 === 0 ? "hover:bg-gray-300 bg-gray-200" : "hover:bg-gray-100")} key={item.id}>{lineRenderer(item, index)}</tr>
+                            <Tr index={index} key={item.id}>{lineRenderer(item, index)}</Tr>
                         ))}
 
-                        { data?.data.length === 0 ? <tr><td colSpan={colList.length} className="text-center my-5">Aucun élément</td></tr> : null}
+                        { data?.data.length === 0 ? <Tr><Td colSpan={colList.length} className="text-center my-5">Aucun élément</Td></Tr> : null}
                     </>
                 }
 
                 { error ?
-                    <tr>
-                        <td colSpan={colList.length} className="text-center my-5 text-red-500">Erreur lors du chargement des données : {error.message}</td>
-                    </tr>
+                    <Tr>
+                        <Td colSpan={colList.length} className="text-center my-5 text-red-500">Erreur lors du chargement des données : {error.message}</Td>
+                    </Tr>
                 : null}
-            </tbody>
-        </table>
+            </Tbody>
+        </Table>
         { !isPending ? <Pagination currentPage={page} lastPage={data?.last_page} onPageChange={setPage} disabled={isPending} /> : null }
         </>
     )

@@ -2,6 +2,9 @@ import { User } from "@/src/domain/User";
 import Card from "../../ui/card";
 import { Tab } from "../../ui/tab/Tab";
 import { UserTabUpdate } from "./tab/userTabUpdate";
+import UserManageRole from "./tab/userManageRole";
+import { CinemaRepositoryImpl } from "@/src/infrastructure/repositories/CinemaRepositoryImpl";
+import { getAllCinemasByEntity } from "@/src/application/useCases/Cinema/getAllCinemasByEntity";
 
 interface UserReviewProps {
     user : User;
@@ -10,6 +13,8 @@ interface UserReviewProps {
 
 export default async function UserReview({ user, entityId } : UserReviewProps) 
 {
+    let allCinemaList = await getAllCinemasByEntity(CinemaRepositoryImpl, entityId);
+
     return (
         <Card>
             <Tab 
@@ -26,14 +31,11 @@ export default async function UserReview({ user, entityId } : UserReviewProps)
                     },
                     {
                         header: {
-                            title: "Liste des connexions",
+                            title: "Roles",
                         },
                         body: {
                             content: (
-                                <div>
-                                    <p><strong>ID:</strong> {user.id}</p>
-                                    {/* Add more user fields as necessary */}
-                                </div>
+                                <UserManageRole user={user} entityId={entityId} allCinemaList={allCinemaList} />
                             ),
                         },
                     },

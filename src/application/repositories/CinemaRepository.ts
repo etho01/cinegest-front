@@ -7,4 +7,5 @@ export interface CinemaRepository {
     addCinema : (entityId : number, cinema : Cinema) => Promise<Cinema>;
     updateCinema : (entityId : number, cinema : Cinema) => Promise<Cinema>;
     deleteCinema : (entityId : number, cinemaId : number) => Promise<void>;
+    getAllCinemasByEntity : (entityId : number) => Promise<Cinema[]>;
 }
