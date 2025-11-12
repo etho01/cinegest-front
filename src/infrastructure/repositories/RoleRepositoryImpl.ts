@@ -15,6 +15,14 @@ export const RoleRepositoryImpl: RoleRepository = {
         let body = JSON.parse(text);
         return body as Paginator<Role>;
     },
+    getAllRoleByEntity: async (entityId: number): Promise<Role[]> => {
+        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/roles/all`, {}, {});
+        await throwErrorResponse(resp);
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as Role[];
+    },
     getRole : async (entityId: number, roleId: number): Promise<Role> => {
         let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/roles/${roleId}`, {}, {});
         await throwErrorResponse(resp);

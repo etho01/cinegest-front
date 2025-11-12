@@ -5,6 +5,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 
 export interface RoleRepository {
     getRoles: (entityId: number, props: PropsFetchEntities) => Promise<Paginator<Role>>;
+    getAllRoleByEntity: (entityId: number) => Promise<Role[]>;
     getRole: (entityId: number, roleId: number) => Promise<Role>;
     addRole: (entityId: number, role: Role) => Promise<Role>;
     updateRole: (entityId: number, role: Role) => Promise<Role>;

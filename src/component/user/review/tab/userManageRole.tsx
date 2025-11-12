@@ -1,46 +1,92 @@
 "use client";
+import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Button } from "@/src/component/ui/btn/button";
+import { FormButton } from "@/src/component/ui/btn/form-button";
 import { Select } from "@/src/component/ui/form/Select";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
 import { ROLES } from "@/src/const/RolesConst";
+import { updateUserRoleController } from "@/src/controller/app/UserController";
 import { Cinema } from "@/src/domain/Cinema";
-import { User } from "@/src/domain/User";
+import { Role, User } from "@/src/domain/User";
+import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 
 interface UserManageRoleProps {
-    user : User;
+    user: User;
     entityId: number;
     allCinemaList: Cinema[];
+    allRoleList: Role[];
 }
 
-interface rolesCinemaListType {
-    roles: 
-    { 
-        error?: string;
-        list : String[];
-     };
-    cinemaIds: 
-    { 
-        error?: string;
-        list : String[];
-    };
+function arraysEqual(a : number[], b: number[]) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
 }
 
-export default function UserManageRole({ user, entityId, allCinemaList }: UserManageRoleProps) {
-    let roles = user.roles || [];    
-    const [globalRoles, setGlobalRoles] = useState<string[]>([]);
-    const [rolesCinemaList, setRolesCinemaList] = useState<rolesCinemaListType[]>([]);
+function getRolesCinemaListTypeIdsFromRoles(roles: Role[]): rolesCinemaListType[] {
+    let cinemaListTemp: { [key: number]: number[] } = {};
+    let rolesCinemaListType: rolesCinemaListType[] = [];
 
+    roles.forEach(role => {
+        if (role.cinemaId !== null) {
+            if (!cinemaListTemp[role.cinemaId]) {
+                cinemaListTemp[role.cinemaId] = [];
+            }
+            cinemaListTemp[role.cinemaId].push(role.id);
+        }
+    });
+
+    let cinemaInsert: number[] = [];
+    for (let cinemaId in cinemaListTemp) {
+        if (cinemaInsert.includes(parseInt(cinemaId))) {
+            continue;
+        }
+
+        let cinemaIdList: number[] = [];
+        cinemaIdList.push(parseInt(cinemaId));
+
+        for (let cinemaId2 in cinemaListTemp) {
+            if (cinemaId !== cinemaId2 && arraysEqual(cinemaListTemp[cinemaId], cinemaListTemp[cinemaId2])) {
+                cinemaIdList.push(parseInt(cinemaId2));
+            }
+        }
+
+        cinemaInsert = cinemaInsert.concat(cinemaIdList);
+
+        rolesCinemaListType.push({
+            cinemas: cinemaIdList,
+            roles: cinemaListTemp[cinemaId]
+        });
+    }
+
+    return rolesCinemaListType;
+}
+
+export default function UserManageRole({ user, entityId, allCinemaList, allRoleList }: UserManageRoleProps) {
+    let roles = user.roles || [];
+    const [globalRight, setGlobalRight] = useState<string[]>(user.rights || []);
+    const [rolesUser, setRolesUser] = useState<rolesCinemaListType[]>(getRolesCinemaListTypeIdsFromRoles(roles));
+
+    const { executeAsync, hasErrored, result, input } = useAction(updateUserRoleController);
 
     return (
-        <>
+        <form onSubmit={async (e) => {
+            e.preventDefault();
+            await executeAsync({ entityId: parseInt(entityId + ''), userId: user.id, rolesUser, globalRight });
+        }}>
             <Select
-                label="Roles globaux"
+                label="Roles glôbaux"
                 options={ROLES.global ? Object.keys(ROLES.global).map(key => ({ value: key, label: ROLES.global[key].name })) : []}
                 isMulti
-                value={globalRoles}
+                value={globalRight}
                 onChange={(newValue) => {
-                    setGlobalRoles(newValue);
+                    setGlobalRight(newValue);
                 }}
             />
             <Table>
@@ -52,37 +98,40 @@ export default function UserManageRole({ user, entityId, allCinemaList }: UserMa
                     </Tr>
                 </Thead>
                 <Tbody>
-                    { rolesCinemaList.map((roleCinema, index) => (
+                    {rolesUser.map((roleCinema, index) => (
                         <Tr index={index} key={index}>
                             <Td>
                                 <Select
-                                    options={ROLES.cinema ? Object.keys(ROLES.cinema).map(key => ({ value: key, label: ROLES.cinema[key].name })) : []}
-                                    value={roleCinema.roles.list}
+                                    options={allRoleList.map(role => ({ value: role.id, label: role.name }))}
+                                    value={roleCinema.roles}
                                     isMulti={true}
+                                    errors={result.validationErrors?.rolesUser ? result.validationErrors?.rolesUser[index]?.roles : undefined}
                                     onChange={(newValue) => {
-                                        let updatedList = [...rolesCinemaList];
-                                        updatedList[index].roles.list = newValue;
-                                        setRolesCinemaList(updatedList);
+                                        let updatedList = [...rolesUser];
+                                        updatedList[index].roles = newValue;
+                                        setRolesUser(updatedList);
                                     }}
                                 />
                             </Td>
                             <Td>
                                 <Select
                                     options={allCinemaList.map(cinema => ({ value: cinema.id, label: cinema.name }))}
-                                    value={roleCinema.cinemaIds.list}
+                                    value={roleCinema.cinemas}
                                     isMulti={true}
+                                    errors={result.validationErrors?.rolesUser ? result.validationErrors?.rolesUser[index]?.cinemas : undefined}
                                     onChange={(newValue) => {
-                                        let updatedList = [...rolesCinemaList];
-                                        updatedList[index].cinemaIds.list = newValue;
-                                        setRolesCinemaList(updatedList);
+                                        let updatedList = [...rolesUser];
+                                        updatedList[index].cinemas = newValue;
+                                        setRolesUser(updatedList);
                                     }}
                                 />
                             </Td>
                             <Td>
-                                <Button 
+                                <Button
                                     variant="remove"
-                                    onClick={() => {
-                                        setRolesCinemaList(rolesCinemaList.filter((e, index2) => {
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setRolesUser(rolesUser.filter((e, index2) => {
                                             return index2 !== index;
                                         }))
                                     }}
@@ -92,17 +141,34 @@ export default function UserManageRole({ user, entityId, allCinemaList }: UserMa
                             </Td>
                         </Tr>
                     ))}
+                    {
+                        rolesUser.length === 0 && (
+                            <Tr>
+                                <Td colSpan={3} className="text-center">
+                                    Aucun rôle assigné
+                                </Td>
+                            </Tr>
+                        )
+                    }
                     <Tr>
-                        <Td colSpan={3} className="flex justify-center">
-                            <Button onClick={() => {
-                                setRolesCinemaList([...rolesCinemaList, { roles: { error: undefined, list: [] }, cinemaIds: { error: undefined, list: [] } }]);
-                            }}>
-                                Ajouter un rôle
-                            </Button>
+                        <Td colSpan={3} className="">
+                            <div className="flex justify-center">
+                                <Button onClick={(e) => {
+                                    e.preventDefault();
+                                    setRolesUser([...rolesUser, { roles: [], cinemas: [] }]);
+                                }}>
+                                    Ajouter un rôle
+                                </Button>
+                            </div>
                         </Td>
                     </Tr>
                 </Tbody>
             </Table>
-        </>
+            <div className="flex justify-end mt-5">
+                <FormButton>
+                    Sauvegarder
+                </FormButton>
+            </div>
+        </form>
     );
 }

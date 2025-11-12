@@ -44,6 +44,7 @@ export type User = {
     roles? : Role[],
     isSuperAdmin : boolean
     entities? : Entity[];
+    rights? : string[];
 }
 
 export const UserEmpty : User = {

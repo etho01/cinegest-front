@@ -23,3 +23,18 @@ export const updateUserController = actionClient.schema(
 
     return userUpdated;
 });
+
+export const updateUserRoleController = actionClient.schema(
+    z.object({
+        entityId: z.number(),
+        userId: z.number(),
+        rolesUser: z.array(z.object({
+            roles: z.array(z.number()).min(1, { message: "Au moins un rôle doit être sélectionné" }),
+            cinemas: z.array(z.number()).min(1, { message: "Au moins un cinéma doit être sélectionné" })
+        })),
+        globalRight: z.array(z.string()).optional()
+    })
+).action(async ({parsedInput: { entityId, userId, rolesUser, globalRight }}) => {
+    await UserRepositoryImpl.updateUserRoles(entityId, userId, rolesUser);
+    await UserRepositoryImpl.updateUserRights(entityId, userId, globalRight ?? []);
+})

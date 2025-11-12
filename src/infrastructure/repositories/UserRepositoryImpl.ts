@@ -1,5 +1,6 @@
 import { UserRepository } from "@/src/application/repositories/UserRepository";
 import { getUsersParams } from "@/src/application/useCases/User/getUsers";
+import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { Unauthenticated, Unauthorized, User, UserLog } from "@/src/domain/User";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
@@ -90,5 +91,21 @@ export const UserRepositoryImpl: UserRepository = {
     },
     deleteUser : async (entityId : number, userId : number) : Promise<void> => {
         await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
+    },
+    updateUserRoles : async (entityId: number, userId: number, rolesUser: rolesCinemaListType[]) => {
+        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/roles`, { rolesUser }, {});
+        await throwErrorResponse(resp);
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as User;
+    },
+    updateUserRights : async (entityId: number, userId: number, rights: string[]) => {
+        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/rights`, { rights }, {});
+        await throwErrorResponse(resp);
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as User;
     }
 }
