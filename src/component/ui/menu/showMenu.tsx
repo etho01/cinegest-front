@@ -38,26 +38,26 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
             }
 
             entity = user.entities?.find((e) => e.id == entityId) || null;
-
-            if (cinemaId !== null && entity)
-            {
-                if (!UserHaveAccessToCinema(user, entityId, cinemaId)) {
-                    throw new Unauthorized('Vous n\'avez pas accès à ce cinéma.');
-                }
-                
-                cinema = entity.cinemas?.find((c) => c.id == cinemaId) || null;
-            }
-            else if (entity && entity.cinemas && entity.cinemas.length === 1) 
-            {
-                cinema = entity.cinemas[0];
-            }
         }
         else if (user.entities && user.entities.length === 1) 
         {
             entity = user.entities[0];
         }
 
-    } catch (e)
+        if (cinemaId !== null && entity)
+        {
+            if (!UserHaveAccessToCinema(user, entity.id, cinemaId)) {
+                throw new Unauthorized('Vous n\'avez pas accès à ce cinéma.');
+            }
+            
+            cinema = entity.cinemas?.find((c) => c.id == cinemaId) || null;
+        }
+        else if (entity && entity.cinemas && entity.cinemas.length === 1) 
+        {
+            cinema = entity.cinemas[0];
+        }
+    } 
+    catch (e)
     {
         if (e instanceof Unauthenticated)
         {

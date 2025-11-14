@@ -9,6 +9,7 @@ import { Entity } from "@/src/domain/Entity";
 import { Cinema } from "@/src/domain/Cinema";
 import { MenuElement } from "./MenuElement";
 import { EntityMenu } from "./EntityMenu";
+import { CinemaMenu } from "./CinemaMenu";
 
 export interface MenuProps {
     user : User;
@@ -30,6 +31,11 @@ export const LeftMenu = ({ user, entity, cinema, page }: MenuProps) => {
             { UserIsSuperAdmin(user) && (
                 <>
                     <MenuElement active={page === "dashboard"} link="/app" title="Tableau de bord" icon={faChartLine} />
+                </>
+            ) }
+            { cinema && (
+                <>
+                    <CinemaMenu user={user} page={page} entity={entity!} cinema={cinema} />
                 </>
             ) }
             { entity && (

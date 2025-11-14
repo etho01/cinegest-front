@@ -21,7 +21,10 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         showErrorsBase: false,
         emptyObject: EntityEmpty,
         action: addOrUpdateEntityController,
-        onSaved: onSaved,
+        onSaved: (entity) => {
+            onSaved && onSaved(entity);
+            location.reload();
+        },
     });
 
     const loadFromId = async (id : number) => {};

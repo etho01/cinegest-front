@@ -71,6 +71,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                                         async () => {
                                             // Call delete endpoint
                                             await deleteCinemaController({ entityId, cinemaId: item.id });
+                                            location.reload();
                                             paginationRef.current?.refresh();
                                         }
                                     );

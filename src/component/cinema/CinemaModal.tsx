@@ -22,7 +22,10 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         showErrorsBase: false,
         emptyObject: CinemaEmpty,
         action: addOrUpdateCinemaController,
-        onSaved: onSaved,
+        onSaved: (entity) => {
+            onSaved && onSaved(entity);
+            location.reload();
+        },
         customData: { entityId: entityId }
     });
 
