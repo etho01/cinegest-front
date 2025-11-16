@@ -34,5 +34,13 @@ export const StorageTypeRepositoryImpl : StorageTypeRepository = {
         let text = await resp.text();
         let body = JSON.parse(text);
         return body as StorageType;
-    }
+    },
+    getAllStorageTypes : async (entityId: number, cinemaId: number) : Promise<StorageType[]> => {
+        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/all`, {}, {});
+        await throwErrorResponse(resp);
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as StorageType[];
+    },
 };

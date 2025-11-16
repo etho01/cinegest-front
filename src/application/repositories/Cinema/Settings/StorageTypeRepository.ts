@@ -8,4 +8,5 @@ export interface StorageTypeRepository {
     getStorageTypes(entityId: number, cinemaId: number, props: getOptionsProps): Promise<Paginator<StorageType>>;
     addStorageType(entityId: number, cinemaId: number, storageType: StorageType): Promise<StorageType>;
     updateStorageType(entityId: number, cinemaId: number, storageType: StorageType): Promise<StorageType>;
+    getAllStorageTypes(entityId: number, cinemaId: number): Promise<StorageType[]>;
 }

@@ -153,5 +153,29 @@ export const BreadcrumbPageList: Record<string, BreadcrumbLevel> = {
                 }
             }
         }
-    }
+    },
+    'cinemaStoragesSettings': {
+        name : 'Tableau de bord',
+        link : '/app',
+        subLevel : {
+            name : 'Gestion des entités',
+            link : '/app/entity',
+            subLevel : {
+                name : 'Gestion des cinémas',
+                link : (entity) => '/app/' + entity?.id + '/cinema',
+                subLevel : {
+                    name : (entity, cinema) => cinema?.name || 'Détail cinéma',
+                    link : (entity, cinema) => '/app/' + entity?.id + '/cinema/' + cinema?.id,
+                    subLevel : {
+                        name : 'Paramètres du cinéma',
+                        link : (entity, cinema) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/settings',
+                        subLevel : {
+                            name : 'Stockages',
+                            link : (entity, cinema) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/settings/storage',
+                        }
+                    }
+                }
+            }
+        }
+    },
 }
