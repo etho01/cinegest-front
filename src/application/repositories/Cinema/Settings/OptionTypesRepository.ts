@@ -8,4 +8,5 @@ export interface OptionTypesRepository {
     deleteOptionType(entityId: number, cinemaId: number, optionTypeId: number): Promise<boolean>;
     addOptionType(entityId: number, cinemaId: number, optionType: OptionType): Promise<OptionType>;
     updateOptionType(entityId: number, cinemaId: number, optionType: OptionType): Promise<OptionType>;
+    getAllOptionsTypes(entityId: number, cinemaId: number): Promise<OptionType[]>;
 }

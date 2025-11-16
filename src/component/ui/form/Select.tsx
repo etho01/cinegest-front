@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { formError, FormError } from './FormError';
 import Label from './Label';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SelectReact = dynamic(() => import('react-select'), { ssr: false });
 
@@ -16,13 +16,14 @@ interface SelectProps {
     value?: any;
     isMulti?: boolean;
     [key: string]: any;
+    initialValue?: string[] | string;
 }
 
 interface SelectPropsWithOptions extends SelectProps {
     options: Array<{ value: string | number; label: string }>;
 }
 
-export const Select = ( {className = '', type, label = '', containerClassName = '', errors = undefined, showErrors = true, options, onChange, value, isMulti = false, ...props}: SelectPropsWithOptions) => {
+export const Select = ( {className = '', type, label = '', containerClassName = '', errors = undefined, showErrors = true, options, onChange, value, initialValue, isMulti = false, ...props}: SelectPropsWithOptions) => {
     let htmlFor = "";
     let defaultValue : any = isMulti ? [] : null;
     options.forEach(option => {
@@ -37,13 +38,21 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
         }
     });
 
+    if (initialValue !== undefined) {
+        if (isMulti && Array.isArray(initialValue)) {
+            defaultValue = options.filter(option => initialValue.includes(option.value + ''));
+        } else if (!isMulti && typeof initialValue === 'string') {
+            defaultValue = options.find(option => option.value === initialValue) || null;
+        }
+    }
+
     const [selectedValue, setSelectedValue] = useState<any>(defaultValue);
     if (props['id'] != undefined)
     {
         htmlFor = props['id']
     }
 
-    const onChangeFunction = (selectedOption: any) => {
+    const setAndChangeValue = (selectedOption: any) => {
         setSelectedValue(selectedOption);
         if (onChange) {
             if (isMulti) {
@@ -54,6 +63,24 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
             onChange(selectedOption ? selectedOption.value : null, selectedOption);
         }
     }
+
+    const onChangeFunction = (selectedOption: any) => {
+        setAndChangeValue(selectedOption);
+    }
+
+    useEffect(() => {
+        let selectedOption: any = null;
+        if (isMulti && Array.isArray(initialValue)) 
+        {
+            selectedOption = options.filter(option => initialValue.includes(option.value + ''));
+        }
+        else if (!isMulti && typeof initialValue === 'string') 
+        {
+            selectedOption = options.find(option => option.value === initialValue) || null;
+        }
+
+        setAndChangeValue(selectedOption);
+    }, [initialValue]);
     
     return (
         <div className={containerClassName}>

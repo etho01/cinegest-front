@@ -3,12 +3,12 @@ import { OptionTypeManager } from "@/src/component/cinema/settings/optionType/Op
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
 
-interface CinemaPageProps {
+interface OptionTypesPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function OptionTypesSettingsPage({ params, searchParams }: CinemaPageProps) {
+export default async function OptionTypesSettingsPage({ params, searchParams }: OptionTypesPageProps) {
     const { entityId, cinemaId } = await params;
     const searchParamsObj = await searchParams;
     const page = searchParamsObj.page ? Number(searchParamsObj.page) : 1;

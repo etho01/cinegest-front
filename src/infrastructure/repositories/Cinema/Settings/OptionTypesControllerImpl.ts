@@ -36,5 +36,13 @@ export const OptionTypesRepositoryImpl : OptionTypesRepository = {
         let text = await resp.text();
         let body = JSON.parse(text);
         return body as OptionType;
-    }
+    },
+    getAllOptionsTypes: async (entityId: number, cinemaId: number) : Promise<OptionType[]> => {
+        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/all`, {}, {});
+        await throwErrorResponse(resp);
+
+        let text = await resp.text();
+        let body = JSON.parse(text);
+        return body as OptionType[];
+    },
 };

@@ -3,7 +3,7 @@ import z from "zod";
 export interface OptionType {
     id: number;
     name: string;
-    description?: string;
+    description?: string | null;
 }
 
 export const OptionTypeSchema = z.object({
