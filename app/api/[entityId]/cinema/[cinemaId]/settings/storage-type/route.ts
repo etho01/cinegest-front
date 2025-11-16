@@ -1,12 +1,13 @@
-import { getOptionsTypes } from "@/src/application/useCases/Cinema/Settings/OptionTypes/getOptionsTypes";
+import { getStorageTypes } from "@/src/application/useCases/Cinema/Settings/StorageType/getStorageTypes";
 import { Unauthorized } from "@/src/domain/User";
-import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
+import { StorageTypeRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageTypeRepositoryImpl";
 
-interface getOptionTypesApiProps {
+
+interface getStorageTypesApiProps {
     params: Promise<{ entityId: number; cinemaId: number }>;
 }
 
-export async function GET(req : Request, { params } : getOptionTypesApiProps) {
+export async function GET(req : Request, { params } : getStorageTypesApiProps) {
     try 
     {
         const { searchParams } = new URL(req.url);
@@ -15,9 +16,9 @@ export async function GET(req : Request, { params } : getOptionTypesApiProps) {
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';
 
-        const optionTypes = await getOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId, { search, page });
+        const storageTypes = await getStorageTypes(StorageTypeRepositoryImpl, entityId, cinemaId, { search, page });
 
-        return Response.json(optionTypes);
+        return Response.json(storageTypes);
     }
     catch (error) 
     {

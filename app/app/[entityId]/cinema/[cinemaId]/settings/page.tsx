@@ -28,7 +28,7 @@ export default async function CinemaSettingsPage({ params }: CinemaPageProps) {
                             <SettingsItem 
                                 icon={faSchool}
                                 title="Liste des type de moyens de stockage"
-                                link={`/app/${entityId}/cinema/${cinemaId}/settings/storageTypes`}
+                                link={`/app/${entityId}/cinema/${cinemaId}/settings/storageType`}
                             />
                         </SettingsCategory> 
                         <SettingsCategory title="Informations sur les films">

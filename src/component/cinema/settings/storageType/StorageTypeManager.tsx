@@ -1,0 +1,97 @@
+"use client";
+import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndShowModal";
+import { Button } from "@/src/component/ui/btn/button";
+import Card from "@/src/component/ui/card";
+import Input from "@/src/component/ui/form/Input";
+import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
+import { PaginationTab, PaginationTabRef } from "@/src/component/ui/pagination/PaginationTab";
+import { Paginator } from "@/src/component/ui/pagination/PaginationType";
+import { deleteStorageTypeController } from "@/src/controller/app/Cinema/Settings/StorageTypeController";
+import { StorageType } from "@/src/domain/Cinema/Settings/StorageType";
+import { useRef } from "react";
+import { StorageTypeModal } from "./StorageTypeModal";
+
+interface PropsFetchStorageTypes {
+    initialData : Paginator<StorageType>;
+    initialParams?: {
+        search?: string;
+        page?: number;
+    };
+    entityId: number;
+    cinemaId: number;
+}
+
+export const StorageTypeManager = ({ initialData, initialParams, entityId, cinemaId }: PropsFetchStorageTypes) => {
+    const paginationRef = useRef<PaginationTabRef>(null);
+    const modalRef = useRef<LoadObjectAndShowModalRef<StorageType>>(null);
+    const confirmationModalRef = useRef<ConfirmationModalRef>(null);
+
+    return (
+        <Card>
+            <div className="flex justify-between">
+                <Input 
+                    label="Rechercher un type de stockage" 
+                    placeholder="Rechercher un type de stockage" 
+                    onChange={(value) => {
+                        paginationRef.current?.updateParam("search", value);
+                    }} 
+                    initialValue={initialParams?.search || ""}
+                />
+                <Button
+                    className="mt-auto" 
+                    variant="default" 
+                    onClick={() => modalRef.current?.createNew()}
+                >
+                    Créer un type de stockage
+                </Button>
+            </div>
+            <PaginationTab 
+                initialData={initialData} 
+                initialParams={initialParams} 
+                endpoint={`api/${entityId}/cinema/${cinemaId}/settings/storage-type`} 
+                ref={paginationRef} 
+                lineRenderer={(item : StorageType, index) => (
+                    <>
+                        <td className="py-2 px-1">{item.name}</td>
+                        <td className="py-2 px-1 text-right">
+                            <Button onClick={() => modalRef.current?.loadFromObject(item)}
+                                variant="outline"
+                            >
+                                Modifier
+                            </Button>
+                            <Button className="ml-2"
+                                variant="remove"
+                                onClick={() => {
+                                    confirmationModalRef.current?.open(
+                                        "Confirmer la suppression",
+                                        `Êtes-vous sûr de vouloir supprimer le type de stockage "${item.name}" ? Cette action est irréversible.`,
+                                        async () => {
+                                            // Call delete endpoint
+                                            await deleteStorageTypeController({ entityId : parseInt(entityId + ''), cinemaId : parseInt(cinemaId + ''), storageTypeId: item.id });
+                                            paginationRef.current?.refresh();
+                                        }
+                                    );
+                                }}
+                            >
+                                Supprimer
+                            </Button>
+                        </td>
+                    </>
+                )} 
+                colList={["Nom", ""]} 
+            />
+            <ConfirmationModal ref={confirmationModalRef} />
+            <StorageTypeModal
+                entityId={entityId} 
+                cinemaId={cinemaId}
+                isOpen={false} 
+                ref={modalRef} 
+                onSaved={(storageType) => {
+                    paginationRef.current?.refresh();
+                }} 
+                onClose={function (): void {} } 
+                initialObject={null} 
+            />
+        </Card>
+    );
+}
