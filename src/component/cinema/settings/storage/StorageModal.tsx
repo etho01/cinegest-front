@@ -29,7 +29,11 @@ export const StorageModal = forwardRef(({ isOpen, onClose, initialObject, onSave
         onSaved: (entity) => {
             onSaved && onSaved(entity);
         },
-        customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') }
+        customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') },
+        setDefaultValues: (object: Storage) => {
+            object.storage_type_id = object.type?.id;
+            return object;
+        }
     });
 
     const loadFromId = async (id : number) => {};

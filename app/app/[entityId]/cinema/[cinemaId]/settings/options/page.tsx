@@ -16,6 +16,7 @@ export default async function OptionsSettingsPage({ params, searchParams }: Opti
     const searchParamsObj = await searchParams;
     const page = searchParamsObj.page ? Number(searchParamsObj.page) : 1;
     const search = searchParamsObj.search ? String(searchParamsObj.search) : "";
+    
     const optionTypes = searchParamsObj.optionTypes
         ? Array.isArray(searchParamsObj.optionTypes)
             ? searchParamsObj.optionTypes.map((id) => Number(id))
@@ -29,11 +30,12 @@ export default async function OptionsSettingsPage({ params, searchParams }: Opti
                 const options = await getOptions(OptionsRepositoryImpl, entityId, cinemaId, { search, page, optionTypes });
 
                 const allOptionsType = await getAllOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId);
+                console.log("optionTypes", optionTypes);
                 
                 return (
                     <OptionManager
                         initialData={options}
-                        initialParams={{ search, page }}
+                        initialParams={{ search, page, optionTypes }}
                         entityId={entityId}
                         cinemaId={cinemaId}
                         allOptionsTypes={allOptionsType}

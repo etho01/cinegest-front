@@ -11,10 +11,11 @@ export interface loadObjectAndShowModalObjectProps<T> {
     isOpen: boolean;
     showErrorsBase : boolean;
     emptyObject: T;
+    setDefaultValues?: (object: T) => T;
 
 }
 
-export function loadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBase, emptyObject }: loadObjectAndShowModalObjectProps<T>) {
+export function loadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBase, emptyObject, setDefaultValues }: loadObjectAndShowModalObjectProps<T>) {
     const [isEdit, setIsEdit] = useState(!!initialObject);
     if (initialObject == null) {
         initialObject = emptyObject;
@@ -26,6 +27,9 @@ export function loadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBas
 
 
     const loadFromObject = async (object: T) => {
+        if (setDefaultValues) {
+            object = setDefaultValues(object);
+        }
         setObject(object);
         setIsEdit(true);
         setIsOpenState(true);

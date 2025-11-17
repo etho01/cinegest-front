@@ -18,7 +18,7 @@ export default async function CinemaSettingsPage({ params }: CinemaPageProps) {
                             <SettingsItem 
                                 icon={faSchool}
                                 title="Liste des salles"
-                                link={`/app/${entityId}/cinema/${cinemaId}/settings/rooms`}
+                                link={`/app/${entityId}/cinema/${cinemaId}/settings/room`}
                             />
                             <SettingsItem 
                                 icon={faSchool}

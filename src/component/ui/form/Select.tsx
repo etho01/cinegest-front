@@ -52,8 +52,7 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
         htmlFor = props['id']
     }
 
-    const setAndChangeValue = (selectedOption: any) => {
-        setSelectedValue(selectedOption);
+    const execOnChange = (selectedOption: any) => {
         if (onChange) {
             if (isMulti) {
                 const values = selectedOption ? selectedOption.map((option: any) => option.value) : [];
@@ -62,6 +61,11 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
             }
             onChange(selectedOption ? selectedOption.value : null, selectedOption);
         }
+    }
+
+    const setAndChangeValue = (selectedOption: any) => {
+        setSelectedValue(selectedOption);
+        execOnChange(selectedOption);
     }
 
     const onChangeFunction = (selectedOption: any) => {
@@ -79,7 +83,7 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
             selectedOption = options.find(option => option.value === initialValue) || null;
         }
 
-        setAndChangeValue(selectedOption);
+        setSelectedValue(selectedOption);
     }, [initialValue]);
     
     return (

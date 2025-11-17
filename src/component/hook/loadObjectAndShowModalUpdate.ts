@@ -7,12 +7,13 @@ interface LoadObjectAndShowModalUpdateProps<T> extends loadObjectAndShowModalObj
     customData?: any;
 }
 
-export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData }: LoadObjectAndShowModalUpdateProps<T>) {
+export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData, setDefaultValues }: LoadObjectAndShowModalUpdateProps<T>) {
     const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject } = loadObjectAndShowModal<T>({
         initialObject: initialObject ? initialObject : null,
         isOpen,
         showErrorsBase,
-        emptyObject
+        emptyObject,
+        setDefaultValues
     });
 
     const { executeAsync, hasErrored, result, input } = useAction(action)

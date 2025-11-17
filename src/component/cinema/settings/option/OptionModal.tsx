@@ -28,7 +28,11 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         onSaved: (entity) => {
             onSaved && onSaved(entity);
         },
-        customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') }
+        customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') },
+        setDefaultValues: (object: Option) => {
+            object.option_type_id = object.type?.id;
+            return object;
+        }
     });
 
     const loadFromId = async (id : number) => {};
