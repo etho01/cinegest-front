@@ -85,6 +85,20 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
 
         setSelectedValue(selectedOption);
     }, [initialValue]);
+
+    useEffect(() => {
+        let selectedOption: any = null;
+        if (isMulti && Array.isArray(value)) 
+        {
+            selectedOption = options.filter(option => value.includes(option.value));
+        }
+        else if (!isMulti) 
+        {
+            selectedOption = options.find(option => option.value === value) || null;
+        }
+
+        setSelectedValue(selectedOption);
+    }, [value]);
     
     return (
         <div className={containerClassName}>

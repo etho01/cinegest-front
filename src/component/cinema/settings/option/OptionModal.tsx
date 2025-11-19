@@ -70,6 +70,7 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                             label="Type d'option"
                             value={object.option_type_id ? object.option_type_id.toString() : ''}
                             onChange={(value) => {
+                                console.log(object);
                                 setObject({ ...object, option_type_id: value ? parseInt(value) : undefined });
                             }}
                             required

@@ -15,6 +15,7 @@ interface EntityMenuProps {
 export const CinemaMenu = ({ user, page, entity, cinema }: EntityMenuProps) => {
     return (
         <>
+            <MenuElement active={(page === "cinemaMovie")} link={`/app/${entity.id}/cinema/${cinema.id}/movie`} title="Films" icon={faBuilding} />
             <MenuElement active={(page === "cinemaSettings")} link={`/app/${entity.id}/cinema/${cinema.id}/settings`} title="Paramètres du cinéma" icon={faGear} />
         </>
     )
