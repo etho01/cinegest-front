@@ -10,22 +10,24 @@ interface Props {
     cinema : Cinema | null;
     page : string;
     user : User;
+    customParam? : any;
 }
 
 export interface BreadcrumbLevel {
-    name: string | ((entity: Entity | null, cinema: Cinema | null, user: User) => string);
-    link: string | ((entity: Entity | null, cinema: Cinema | null, user: User) => string);
+    name: string | ((entity: Entity | null, cinema: Cinema | null, user: User, customParam?: any) => string);
+    link: string | ((entity: Entity | null, cinema: Cinema | null, user: User, customParam?: any) => string);
     subLevel?: BreadcrumbLevel;
-    showCondition?: (entity: Entity | null, cinema: Cinema | null, user: User) => boolean;
+    showCondition?: (entity: Entity | null, cinema: Cinema | null, user: User, customParam?: any) => boolean;
+    customParam? : any;
 }
 
-export const Breadcrumb = ({ entity, cinema, page, user } : Props) => {
+export const Breadcrumb = ({ entity, cinema, page, user, customParam } : Props) => {
     let breadcrumbLevel : BreadcrumbLevel | null = BreadcrumbPageList[page] || null;
 
     return (
         <div className="bg-white mb-5 p-5 flex justify-between shadow-sm rounded-md">
             <div className="my-auto">
-                {breadcrumbLevel && <BreadcrumbLevelComponent level={breadcrumbLevel} entity={entity} cinema={cinema} user={user} />}
+                {breadcrumbLevel && <BreadcrumbLevelComponent level={breadcrumbLevel} entity={entity} cinema={cinema} user={user} customParam={customParam} />}
             </div>
             <div>
                 <BreadcrumbSelector user={user} cinema={cinema} entity={entity} />
@@ -39,12 +41,13 @@ interface BreadcrumbLevelProps {
     cinema : Cinema | null,
     entity : Entity | null,
     user : User
+    customParam? : any;
 }
 
-const BreadcrumbLevelComponent = ({ level, entity, cinema, user } : BreadcrumbLevelProps) => {
+const BreadcrumbLevelComponent = ({ level, entity, cinema, user, customParam } : BreadcrumbLevelProps) => {
     let showLevel = true;
     if (level.showCondition) {
-        showLevel = level.showCondition(entity, cinema, user);
+        showLevel = level.showCondition(entity, cinema, user, customParam);
     }
 
     return (
@@ -54,22 +57,22 @@ const BreadcrumbLevelComponent = ({ level, entity, cinema, user } : BreadcrumbLe
                     {level.subLevel ? (
                         <>
                             <Link 
-                                href={typeof level.link === "function" ? level.link(entity, cinema, user) : level.link}
+                                href={typeof level.link === "function" ? level.link(entity, cinema, user, customParam) : level.link}
                             >
-                                {typeof level.name === "function" ? level.name(entity, cinema, user) : level.name}
+                                {typeof level.name === "function" ? level.name(entity, cinema, user, customParam) : level.name}
                             </Link>
                             <span className="mx-2">/</span>
-                            <BreadcrumbLevelComponent level={level.subLevel} entity={entity} cinema={cinema} user={user} />
+                            <BreadcrumbLevelComponent level={level.subLevel} entity={entity} cinema={cinema} user={user} customParam={customParam} />
                         </>
                     ) : (
                         <span>
-                            {typeof level.name === "function" ? level.name(entity, cinema, user) : level.name}
+                            {typeof level.name === "function" ? level.name(entity, cinema, user, customParam) : level.name}
                         </span>
                     )}
                 </div>
             : 
                 <>
-                    { level.subLevel ? <BreadcrumbLevelComponent level={level.subLevel} entity={entity} cinema={cinema} user={user} /> : null }
+                    { level.subLevel ? <BreadcrumbLevelComponent level={level.subLevel} entity={entity} cinema={cinema} user={user} customParam={customParam} /> : null }
                 </>
             }
 

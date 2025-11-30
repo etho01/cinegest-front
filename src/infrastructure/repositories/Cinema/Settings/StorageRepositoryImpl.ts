@@ -19,7 +19,6 @@ export const StorageRepositoryImpl : StorageRepository = {
         await throwErrorResponse(resp);
     },
     addStorage: async (entityId: number, cinemaId: number, data: Storage) : Promise<Storage> => {
-        console.log('Adding storage', data);
         let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage`, data, {});
         await throwErrorResponse(resp);
 

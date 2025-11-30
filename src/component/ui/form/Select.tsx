@@ -7,7 +7,6 @@ const SelectReact = dynamic(() => import('react-select'), { ssr: false });
 
 interface SelectProps {
     className?: string;
-    type?: string;
     label?: string;
     containerClassName?: string;
     errors?: formError;
@@ -23,7 +22,7 @@ interface SelectPropsWithOptions extends SelectProps {
     options: Array<{ value: string | number; label: string }>;
 }
 
-export const Select = ( {className = '', type, label = '', containerClassName = '', errors = undefined, showErrors = true, options, onChange, value, initialValue, isMulti = false, ...props}: SelectPropsWithOptions) => {
+export const Select = ( {className = '', label = '', containerClassName = '', errors = undefined, showErrors = true, options, onChange, value, initialValue, isMulti = false, ...props}: SelectPropsWithOptions) => {
     let htmlFor = "";
     let defaultValue : any = isMulti ? [] : null;
     options.forEach(option => {
@@ -103,7 +102,7 @@ export const Select = ( {className = '', type, label = '', containerClassName = 
     return (
         <div className={containerClassName}>
             { label != '' ? <Label htmlFor={htmlFor}>{label}</Label> : '' }
-            <SelectReact value={selectedValue} isMulti={isMulti} options={options} onChange={onChangeFunction} {...props} />
+            <SelectReact value={selectedValue} className={className} isMulti={isMulti} options={options} onChange={onChangeFunction} {...props} />
             {errors && showErrors ? <FormError errors={errors} /> : null}
         </div>
     );

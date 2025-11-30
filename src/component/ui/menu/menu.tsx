@@ -7,7 +7,7 @@ import { Breadcrumb } from "./Breadcrumb"
 interface Props extends MenuProps, PropsWithChildren {
 }
 
-export const Menu = ({user, entity, cinema, page, children} : Props) => {
+export const Menu = ({user, entity, cinema, page, children, customParam} : Props) => {
 
     return (
         <div className="flex justify-between h-full">
@@ -17,7 +17,7 @@ export const Menu = ({user, entity, cinema, page, children} : Props) => {
 
                 </div>
                 <div>
-                    <Breadcrumb entity={entity} cinema={cinema} page={page} user={user} />
+                    <Breadcrumb entity={entity} cinema={cinema} page={page} user={user} customParam={customParam} />
                     <div className="xl:w-7xl mx-auto">
                         {children}
                     </div>

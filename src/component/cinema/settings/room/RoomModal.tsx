@@ -38,7 +38,6 @@ export const RoomModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, 
             return object;
         }
     });
-    console.log(object);
 
     const loadFromId = async (id : number) => {};
 

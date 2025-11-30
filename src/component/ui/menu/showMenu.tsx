@@ -14,6 +14,7 @@ interface ShowMenuProps {
     entityId : number | null;
     cinemaId : number | null;
     page : string;
+    customParam? : any;
 }
 
 export interface MenuProps {
@@ -21,9 +22,10 @@ export interface MenuProps {
     entity : Entity | null;
     cinema : Cinema | null;
     page : string;
+    customParam? : any;
 }
 
-export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps) => {
+export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: ShowMenuProps) => {
     let user = null;
     let entity = null;
     let cinema = null;
@@ -75,7 +77,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page }: ShowMenuProps
     }
     
     return (
-        <Menu user={user} entity={entity} cinema={cinema} page={page}>
+        <Menu user={user} entity={entity} cinema={cinema} page={page} customParam={customParam}>
             { await body(user, entity, cinema) }
         </Menu>
     )

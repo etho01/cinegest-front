@@ -293,5 +293,33 @@ export const BreadcrumbPageList: Record<string, BreadcrumbLevel> = {
                 }
             }
         }
+    },
+    'cinemaMovieReview': {
+        name : 'Tableau de bord',
+        link : '/app',
+        subLevel : {
+            name : 'Gestion des entités',
+            link : '/app/entity',
+            subLevel : {
+                name : (entity) => entity?.name || 'Détail entité',
+                link : (entity) => '/app/' + entity?.id,
+                subLevel : {
+                    name : 'Gestion des cinémas',
+                    link : (entity) => '/app/' + entity?.id + '/cinema',
+                    subLevel : {
+                        name : (entity, cinema) => cinema?.name || 'Détail cinéma',
+                        link : (entity, cinema) => '/app/' + entity?.id + '/cinema/' + cinema?.id,
+                        subLevel : {
+                            name : 'Liste des films',
+                            link : (entity, cinema) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/movie',
+                            subLevel : {
+                                name : (entity, cinema, user, movie) => movie?.title || 'Détail film',
+                                link : (entity, cinema, user, movie) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/movie/' + movie?.id,
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

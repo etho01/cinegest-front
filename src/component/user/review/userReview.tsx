@@ -17,7 +17,6 @@ export default async function UserReview({ user, entityId } : UserReviewProps)
 {
     let allCinemaList = await getAllCinemasByEntity(CinemaRepositoryImpl, entityId);
     let allRoleList = await getAllRoleByEntity(RoleRepositoryImpl, entityId);
-    console.log("ALL ROLE LIST :", user);
 
     return (
         <Card>

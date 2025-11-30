@@ -3,7 +3,6 @@ import { Option } from "@/src/domain/Cinema/Settings/Option";
 
 
 export const addOption = async (repository: OptionsRepository, entityId: number, cinemaId: number, option: Option) => {
-    console.log("Adding option:", option);
     const newOption = await repository.addOption(entityId, cinemaId, option);
     return newOption;
 }

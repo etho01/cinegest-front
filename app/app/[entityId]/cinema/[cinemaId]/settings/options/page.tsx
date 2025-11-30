@@ -30,7 +30,6 @@ export default async function OptionsSettingsPage({ params, searchParams }: Opti
                 const options = await getOptions(OptionsRepositoryImpl, entityId, cinemaId, { search, page, optionTypes });
 
                 const allOptionsType = await getAllOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId);
-                console.log("optionTypes", optionTypes);
                 
                 return (
                     <OptionManager

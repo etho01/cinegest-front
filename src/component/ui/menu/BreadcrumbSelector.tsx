@@ -27,7 +27,6 @@ export const BreadcrumbSelector = ({ user, cinema, entity } : BreadcrumbSelector
     }
 
     const router = useRouter()
-    console.log(entity?.id);
 
     return (
         <div className="flex gap-3">

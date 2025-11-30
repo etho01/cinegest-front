@@ -5,9 +5,10 @@ interface LoadObjectAndShowModalUpdateProps<T> extends loadObjectAndShowModalObj
     action: HookSafeActionFn<any, any, any, any>;
     onSaved?: (entity: T) => void | Promise<void>;
     customData?: any;
+    customDataFunc?: (object: T) => any;
 }
 
-export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData, setDefaultValues }: LoadObjectAndShowModalUpdateProps<T>) {
+export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData, setDefaultValues, customDataFunc }: LoadObjectAndShowModalUpdateProps<T>) {
     const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject } = loadObjectAndShowModal<T>({
         initialObject: initialObject ? initialObject : null,
         isOpen,
@@ -23,6 +24,10 @@ export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErr
         setShowErrors(true);
         let objectTemp = object;
         let formData = object;
+        if (customDataFunc) {
+            const generatedData = customDataFunc(object);
+            formData = { ...object, ...generatedData };
+        }
         if (customData) {
             formData = { ...object, ...customData };
         }
