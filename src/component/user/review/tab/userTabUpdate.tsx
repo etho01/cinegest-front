@@ -13,7 +13,7 @@ interface UserReviewProps {
 
 export function UserTabUpdate({ user, entityId }: UserReviewProps) {
     const [object, setObject] = useState<User>(user);
-    const { executeAsync, hasErrored, result, input } = useAction(updateUserController);
+    const { executeAsync, hasErrored, result } = useAction(updateUserController);
 
     return (
         <>

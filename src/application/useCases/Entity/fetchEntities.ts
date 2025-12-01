@@ -7,6 +7,6 @@ export type PropsFetchEntities = {
 };
 
 export const fetchEntities = async (repo: EntityRepository, props: PropsFetchEntities) => {
-    let entities = await repo.fetchEntities(props);
+    const entities = await repo.fetchEntities(props);
     return entities
 }

@@ -26,7 +26,7 @@ export default async function OptionsSettingsPage({ params, searchParams }: Opti
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 const options = await getOptions(OptionsRepositoryImpl, entityId, cinemaId, { search, page, optionTypes });
 
                 const allOptionsType = await getAllOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId);

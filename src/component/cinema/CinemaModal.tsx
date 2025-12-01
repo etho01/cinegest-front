@@ -1,5 +1,5 @@
 import { Cinema, CinemaEmpty } from "@/src/domain/Cinema";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
 import { Button } from "../ui/btn/button";
 import Input from "../ui/form/Input";
@@ -16,20 +16,20 @@ interface CinemaModalProps {
 }
 
 export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId }: CinemaModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Cinema>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Cinema>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: CinemaEmpty,
         action: addOrUpdateCinemaController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
             location.reload();
         },
         customData: { entityId: entityId }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
@@ -38,7 +38,10 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
     }));
     
     return (
-        <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
+        <Modal isOpen={isOpenState} onClose={() => {
+            setIsOpenState(false);
+            onClose();
+        }} size="xl">
             <form onSubmit={async (e) => {
                 await onSubmit(e);
             }}>

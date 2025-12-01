@@ -19,7 +19,7 @@ export type PaginationTabRef = {
 }
 
 export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams, lineRenderer, colList }: PaginationTabProps, ref) => {
-    const { data, error, isPending, page, setPage, setParams, updateParam, refresh } = usePaginatedResource<any>({
+    const { data, error, isPending, page, setPage, updateParam, refresh } = usePaginatedResource<any>({
         endpoint,
         initialData,
         initialParams,

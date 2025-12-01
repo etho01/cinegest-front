@@ -108,7 +108,7 @@ export class Unauthorized extends Error
 {
     constructor(message?: string)
     {
-        let baseMessage = "L'utilisateur n'est pas autorisé";
+        const baseMessage = "L'utilisateur n'est pas autorisé";
         super(message || baseMessage);
     }
 }

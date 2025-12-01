@@ -72,7 +72,7 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/settings/option`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Option, index) => (
+                lineRenderer={(item : Option) => (
                     <>
                         <Td >{item.name}</Td>
                         <Td>{item.type?.name}</Td>
@@ -109,7 +109,7 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                 cinemaId={cinemaId}
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(option) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

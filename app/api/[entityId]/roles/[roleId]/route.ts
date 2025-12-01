@@ -10,7 +10,6 @@ interface GetRolesApiProps {
 export async function GET(req : Request, { params } : GetRolesApiProps) {
     try 
     {
-        const { searchParams } = new URL(req.url);
         const paramsObj = await params;
 
         const role = await getRole(RoleRepositoryImpl, paramsObj.entityId, paramsObj.roleId);

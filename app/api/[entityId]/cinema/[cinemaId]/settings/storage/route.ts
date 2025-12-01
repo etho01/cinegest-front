@@ -1,6 +1,5 @@
 import { getStorages } from "@/src/application/useCases/Cinema/Settings/Storage/getStorages";
 import { Unauthorized } from "@/src/domain/User";
-import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
 
 

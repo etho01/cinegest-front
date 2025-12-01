@@ -17,8 +17,8 @@ export default async function StorageTypesSettingsPage({ params, searchParams }:
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
-                let storageTypes = await getStorageTypes(StorageTypeRepositoryImpl, entityId, cinemaId, { page, search });
+            body={async (user) => {
+                const storageTypes = await getStorageTypes(StorageTypeRepositoryImpl, entityId, cinemaId, { page, search });
 
                 return (
                     <StorageTypeManager

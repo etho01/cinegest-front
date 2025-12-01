@@ -13,7 +13,7 @@ export default async function UserPage({ params }: UserPageProps) {
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 const userShow = await getUser(UserRepositoryImpl, entityId, userId);
 
                 if (!userShow) {

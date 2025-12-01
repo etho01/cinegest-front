@@ -11,7 +11,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 return (
                     <div>
                         <h1>Entity Page for Entity ID: {entityId}</h1>

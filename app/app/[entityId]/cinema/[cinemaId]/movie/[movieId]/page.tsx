@@ -13,7 +13,7 @@ export default async function MoviePage({ params }: OptionsPageProps) {
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 if (!movie) {
                     return <div>Movie not found</div>;
                 }

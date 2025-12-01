@@ -49,7 +49,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Cinema, index) => (
+                lineRenderer={(item : Cinema) => (
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1">
@@ -89,7 +89,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                 entityId={entityId} 
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(cinema) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

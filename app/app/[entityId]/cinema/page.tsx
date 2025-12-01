@@ -17,8 +17,8 @@ export default async function CinemaPage({ params, searchParams }: CinemaPagePro
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
-                let cinemas = await getCinemas(CinemaRepositoryImpl, {
+            body={async (user) => {
+                const cinemas = await getCinemas(CinemaRepositoryImpl, {
                     entityId: entityId ? parseInt(entityId, 10) : 0,
                     search: search,
                     page: page,

@@ -11,7 +11,6 @@ import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/Confirma
 import { useRef } from "react";
 import { AddMovieModal } from "./AddMovieModal";
 import { Select } from "../../ui/form/Select";
-import { deleteCinemaController } from "@/src/controller/app/CinemaController";
 import { Td } from "../../ui/table/Table";
 import { deleteMovieController } from "@/src/controller/app/Cinema/MovieController";
 import { MovieStatus } from "./MovieSatus";
@@ -73,7 +72,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/movie/gets`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Movie, index) => (
+                lineRenderer={(item : Movie) => (
                     <>
                         <td className="py-2 px-1">{item.title}</td>
                         <td className="py-2 px-1">{item.releaseDate ? new Date(item.releaseDate).toLocaleDateString() : "N/A"}</td>

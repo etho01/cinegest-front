@@ -7,38 +7,38 @@ import { throwErrorResponse } from "@/src/lib/request/Request";
 
 export const CinemaRepositoryImpl: CinemaRepository = {
     getCinemas : async (entityId : number, search : string, page : number) : Promise<Paginator<Cinema>> => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas`, { search, page }, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas`, { search, page }, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Paginator<Cinema>;
     },
     addCinema : async (entityId : number, cinema : Cinema) : Promise<Cinema> => {
-        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas`, cinema, {});
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas`, cinema, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Cinema;
     },
     updateCinema : async (entityId : number, cinema : Cinema) : Promise<Cinema> => {
-        let resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinema.id}`, cinema, {});
+        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinema.id}`, cinema, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Cinema;
     },
     deleteCinema : async (entityId : number, cinemaId : number) : Promise<void> => {
         await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}`, {}, {});
     },
     getAllCinemasByEntity : async (entityId : number) : Promise<Cinema[]> => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/all`, {}, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/all`, {}, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Cinema[];
     }
 };

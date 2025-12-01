@@ -11,7 +11,7 @@ export default async function CinemaSettingsPage({ params }: CinemaPageProps) {
     const { entityId, cinemaId } = await params;
     return (
         <ShowMenu 
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 return (
                     <Card>
                         <SettingsCategory title="Gestion des salles">

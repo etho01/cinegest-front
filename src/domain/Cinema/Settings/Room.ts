@@ -1,6 +1,5 @@
 import z from "zod";
-import { Option, OptionSchema } from "./Option";
-import { StorageSchema } from "./Storage";
+import { Option } from "./Option";
 
 
 export interface Room {

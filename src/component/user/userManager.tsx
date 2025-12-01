@@ -49,7 +49,7 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/user`} 
                 ref={paginationRef} 
-                lineRenderer={(item : User, index) => (
+                lineRenderer={(item : User) => (
                     <>
                         <td className="py-2 px-1">
                             {item.firstname} {item.lastname}
@@ -88,7 +88,7 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                 colList={["Nom", "Email", "Téléphone", ""]} 
             />
             <UserCreationModal
-                onSaved={(entity) => {paginationRef.current?.refresh();}} 
+                onSaved={() => {paginationRef.current?.refresh();}} 
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 

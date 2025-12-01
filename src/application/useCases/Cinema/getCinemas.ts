@@ -9,6 +9,6 @@ export type PropsGetCinemas = {
 };
 
 export const getCinemas = async (repo : CinemaRepository, props : PropsGetCinemas) : Promise<Paginator<Cinema>> => {
-    let cinemas = await repo.getCinemas(props.entityId, props.search, props.page);
+    const cinemas = await repo.getCinemas(props.entityId, props.search, props.page);
     return cinemas;
 }

@@ -4,7 +4,6 @@ import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalU
 import { addMovieController } from "@/src/controller/app/Cinema/MovieController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
-import Input from "../../ui/form/Input";
 import { AsyncSelect } from "../../ui/form/AsyncSelect";
 
 
@@ -18,19 +17,19 @@ interface AddMovieModalProps {
 }
 
 export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId }: AddMovieModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Movie>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Movie>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: MovieEmpty,
         action: addMovieController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
         },
         customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') },
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
@@ -39,7 +38,10 @@ export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSav
     }));
 
     return (
-        <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
+        <Modal isOpen={isOpenState} onClose={() => {
+            setIsOpenState(false);
+            onClose();
+        }} size="xl">
             <form onSubmit={async (e) => {
                 await onSubmit(e);
             }}>

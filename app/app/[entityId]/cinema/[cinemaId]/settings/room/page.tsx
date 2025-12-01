@@ -33,7 +33,7 @@ export default async function RoomsSettingsPage({ params, searchParams }: RoomsP
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 const rooms = await getRooms(RoomRepositoryImpl, entityId, cinemaId, { page, search });
 
                 const allOptions = await getAllOptions(OptionsRepositoryImpl, entityId, cinemaId);

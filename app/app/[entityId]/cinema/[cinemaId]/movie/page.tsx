@@ -24,7 +24,7 @@ export default async function MoviePage({ params, searchParams }: OptionsPagePro
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 const movies = await getMovies(MovieRepositoryImpl, entityId, cinemaId, { search, page, status });
 
                 const options = await getAllOptions(OptionsRepositoryImpl, entityId, cinemaId);

@@ -1,5 +1,4 @@
 import z from "zod";
-import { Entity } from "./Entity";
 
 export type Cinema = {
     id: number;

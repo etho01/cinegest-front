@@ -19,7 +19,7 @@ interface OptionModalProps {
 }
 
 export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, allOptionsTypes }: OptionModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Option>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Option>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
@@ -35,7 +35,7 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
@@ -44,7 +44,10 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
     }));
     
     return (
-        <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
+        <Modal isOpen={isOpenState} onClose={() => {
+            setIsOpenState(false);
+            onClose();
+        }} size="xl">
             <form onSubmit={async (e) => {
                 await onSubmit(e);
             }}>

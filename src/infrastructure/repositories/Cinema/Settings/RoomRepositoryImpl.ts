@@ -8,42 +8,39 @@ import { throwErrorResponse } from "@/src/lib/request/Request";
 
 export const RoomRepositoryImpl : RoomRepository = {
     getRooms: async (entityId: number, cinemaId: number, props: getRoomsProps) => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room`, props, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room`, props, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Paginator<Room>;
     },
     getAllRooms: async (entityId: number, cinemaId: number) => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room/all`, {}, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room/all`, {}, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Room[];
     },
     addRoom: async (entityId: number, cinemaId: number, room) => {
-        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room`, room, {});
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room`, room, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Room;
     },
     updateRoom: async (entityId: number, cinemaId: number, room) => {
-        let resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room/${room.id}`, room, {});
+        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room/${room.id}`, room, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Room;
     },
     deleteRoom: async (entityId: number, cinemaId: number, roomId: number) => {
-        let resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room/${roomId}`, {}, {});
+        const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/room/${roomId}`, {}, {});
         await throwErrorResponse(resp);
-
-        let text = await resp.text();
-        let body = JSON.parse(text);
     },
 }

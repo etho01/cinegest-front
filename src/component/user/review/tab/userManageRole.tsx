@@ -23,7 +23,7 @@ function arraysEqual(a : number[], b: number[]) {
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;
 
-    for (var i = 0; i < a.length; ++i) {
+    for (let i = 0; i < a.length; ++i) {
         if (a[i] !== b[i]) return false;
     }
     return true;
@@ -43,7 +43,7 @@ function getRolesCinemaListTypeIdsFromRoles(roles: Role[]): rolesCinemaListType[
     });
 
     let cinemaInsert: number[] = [];
-    for (let cinemaId in cinemaListTemp) {
+    for (const cinemaId in cinemaListTemp) {
         if (cinemaInsert.includes(parseInt(cinemaId))) {
             continue;
         }
@@ -51,7 +51,7 @@ function getRolesCinemaListTypeIdsFromRoles(roles: Role[]): rolesCinemaListType[
         let cinemaIdList: number[] = [];
         cinemaIdList.push(parseInt(cinemaId));
 
-        for (let cinemaId2 in cinemaListTemp) {
+        for (const cinemaId2 in cinemaListTemp) {
             if (cinemaId !== cinemaId2 && arraysEqual(cinemaListTemp[cinemaId], cinemaListTemp[cinemaId2])) {
                 cinemaIdList.push(parseInt(cinemaId2));
             }

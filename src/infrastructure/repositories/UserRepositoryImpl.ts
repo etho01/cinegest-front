@@ -2,31 +2,30 @@ import { UserRepository } from "@/src/application/repositories/UserRepository";
 import { getUsersParams } from "@/src/application/useCases/User/getUsers";
 import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
-import { Unauthenticated, Unauthorized, User, UserLog } from "@/src/domain/User";
+import { User, UserLog } from "@/src/domain/User";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
 import { throwErrorResponse } from "@/src/lib/request/Request";
-import fsPromises from 'fs/promises';
 
 
 export const UserRepositoryImpl: UserRepository = {
     connect: async (userLog: UserLog) => {
-        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/login`, userLog, {});
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/login`, userLog, {});
 
-        let text = await resp.text()
-        let body = JSON.parse(text);
+        const text = await resp.text()
+        const body = JSON.parse(text);
         return body['token'];
     },
     logout: async () => {
         await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/logout`, {}, {});
     },
     me: async (): Promise<User> => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/me`, {}, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/me`, {}, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
 
-        let roles = body['roles'].map((roleData: any) => {
+        const roles = body['roles'].map((roleData: any) => {
             return {
                 id: roleData['id'],
                 name: roleData['name'],
@@ -35,7 +34,7 @@ export const UserRepositoryImpl: UserRepository = {
             }
         });
 
-        let entities = body['entities'].map((entityData: any) => {
+        const entities = body['entities'].map((entityData: any) => {
             return {
                 id: entityData['id'],
                 name: entityData['name'],
@@ -55,57 +54,57 @@ export const UserRepositoryImpl: UserRepository = {
         }
     },
     getUsers : async (entityId : number, params: getUsersParams) : Promise<Paginator<User>> => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users`, params, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users`, params, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as Paginator<User>;
     },
     getUser : async (entityId : number, userId : number) : Promise<User | null> => {
-        let resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
         if (resp.status === 404) {
             return null;
         }
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as User;
     },
     addUser : async (entityId : number, user : User) : Promise<User> => {
-        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users`, user, {});
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users`, user, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as User;
     },
     updateUser : async (entityId : number, user : User) : Promise<User> => {
-        let resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/users/${user.id}`, user, {});
+        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/users/${user.id}`, user, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as User;
     },
     deleteUser : async (entityId : number, userId : number) : Promise<void> => {
         await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
     },
     updateUserRoles : async (entityId: number, userId: number, rolesUser: rolesCinemaListType[]) => {
-        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/roles`, { rolesUser }, {});
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/roles`, { rolesUser }, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as User;
     },
     updateUserRights : async (entityId: number, userId: number, rights: string[]) => {
-        let resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/rights`, { rights }, {});
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/rights`, { rights }, {});
         await throwErrorResponse(resp);
 
-        let text = await resp.text();
-        let body = JSON.parse(text);
+        const text = await resp.text();
+        const body = JSON.parse(text);
         return body as User;
     }
 }

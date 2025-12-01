@@ -2,7 +2,6 @@ import { getUsers } from "@/src/application/useCases/User/getUsers";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { UserManager } from "@/src/component/user/userManager";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
-import { en } from "zod/locales";
 
 interface UserPageProps {
     params: Promise<{ entityId: string }>;
@@ -17,8 +16,8 @@ export default async function UserPage({ params, searchParams }: UserPageProps) 
 
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
-                let users = await getUsers(UserRepositoryImpl, entityId ? parseInt(entityId, 10) : 0, {
+            body={async (user) => {
+                const users = await getUsers(UserRepositoryImpl, entityId ? parseInt(entityId, 10) : 0, {
                     search: search,
                     page: page
                 });

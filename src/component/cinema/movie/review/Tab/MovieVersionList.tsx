@@ -1,5 +1,5 @@
 "use client";
-import { Table, Tbody, Th, Thead, Tr } from "@/src/component/ui/table/Table";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
 import { Movie, MovieVersion } from "@/src/domain/Cinema/Movie";
 import { useRef, useState } from "react";
 import { MovieVersionModal } from "../../version/MovieVersionModal";
@@ -59,6 +59,11 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                             </Th>
                         </Tr>
                     ))}
+                    {versions.length === 0 && (
+                        <Tr>
+                            <Td colSpan={3} className="text-center">Aucune version disponible.</Td>
+                        </Tr>
+                    )}
                 </Tbody>
             </Table>
             <MovieVersionModal

@@ -73,7 +73,10 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
     }));
 
     return (
-        <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
+        <Modal isOpen={isOpenState} onClose={() => {
+            setIsOpenState(false);
+            onClose();
+        }} size="xl">
             <form onSubmit={async (e) => {
                 await onSubmit(e);
             }}>

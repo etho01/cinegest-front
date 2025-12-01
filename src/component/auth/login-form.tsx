@@ -8,7 +8,7 @@ import { Register } from "@/src/controller/app/AuthController";
 
 export const LoginForm = () => {
 
-    const { executeAsync, hasErrored, result, input } = useAction(Register)
+    const { executeAsync, hasErrored, result } = useAction(Register)
 
     return (
         <form 
@@ -22,7 +22,7 @@ export const LoginForm = () => {
                 Connexion à mon espace 
             </div>
             <div className="text-center w-full block text-grey-500 mb-5">
-                Entrez vos identifiants afin d'accéder à votre compte
+                Entrez vos identifiants afin d&apos;accéder à votre compte
             </div>
             <Input 
                 errors={result.validationErrors?.email} 

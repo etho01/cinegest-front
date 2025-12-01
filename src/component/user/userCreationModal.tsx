@@ -1,8 +1,6 @@
 import { User, UserEmpty } from "@/src/domain/User";
 import { loadObjectAndShowModalUpdate } from "../hook/loadObjectAndShowModalUpdate";
-import { PaginationTabProps } from "../ui/pagination/PaginationTab";
 import { forwardRef, useImperativeHandle } from "react";
-import { Cinema } from "@/src/domain/Cinema";
 import { addUserController } from "@/src/controller/app/UserController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
 import Input from "../ui/form/Input";
@@ -17,7 +15,7 @@ interface UserCreationModalProps {
 }
 
 export const UserCreationModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId }: UserCreationModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<User>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<User>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
@@ -27,7 +25,7 @@ export const UserCreationModal = forwardRef(({ isOpen, onClose, initialObject, o
         customData: { entityId: entityId }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
@@ -36,7 +34,10 @@ export const UserCreationModal = forwardRef(({ isOpen, onClose, initialObject, o
     }));
 
     return (
-        <Modal isOpen={isOpenState} onClose={() => setIsOpenState(false)} size="xl">
+        <Modal isOpen={isOpenState} onClose={() => {
+            setIsOpenState(false);
+            onClose();
+        }} size="xl">
             <form onSubmit={async (e) => {
                 await onSubmit(e);
             }}>

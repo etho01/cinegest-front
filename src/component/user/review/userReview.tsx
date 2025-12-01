@@ -15,8 +15,8 @@ interface UserReviewProps {
 
 export default async function UserReview({ user, entityId } : UserReviewProps) 
 {
-    let allCinemaList = await getAllCinemasByEntity(CinemaRepositoryImpl, entityId);
-    let allRoleList = await getAllRoleByEntity(RoleRepositoryImpl, entityId);
+    const allCinemaList = await getAllCinemasByEntity(CinemaRepositoryImpl, entityId);
+    const allRoleList = await getAllRoleByEntity(RoleRepositoryImpl, entityId);
 
     return (
         <Card>

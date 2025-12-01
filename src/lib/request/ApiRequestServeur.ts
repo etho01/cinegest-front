@@ -1,15 +1,9 @@
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { withSearchParams } from "../url";
 
-type ParsedCookie = {
-    name: string;
-    value: string;
-    [key: string]: string | boolean;
-};
-
 export class ApiRequestServeur {
-    static async getHeader(): Promise<Record<string, string>> {
-        const headersReq: Record<string, string> = {};
+    static async getHeader(header: Record<string, string>): Promise<Record<string, string>> {
+        const headersReq: Record<string, string> = header || {};
         const cookieStore = await cookies();
         headersReq["content-type"] = "application/json";
         headersReq["Accept"] = "application/json";
@@ -23,9 +17,9 @@ export class ApiRequestServeur {
         return headersReq
     }
 
-    static async GET(url: string, params: any, header: any): Promise<Response> {
+    static async GET(url: string, params: any, header: Record<string, string> = {}): Promise<Response> {
         url = withSearchParams(url, params);
-        let headers = await ApiRequestServeur.getHeader();
+        const headers = await ApiRequestServeur.getHeader(header);
         return fetch(url, {
             method: "GET",
             credentials: "include",
@@ -33,8 +27,8 @@ export class ApiRequestServeur {
         })
     }
 
-    static async POST(url: string, params: any, header: any): Promise<Response> {
-        let headers = await ApiRequestServeur.getHeader();
+    static async POST(url: string, params: any, header: Record<string, string> = {}): Promise<Response> {
+        const headers = await ApiRequestServeur.getHeader(header);
         return fetch(url, {
             method: "POST",
             credentials: "include",
@@ -43,8 +37,8 @@ export class ApiRequestServeur {
         })
     }
 
-    static async PUT(url: string, params: any, header: any): Promise<Response> {
-        let headers = await ApiRequestServeur.getHeader();
+    static async PUT(url: string, params: any, header: Record<string, string> = {}): Promise<Response> {
+        const headers = await ApiRequestServeur.getHeader(header);
         return fetch(url, {
             method: "PUT",
             credentials: "include",
@@ -54,8 +48,8 @@ export class ApiRequestServeur {
         })
     }
 
-    static async DELETE(url: string, params: any, header: any): Promise<Response> {
-        let headers = await ApiRequestServeur.getHeader();
+    static async DELETE(url: string, params: any, header: Record<string, string> = {}): Promise<Response> {
+        const headers = await ApiRequestServeur.getHeader(header);
         return fetch(url, {
             method: "DELETE",
             credentials: "include",

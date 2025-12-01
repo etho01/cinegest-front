@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import { Props } from "react-select";
 import { cn } from "../../utils";
 
 interface ReviewElementProps extends PropsWithChildren {

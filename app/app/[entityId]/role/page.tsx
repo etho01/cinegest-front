@@ -16,7 +16,7 @@ export default async function Page(props: CinemaPageProps) {
     const search = searchParamsObj.search ? String(searchParamsObj.search) : "";
     return (
         <ShowMenu
-            body={async (user, entity, cinema) => {
+            body={async (user) => {
                 const roles = await getRoles(RoleRepositoryImpl, entityId, { search, page });
 
                 return (
