@@ -1,6 +1,9 @@
 "use server";
 import { addMovie } from "@/src/application/useCases/Cinema/Movie/addMovie";
 import { deleteMovie } from "@/src/application/useCases/Cinema/Movie/deleteMovie";
+import { addMovieVersion } from "@/src/application/useCases/Cinema/Movie/Version/addMovieVersion";
+import { deleteMovieVersion } from "@/src/application/useCases/Cinema/Movie/Version/deleteMovieVersion";
+import { updateMovieVersion } from "@/src/application/useCases/Cinema/Movie/Version/updateMovieVersion";
 import { MovieSchema, MovieVersionSchema } from "@/src/domain/Cinema/Movie";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { actionClient } from "@/src/lib/safe-action-client";
@@ -22,8 +25,27 @@ export const addMovieController = actionClient.schema(
     addMovie(MovieRepositoryImpl, movie.entityId, movie.cinemaId, movie);
 })
 
-export const addMovieVersionController = actionClient.schema(
+export const addOrUpdateMovieVersionController = actionClient.schema(
     MovieVersionSchema.extend({ entityId: z.number(), cinemaId: z.number() })
 ).action(async ({parsedInput}) => {
-    // Implementation for adding a movie version goes here
+    let movieVersion = {}
+    if (parsedInput.id == 0)
+    {
+        movieVersion = await addMovieVersion(MovieRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput);
+    }
+    else
+    {
+        movieVersion = await updateMovieVersion(MovieRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput);
+    }
+});
+
+export const deleteMovieVersionController = actionClient.schema(
+    z.object({
+        entityId: z.number(),
+        cinemaId: z.number(),
+        movieId: z.number(),
+        movieVersionId: z.number(),
+    })
+).action(async ({parsedInput}) => {
+    await deleteMovieVersion(MovieRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput.movieId, parsedInput.movieVersionId);
 });

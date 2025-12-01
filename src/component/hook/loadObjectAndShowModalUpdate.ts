@@ -25,11 +25,10 @@ export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErr
         let objectTemp = object;
         let formData = object;
         if (customDataFunc) {
-            const generatedData = customDataFunc(object);
-            formData = { ...object, ...generatedData };
+            formData = customDataFunc(formData);
         }
         if (customData) {
-            formData = { ...object, ...customData };
+            formData = { ...formData, ...customData };
         }
         let result = await executeAsync(formData);
         if (result?.data) {

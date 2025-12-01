@@ -7,11 +7,13 @@ import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndSho
 import { Button } from "@/src/component/ui/btn/button";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
+import { deleteMovieVersionController } from "@/src/controller/app/Cinema/MovieController";
+import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
 
 interface MovieVersionListProps {
     movie : Movie;
-    entityId?: number;
-    cinemaId?: number;
+    entityId: number;
+    cinemaId: number;
     optionsTypes: OptionType[];
     options: Option[];
 }
@@ -19,6 +21,7 @@ interface MovieVersionListProps {
 export default function MovieVersionList({ movie, entityId, cinemaId, optionsTypes, options } : MovieVersionListProps) {
     const [versions, setVersions] = useState(movie.versions);
     const modalRef = useRef<LoadObjectAndShowModalRef<MovieVersion>>(null);
+    const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (
         <>
@@ -44,19 +47,44 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                 <Tbody>
                     {versions.map((version, index) => (
                         <Tr key={version.id} index={index}>
-                            <Th>{version.versionName}</Th>
-                            <Th>{version.size}</Th>
-                            <Th>
+                            <Td>{version.versionName}</Td>
+                            <Td>{version.size}</Td>
+                            <Td>
                                 {version.options.length > 0 ? (
-                                    <ul>
-                                        {version.options.map((option, optIndex) => (
-                                            <li key={optIndex}>{option}</li>
-                                        ))}
-                                    </ul>
+                                    version.options.map((option) => option.name).join(", ")
                                 ) : (
                                     "Aucune option"
                                 )}
-                            </Th>
+                            </Td>
+                            <Td>
+                                <div className="flex gap-3">
+                                    <Button
+                                        variant="default"
+                                        onClick={() => modalRef.current?.loadFromObject(version)}
+                                    >
+                                        Éditer
+                                    </Button>
+                                    <Button
+                                        variant="remove"
+                                        onClick={async () => {
+                                            confirmationModalRef.current?.open(
+                                                "Confirmer la suppression",
+                                                "Êtes-vous sûr de vouloir supprimer cette version ?",
+                                                async () => {
+                                                    const resp = await deleteMovieVersionController({ entityId, cinemaId, movieId: movie.id, movieVersionId: version.id });
+                                                    if (resp.serverError || resp.validationErrors) {
+                                                        throw new Error("Failed to delete movie version");
+                                                    }
+                                                    const updatedVersions = versions.filter(v => v.id !== version.id);
+                                                    setVersions(updatedVersions);
+                                                }
+                                            );
+                                        }}
+                                    >
+                                        Supprimer
+                                    </Button>
+                                </div>
+                            </Td>
                         </Tr>
                     ))}
                     {versions.length === 0 && (
@@ -66,6 +94,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                     )}
                 </Tbody>
             </Table>
+            <ConfirmationModal ref={confirmationModalRef} />
             <MovieVersionModal
                 isOpen={false}
                 onClose={() => {}}
@@ -73,6 +102,19 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                 ref={modalRef}
                 entityId={entityId}
                 cinemaId={cinemaId}
+                movieId={movie.id}
+                onSaved={async (savedVersion) => {
+                    let updatedVersions = [...versions];
+                    const existingIndex = updatedVersions.findIndex(v => v.id === savedVersion.id);
+                    if (existingIndex >= 0) {
+                        // Update existing version
+                        updatedVersions[existingIndex] = savedVersion;
+                    } else {
+                        // Add new version
+                        updatedVersions.push(savedVersion);
+                    }
+                    setVersions(updatedVersions);
+                }}
                 optionsTypes={optionsTypes}
                 options={options}
             />

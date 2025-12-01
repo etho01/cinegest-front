@@ -22,6 +22,7 @@ export const MovieVersionSchema = z.object({
     movieId: z.number().min(0),
     versionName: z.string().min(1).max(100),
     options: z.array(z.any()),
+    size: z.number().min(0),
 });
 
 export type Movie = {

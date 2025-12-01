@@ -1,7 +1,7 @@
 import { MovieRepository } from "@/src/application/repositories/Cinema/MovieRepository";
 import { PropsGetMovies } from "@/src/application/useCases/Cinema/Movie/getMovies";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
-import { Movie, MovieSearchResult } from "@/src/domain/Cinema/Movie";
+import { Movie, MovieSearchResult, MovieVersion } from "@/src/domain/Cinema/Movie";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
 import { throwErrorResponse } from "@/src/lib/request/Request";
 
@@ -42,5 +42,25 @@ export const MovieRepositoryImpl : MovieRepository = {
         const text = await resp.text();
         const body = JSON.parse(text);
         return body as Movie;
+    },
+    addMovieVersion : async (entityId: number, cinemaId: number, movieVersion: MovieVersion) : Promise<MovieVersion> => {
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/${movieVersion.movieId}/version`, movieVersion, {});
+        await throwErrorResponse(resp);
+
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as MovieVersion;
+    },
+    updateMovieVersion: async (entityId: number, cinemaId: number, movieVersion: MovieVersion) : Promise<MovieVersion> => {
+        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/${movieVersion.movieId}/version/${movieVersion.id}`, movieVersion, {});
+        await throwErrorResponse(resp);
+
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as MovieVersion;
+    },
+    deleteMovieVersion : async (entityId: number, cinemaId: number, movieId: number, versionId: number) : Promise<void> => {
+        const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/${movieId}/version/${versionId}`, {}, {});
+        await throwErrorResponse(resp);
     }
 }

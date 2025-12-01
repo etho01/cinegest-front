@@ -4,7 +4,7 @@ import Input from "@/src/component/ui/form/Input";
 import { Select } from "@/src/component/ui/form/Select";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/component/ui/modal";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
-import { addMovieController } from "@/src/controller/app/Cinema/MovieController";
+import { addMovieController, addOrUpdateMovieVersionController } from "@/src/controller/app/Cinema/MovieController";
 import { MovieVersion, MovieVersionEmpty } from "@/src/domain/Cinema/Movie";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
@@ -15,8 +15,9 @@ interface MovieVersionModalProps {
     onClose: () => void;
     initialObject: MovieVersion | null;
     onSaved?: (entity: MovieVersion) => void | Promise<void>;
-    entityId?: number;
-    cinemaId?: number;
+    entityId: number;
+    cinemaId: number;
+    movieId: number;
     optionsTypes: OptionType[];
     options: Option[];
 }
@@ -27,7 +28,7 @@ type optionSelectType = {
 }
 
 
-export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, optionsTypes, options }: MovieVersionModalProps, ref) => {
+export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, movieId, optionsTypes, options }: MovieVersionModalProps, ref) => {
     const [ optionSelectList, setOptionSelectList ] = useState<optionSelectType[]>([]);
 
     const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<MovieVersion>({
@@ -35,17 +36,25 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: MovieVersionEmpty,
-        action: addMovieController,
+        action: addOrUpdateMovieVersionController,
         onSaved: (object) => {
             onSaved && onSaved(object);
         },
         customDataFunc: (object) => {
             console.log("optionSelectList", optionSelectList);
 
-            return {
+            const optionsToSend = optionSelectList.filter(optionSelect => optionSelect.optionId !== undefined).map(optionSelect => {
+                return options.find(opt => opt.id === optionSelect.optionId);
+            }).filter(option => option !== undefined) as Option[];
+            object.options = optionsToSend;
 
-            };
+            return object;
         },
+        customData: {
+            entityId: parseInt(entityId + ''),
+            cinemaId: parseInt(cinemaId + ''),
+            movieId: parseInt(movieId + ''),
+        }
     });
 
     const loadFromId = async (id : number) => {};
