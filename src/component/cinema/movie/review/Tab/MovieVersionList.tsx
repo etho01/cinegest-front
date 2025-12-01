@@ -9,6 +9,7 @@ import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
 import { deleteMovieVersionController } from "@/src/controller/app/Cinema/MovieController";
 import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
+import { ErrorModal, ErrorModalRef } from "@/src/component/ui/modal";
 
 interface MovieVersionListProps {
     movie : Movie;
@@ -22,6 +23,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
     const [versions, setVersions] = useState(movie.versions);
     const modalRef = useRef<LoadObjectAndShowModalRef<MovieVersion>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
+    const errorModalRef = useRef<ErrorModalRef>(null);
 
     return (
         <>
@@ -40,7 +42,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                 <Thead>
                     <Tr>
                         <Th className="w-1/4">Nom de la version</Th>
-                        <Th className="w-1/4">Taille (MB)</Th>
+                        <Th className="w-1/4">Taille (GB)</Th>
                         <Th className="w-1/2">Options</Th>
                     </Tr>
                 </Thead>
@@ -71,9 +73,13 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                                                 "Confirmer la suppression",
                                                 "Êtes-vous sûr de vouloir supprimer cette version ?",
                                                 async () => {
-                                                    const resp = await deleteMovieVersionController({ entityId, cinemaId, movieId: movie.id, movieVersionId: version.id });
+                                                    const resp = await deleteMovieVersionController({ entityId: parseInt(entityId + ""), cinemaId: parseInt(cinemaId + ""), movieId: movie.id, movieVersionId: version.id });
                                                     if (resp.serverError || resp.validationErrors) {
-                                                        throw new Error("Failed to delete movie version");
+                                                        errorModalRef.current?.open(
+                                                            "Erreur lors de la suppression",
+                                                            resp.serverError || "Une erreur est survenue lors de la suppression de la version."
+                                                        );
+                                                        return;
                                                     }
                                                     const updatedVersions = versions.filter(v => v.id !== version.id);
                                                     setVersions(updatedVersions);
@@ -95,6 +101,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                 </Tbody>
             </Table>
             <ConfirmationModal ref={confirmationModalRef} />
+            <ErrorModal ref={errorModalRef} />
             <MovieVersionModal
                 isOpen={false}
                 onClose={() => {}}

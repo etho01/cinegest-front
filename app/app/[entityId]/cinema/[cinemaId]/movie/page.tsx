@@ -4,6 +4,7 @@ import { MovieManager } from "@/src/component/cinema/movie/MovieManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
+import { getObjectFromSearchParams } from "@/src/lib/url";
 
 
 interface OptionsPageProps {
@@ -16,11 +17,7 @@ export default async function MoviePage({ params, searchParams }: OptionsPagePro
     const searchParamsObj = await searchParams;
     const page = searchParamsObj.page ? Number(searchParamsObj.page) : 1;
     const search = searchParamsObj.search ? String(searchParamsObj.search) : "";
-    const status = searchParamsObj.status
-        ? Array.isArray(searchParamsObj.status)
-            ? searchParamsObj.status.map((id) => Number(id))
-            : [Number(searchParamsObj.status)]
-        : undefined;
+    const status = getObjectFromSearchParams(searchParamsObj, 'status', ["1"]);
 
     return (
         <ShowMenu
@@ -32,7 +29,7 @@ export default async function MoviePage({ params, searchParams }: OptionsPagePro
                 return (
                     <MovieManager
                         initialData={movies}
-                        initialParams={{ search, page }}
+                        initialParams={{ search, page, status }}
                         entityId={entityId}
                         cinemaId={cinemaId}
                         allOptionsTypes={options}

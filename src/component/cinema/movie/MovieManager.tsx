@@ -21,7 +21,7 @@ interface PropsFetchMovies {
     initialParams?: {
         search?: string;
         page?: number;
-        status?: number[];
+        status?: string[];
     };
     entityId: number;
     cinemaId: number;
@@ -56,7 +56,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                             { label: "Actif", value: "1" },
                             { label: "Inactif", value: "0" },
                         ]}
-                        initialValue={initialParams?.status?.map(String) || []}
+                        initialValue={initialParams?.status || []}
                     />
                 </div>
                 <Button
@@ -72,7 +72,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/movie/gets`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Movie) => (
+                lineRenderer={(item : Movie, index) => (
                     <>
                         <td className="py-2 px-1">{item.title}</td>
                         <td className="py-2 px-1">{item.releaseDate ? new Date(item.releaseDate).toLocaleDateString() : "N/A"}</td>

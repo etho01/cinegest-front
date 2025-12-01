@@ -5,7 +5,7 @@ import { Movie } from "@/src/domain/Cinema/Movie";
 export type PropsGetMovies = {
     search : string;
     page : number;
-    status?: number[];
+    status?: string[];
 };
 
 export const getMovies = async (repo : MovieRepository, entityId: number, cinemaId: number, props: PropsGetMovies) : Promise<Paginator<Movie>> => {

@@ -43,3 +43,26 @@ export function readNumber(sp: URLSearchParams, key: string, fallback: number) {
     const n = Number(sp.get(key));
     return Number.isFinite(n) ? n : fallback;
 }
+
+export function getObjectFromSearchParams(sp: Record<string, string | string[] | undefined>, type : string, initialValue?: Array<string>): Array<string>
+{
+    const items: Array<string> = [];
+    const values = sp[`${type}[]`];
+    if (values !== undefined) {
+        if (Array.isArray(values)) {
+            values.forEach((value) => {
+                items.push(String(value));
+            });
+        }
+        else 
+        {
+            items.push(String(values));
+        }
+    }
+
+    if (initialValue !== undefined) {
+        return initialValue;
+    }
+
+    return items;
+}

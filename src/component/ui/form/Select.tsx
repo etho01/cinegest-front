@@ -73,6 +73,20 @@ export const Select = ( {className = '', label = '', containerClassName = '', er
 
     useEffect(() => {
         let selectedOption: any = null;
+        if (isMulti && Array.isArray(value)) 
+        {
+            selectedOption = options.filter(option => value.includes(option.value));
+        }
+        else if (!isMulti) 
+        {
+            selectedOption = options.find(option => option.value === value) || null;
+        }
+        
+        setSelectedValue(selectedOption);
+    }, [value]);
+    
+    useEffect(() => {
+        let selectedOption: any = null;
         if (isMulti && Array.isArray(initialValue)) 
         {
             selectedOption = options.filter(option => initialValue.includes(option.value + ''));
@@ -85,20 +99,6 @@ export const Select = ( {className = '', label = '', containerClassName = '', er
         setSelectedValue(selectedOption);
     }, [initialValue]);
 
-    useEffect(() => {
-        let selectedOption: any = null;
-        if (isMulti && Array.isArray(value)) 
-        {
-            selectedOption = options.filter(option => value.includes(option.value));
-        }
-        else if (!isMulti) 
-        {
-            selectedOption = options.find(option => option.value === value) || null;
-        }
-
-        setSelectedValue(selectedOption);
-    }, [value]);
-    
     return (
         <div className={containerClassName}>
             { label != '' ? <Label htmlFor={htmlFor}>{label}</Label> : '' }
