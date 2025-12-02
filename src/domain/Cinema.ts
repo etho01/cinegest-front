@@ -1,4 +1,5 @@
 import z from "zod";
+import { CustomError } from "./global";
 
 export type Cinema = {
     id: number;
@@ -29,3 +30,9 @@ export const CinemaEmpty: Cinema = {
     city: "",
     country: "",
 };
+
+export class CinemaNotFound extends CustomError {
+    constructor() {
+        super("Le cinéma n'a pas été trouvé.");
+    }
+}

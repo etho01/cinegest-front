@@ -1,5 +1,6 @@
 import z from "zod";
 import { Cinema } from "./Cinema";
+import { CustomError } from "./global";
 
 
 export type Entity = {
@@ -18,3 +19,9 @@ export const EntitySchema = z.object({
     id: z.number().min(0),
     name: z.string().max(255),
 })
+
+export class EntityNotFound extends CustomError {
+    constructor() {
+        super("L'entité n'a pas été trouvée.");
+    }
+}

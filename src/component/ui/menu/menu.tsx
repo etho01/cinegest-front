@@ -18,7 +18,7 @@ export const Menu = ({user, entity, cinema, page, children, customParam} : Props
                 </div>
                 <div>
                     <Breadcrumb entity={entity} cinema={cinema} page={page} user={user} customParam={customParam} />
-                    <div className="xl:w-7xl mx-auto">
+                    <div className="xl:max-w-7xl mx-auto">
                         {children}
                     </div>
                 </div>

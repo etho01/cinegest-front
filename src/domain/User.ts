@@ -1,5 +1,6 @@
 import z from "zod"
 import { Entity } from "./Entity";
+import { CustomError } from "./global";
 
 export type UserLog = {
     email : string,
@@ -104,7 +105,7 @@ export class Unauthenticated extends Error
     }
 }
 
-export class Unauthorized extends Error
+export class Unauthorized extends CustomError
 {
     constructor(message?: string)
     {

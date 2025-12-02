@@ -1,3 +1,4 @@
+import { ObjectNotFound } from "@/src/domain/global"
 import { Unauthenticated, Unauthorized } from "@/src/domain/User"
 
 
@@ -17,8 +18,13 @@ export const throwErrorResponse = async (resp: Response) => {
     {
         throw new Unauthenticated();
     }
+    else if (resp.status == 404) 
+    {
+        throw new ObjectNotFound();
+    }
     else if (!resp.ok)
     {
+
         const errorData = await resp.json();
         console.error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
         throw new Error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);

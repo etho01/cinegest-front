@@ -22,7 +22,7 @@ export const LeftMenu = ({ user, entity, cinema, page }: MenuProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className={`py-5 overflow-y-scroll px-3 h-full bg-gray-900 text-white hover:w-80 w-16 transition-all duration-300 group leftMenu ${isOpen ? "open w-80" : "w-16"}`}>
+        <div className={`py-5 overflow-y-auto px-3 h-full bg-gray-900 text-white hover:w-80 w-16 transition-all duration-300 group leftMenu ${isOpen ? "open w-80" : "w-16"}`}>
             <div className="flex justify-end">
                 <button className="flex items-center cursor-pointer p-2 hover:bg-gray-700 rounded" onClick={() => setIsOpen(!isOpen)}>
                     <FontAwesomeIcon icon={faBars} />

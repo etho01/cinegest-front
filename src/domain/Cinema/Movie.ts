@@ -1,3 +1,4 @@
+import { CustomError } from "../global";
 import { Option } from "./Settings/Option";
 import z from "zod";
 
@@ -65,4 +66,10 @@ export type MovieSearchResult = {
     title: string;
     release_date: string;
     overview: string;
+}
+
+export class MovieNotFoundError extends CustomError {
+    constructor() {
+        super("Le film n'a pas été trouvé.");
+    }
 }
