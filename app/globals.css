@@ -8,3 +8,23 @@
 {
     @apply block
 }
+
+.calendarContainer tr
+{
+    @apply justify-around p-0
+}
+
+.calendarContainer td
+{
+    @apply w-full mt-1
+}
+
+.calendarContainer td span[today=true][selected=false]
+{
+    @apply bg-gray-200
+}
+
+.calendarContainer td:hover
+{
+    @apply cursor-pointer bg-gray-200
+}

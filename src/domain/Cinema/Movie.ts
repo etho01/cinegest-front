@@ -8,6 +8,7 @@ export type MovieVersion = {
     versionName: string;
     size: number;
     options : Option[];
+    movie?: Movie;
 }
 
 export const MovieVersionEmpty: MovieVersion = {

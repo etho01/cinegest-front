@@ -10,6 +10,7 @@ interface Props extends MenuProps, PropsWithChildren {
 export const Menu = ({user, entity, cinema, page, children, customParam} : Props) => {
 
     return (
+        
         <div className="flex justify-between h-full">
             <LeftMenu user={user} entity={entity} cinema={cinema} page={page} />
             <div className="w-full flex flex-col">

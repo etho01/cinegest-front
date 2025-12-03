@@ -62,5 +62,13 @@ export const MovieRepositoryImpl : MovieRepository = {
     deleteMovieVersion : async (entityId: number, cinemaId: number, movieId: number, versionId: number) : Promise<void> => {
         const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/${movieId}/version/${versionId}`, {}, {});
         await throwErrorResponse(resp);
-    }
+    },
+    getAllActiveByCinema: async (entityId: number, cinemaId: number) : Promise<Movie[]> => {
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/active/all`, {}, {});
+        await throwErrorResponse(resp);
+
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as Movie[];
+    },
 }
