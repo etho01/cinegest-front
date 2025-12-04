@@ -24,7 +24,7 @@ export default async function StoragePage({ params, searchParams }: StoragePageP
         <ShowMenu 
             body={async (user) => {
                 const rooms = await getAllRooms(RoomRepositoryImpl, entityId, cinemaId);
-                const storage = await getAllStorages(StorageRepositoryImpl, entityId, cinemaId);
+                const storages = await getAllStorages(StorageRepositoryImpl, entityId, cinemaId);
                 const movies = await getAllActiveMovie(MovieRepositoryImpl, entityId, cinemaId);
 
                 const moviesFiltered = getObjectFromSearchParams(searchParamsObj, 'movies');
@@ -44,7 +44,7 @@ export default async function StoragePage({ params, searchParams }: StoragePageP
                         cinemaId={cinemaId}
                         activeMovies={movies}
                         rooms={rooms}
-                        storage={storage}
+                        storages={storages}
                         initialParams={{
                             page: page,
                             movies: moviesFiltered ? (Array.isArray(moviesFiltered) ? moviesFiltered.map((id) => Number(id)) : [Number(moviesFiltered)]) : undefined,

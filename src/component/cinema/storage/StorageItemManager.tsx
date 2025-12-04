@@ -11,13 +11,15 @@ import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
 import { ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { useRef } from "react";
 import { Td } from "../../ui/table/Table";
+import { Button } from "../../ui/btn/button";
+import { AddStorageItemModal, addStorageItemObjectParams } from "./AddStorageItemModal";
 
 interface PropsStorageItemManager {
     entityId: number;
     cinemaId: number;
     activeMovies: Movie[];
     rooms : Room[];
-    storage: Storage[];
+    storages: Storage[];
     initialParams?: {
         page?: number;
         movies?: number[];
@@ -27,9 +29,9 @@ interface PropsStorageItemManager {
     initialData?: Paginator<StorageItem>;
 }
 
-export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, storage, initialParams, initialData}: PropsStorageItemManager) => {
+export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, storages, initialParams, initialData}: PropsStorageItemManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const addModalRef = useRef<LoadObjectAndShowModalRef<StorageItem>>(null);
+    const addModalRef = useRef<LoadObjectAndShowModalRef<addStorageItemObjectParams>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     
     return (
@@ -72,18 +74,25 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                             paginationRef.current?.updateParam("storage", storage);
                         }}
                         isMulti={true}
-                        options={storage ? storage.map((storage) => ({
+                        options={storages ? storages.map((storage) => ({
                             label: storage.name,
                             value: storage.id.toString(),
                         })) : []}
                         initialValue={initialParams?.storage ? initialParams.storage.map((id) => id.toString()) : []}
                     />
                 </div>
+                <Button
+                    className="mt-auto" 
+                    variant="default" 
+                    onClick={() => addModalRef.current?.createNew()}
+                >
+                    Ajouter des KDM
+                </Button>
             </div>
             <PaginationTab
                 ref={paginationRef}
                 initialData={initialData}
-                endpoint={`/entities/${entityId}/cinemas/${cinemaId}/storage-elements`}
+                endpoint={`api/${entityId}/cinema/${cinemaId}/storage-item`}
                 initialParams={initialParams}
                 colList={["Film", "Version", "Salle", "Stockage", "Origine", "Actions"]}
                 lineRenderer={(item: StorageItem) => (
@@ -98,6 +107,19 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                         </Td>
                     </>
                 )}
+            />
+            <AddStorageItemModal
+                ref={addModalRef}
+                entityId={entityId}
+                cinemaId={cinemaId}
+                rooms={rooms}
+                storages={storages}
+                onSaved={() => {
+                    paginationRef.current?.refresh();
+                }}
+                isOpen={false}
+                onClose={() => {}}
+                initialObject={null}
             />
         </Card>
     );
