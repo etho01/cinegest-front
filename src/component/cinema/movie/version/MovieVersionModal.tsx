@@ -106,7 +106,7 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                             type="number"
                             value={object.size}
                             onChange={(value) => setObject({ ...object, size: Number(value) })}
-                            errors={result.validationErrors?.sizeGB}
+                            errors={result.validationErrors?.size}
                             showErrors={showErrors}
                         />
                     </div>

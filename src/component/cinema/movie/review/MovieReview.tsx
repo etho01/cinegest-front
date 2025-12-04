@@ -1,14 +1,12 @@
 import Card from "@/src/component/ui/card";
-import { ReviewCategory } from "@/src/component/ui/review/ReviewCategory";
-import { ReviewElement } from "@/src/component/ui/review/ReviewElement";
 import { Tab } from "@/src/component/ui/tab/Tab";
 import { Movie } from "@/src/domain/Cinema/Movie";
-import { MovieStatus } from "../MovieSatus";
 import MovieVersionList from "./Tab/MovieVersionList";
 import { getAllOptionsTypes } from "@/src/application/useCases/Cinema/Settings/OptionTypes/getAllOptionsTypes";
 import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
 import { getAllOptions } from "@/src/application/useCases/Cinema/Settings/Option/getAllOptions";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
+import MovieReviewCard from "./Tab/MovieReviewcard";
 
 
 interface MovieReviewProps {
@@ -32,22 +30,7 @@ export default async function MovieReview({ movie, entityId, cinemaId } : MovieR
                         },
                         body: {
                             content: (
-                                <ReviewCategory title={movie.title}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <ReviewElement title="Titre" containerClassName=" col-span-2 ">
-                                            {movie.title}
-                                        </ReviewElement>
-                                        <ReviewElement title="Date de sortie">
-                                            {movie.releaseDate ? new Date(movie.releaseDate).toLocaleDateString() : "N/A"}
-                                        </ReviewElement>
-                                        <ReviewElement title="Status">
-                                            <MovieStatus status={String(movie.status)} />
-                                        </ReviewElement>
-                                        <ReviewElement title="Description" containerClassName=" col-span-2 ">
-                                            {movie.description}
-                                        </ReviewElement>
-                                    </div>
-                                </ReviewCategory>
+                                <MovieReviewCard movie={movie} entityId={entityId} cinemaId={cinemaId} />
                             ),
                         },
                     },

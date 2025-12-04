@@ -35,7 +35,7 @@ export type Movie = {
     durationMinutes: number;
     releaseDate: string;
     status?: number;
-    sizeGB?: number;
+    size?: number;
     versions: MovieVersion[];
 };
 
@@ -47,7 +47,7 @@ export const MovieEmpty: Movie = {
     durationMinutes: 0,
     releaseDate: "",
     status: 1,
-    sizeGB: 0,
+    size: 0,
     versions: [],
 };
 
@@ -58,7 +58,7 @@ export const MovieSchema = z.object({
     description: z.string().min(0).max(2000),
     durationMinutes: z.number().min(0),
     releaseDate: z.string(),
-    sizeGB: z.number().min(0).optional(),
+    size: z.number().min(0).optional(),
     versions: z.array(MovieVersionSchema),
 });
 

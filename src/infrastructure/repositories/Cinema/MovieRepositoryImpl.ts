@@ -71,4 +71,11 @@ export const MovieRepositoryImpl : MovieRepository = {
         const body = JSON.parse(text);
         return body as Movie[];
     },
+    updateMovieSize : async (entityId: number, cinemaId: number, movieId: number, size: number) : Promise<Movie> => {
+        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/${movieId}/size`, { size }, {});
+        await throwErrorResponse(resp);
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as Movie;
+    }
 }

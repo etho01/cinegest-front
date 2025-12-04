@@ -86,6 +86,9 @@ export const Select = ( {className = '', label = '', containerClassName = '', er
     }, [value]);
     
     useEffect(() => {
+        if (initialValue === undefined) {
+            return;
+        }
         let selectedOption: any = null;
         if (isMulti && Array.isArray(initialValue)) 
         {

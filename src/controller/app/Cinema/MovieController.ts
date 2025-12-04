@@ -1,6 +1,7 @@
 "use server";
 import { addMovie } from "@/src/application/useCases/Cinema/Movie/addMovie";
 import { deleteMovie } from "@/src/application/useCases/Cinema/Movie/deleteMovie";
+import { updateMovieSize } from "@/src/application/useCases/Cinema/Movie/updateMovieSize";
 import { addMovieVersion } from "@/src/application/useCases/Cinema/Movie/Version/addMovieVersion";
 import { deleteMovieVersion } from "@/src/application/useCases/Cinema/Movie/Version/deleteMovieVersion";
 import { updateMovieVersion } from "@/src/application/useCases/Cinema/Movie/Version/updateMovieVersion";
@@ -48,4 +49,16 @@ export const deleteMovieVersionController = actionClient.schema(
     })
 ).action(async ({parsedInput}) => {
     await deleteMovieVersion(MovieRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput.movieId, parsedInput.movieVersionId);
+});
+
+export const updateMovieSizeController = actionClient.schema(
+    z.object({
+        entityId: z.number(),
+        cinemaId: z.number(),
+        movieId: z.number(),
+        size: z.number().min(0),
+    })
+).action(async ({parsedInput}) => {
+    const movie = await updateMovieSize(MovieRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput.movieId, parsedInput.size);
+    return movie;
 });
