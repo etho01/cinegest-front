@@ -103,6 +103,18 @@ export const RoomModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, 
                             }))}
                             initialValue={object.storagesIds ? object.storagesIds.map((id) => id.toString()) : []}
                         />
+                        <Input
+                            errors={result.validationErrors?.serveurSize}
+                            label="Taille du serveur (en To)"
+                            type="number"
+                            value={object.serveurSize ? object.serveurSize.toString() : ''}
+                            onChange={(value) => {
+                                setObject({ ...object, serveurSize: parseInt(value) });
+                            }}
+                            required
+                            showErrors={showErrors}
+                            containerClassName=" col-span-2 "
+                        />
                     </div>
                     { hasErrored && showErrors ? <div className="text-red-500">{ result.serverError }</div> : null }
                 </ModalBody>

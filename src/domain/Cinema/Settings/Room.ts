@@ -10,6 +10,7 @@ export interface Room {
     storages: Storage[];
     optionsIds?: number[];
     storagesIds?: number[];
+    serveurSize?: number;
 }
 
 export const RoomSchema = z.object({
@@ -18,6 +19,7 @@ export const RoomSchema = z.object({
     capacity: z.number().min(0),
     optionsIds: z.array(z.number().min(0)).optional(),
     storagesIds: z.array(z.number().min(0)).optional(),
+    serveurSize: z.number().min(0),
 });
 
 export const RoomEmpty: Room = {
@@ -28,4 +30,5 @@ export const RoomEmpty: Room = {
     storages: [],
     optionsIds: [],
     storagesIds: [],
+    serveurSize: 0,
 };

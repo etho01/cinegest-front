@@ -92,6 +92,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                 lineRenderer={(item : Room, index) => (
                     <>
                         <Td >{item.name}</Td>
+                        <Td >{item.serveurSize}</Td>
                         <Td className="text-right">
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
@@ -117,7 +118,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                         </Td>
                     </>
                 )} 
-                colList={["Nom", ""]} 
+                colList={["Nom", "Taille du serveur (en To)", ""]} 
             />
             <ConfirmationModal ref={confirmationModalRef} />
             <RoomModal
