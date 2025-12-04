@@ -8,6 +8,7 @@ import { addMovieController, addOrUpdateMovieVersionController } from "@/src/con
 import { MovieVersion, MovieVersionEmpty } from "@/src/domain/Cinema/Movie";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
+import { Room } from "@/src/domain/Cinema/Settings/Room";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 interface MovieVersionModalProps {
@@ -41,8 +42,6 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
             onSaved && onSaved(object);
         },
         customDataFunc: (object) => {
-            console.log("optionSelectList", optionSelectList);
-
             const optionsToSend = optionSelectList.filter(optionSelect => optionSelect.optionId !== undefined).map(optionSelect => {
                 return options.find(opt => opt.id === optionSelect.optionId);
             }).filter(option => option !== undefined) as Option[];

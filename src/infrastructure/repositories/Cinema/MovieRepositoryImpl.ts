@@ -71,4 +71,12 @@ export const MovieRepositoryImpl : MovieRepository = {
         const body = JSON.parse(text);
         return body as Movie[];
     },
+    searchMovieVersion : async (entityId: number, cinemaId: number, search : string) : Promise<MovieVersion[]> => {
+        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/movie/version/search`, { search }, {});
+        await throwErrorResponse(resp);
+
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as MovieVersion[];
+    },
 }

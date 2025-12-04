@@ -8,8 +8,8 @@ export type Key = {
     cinemaId: number;
     roomId : number;
     movieVersionId : number;
-    dateStart : string;
-    dateEnd : string;
+    dateStart : string | null;
+    dateEnd : string | null;
     room?: Room;
     movieVersion?: MovieVersion;
 }

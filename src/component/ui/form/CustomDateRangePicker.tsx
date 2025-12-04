@@ -14,7 +14,7 @@ extends Omit<DateRangePickerProps, 'label' | 'containerClassName' | 'errors' | '
     errors? : formError | undefined
     showErrors?: boolean
     initialValue?: string
-    onChange?: () => void
+    onChange?: (dateEnd: Date | null, dateStart: Date | null) => void
     dateStart?: string,
     dateEnd?: string
 }
@@ -35,7 +35,23 @@ export const CustomDateRangePicker = ({className = '', label = '', containerClas
     }
 
     const onChangeInternal = (newValue: RangeValue<ZonedDateTime> | null) => {
-        console.log(newValue);
+        if (newValue == null)
+        {
+            if (onChange)
+            {
+                onChange(null, null);
+            }
+        }
+        else
+        {
+            const start = newValue.start ? new Date(newValue.start.toString()) : null;
+            const end = newValue.end ? new Date(newValue.end.toString()) : null;
+
+            if (onChange)
+            {
+                onChange(end, start);
+            }
+        }
     }
 
     const startDate = parseDate(props.dateStart ? props.dateStart : null);
@@ -52,10 +68,8 @@ export const CustomDateRangePicker = ({className = '', label = '', containerClas
                 classNames={{
                     calendar: "bg-white shadow-xl rounded-xl calendarContainer group",
                     timeInput: "bg-gray-50",
+                    separator: "mx-2 text-gray-500",
 
-                    bottomContent: "flex flex-col gap-y-2",
-                    timeInputWrapper: "flex flex-col group-data-[has-multiple-months=true]:flex-row",
-                    separator: "-mx-1 text-inherit",
                 }}
 
                 calendarProps={{

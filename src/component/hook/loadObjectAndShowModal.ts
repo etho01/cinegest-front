@@ -16,10 +16,10 @@ export interface loadObjectAndShowModalObjectProps<T> {
 }
 
 export function loadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBase, emptyObject, setDefaultValues }: loadObjectAndShowModalObjectProps<T>) {
-    const [isEdit, setIsEdit] = useState(!!initialObject);
     if (initialObject == null) {
         initialObject = emptyObject;
     }
+    const [isEdit, setIsEdit] = useState(!!initialObject);
 
     const [object, setObject] = useState<T>(initialObject);
     const [isOpenState, setIsOpenState] = useState(isOpen);

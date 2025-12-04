@@ -13,4 +13,5 @@ export interface MovieRepository {
     updateMovieVersion: (entityId: number, cinemaId: number, movieVersion: MovieVersion) => Promise<MovieVersion>;
     deleteMovieVersion : (entityId: number, cinemaId: number, movieId: number, versionId: number) => Promise<void>;
     getAllActiveByCinema: (entityId: number, cinemaId: number) => Promise<Movie[]>;
+    searchMovieVersion : (entityId: number, cinemaId: number, search : string) => Promise<MovieVersion[]>;
 }
