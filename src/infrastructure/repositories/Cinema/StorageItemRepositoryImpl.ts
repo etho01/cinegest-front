@@ -1,4 +1,5 @@
 import { StorageItemRepository } from "@/src/application/repositories/Cinema/StorageItemRepository";
+import { addStorageItemObjectParams } from "@/src/application/useCases/Cinema/StorageItem/addStorageItems";
 import { PropsGetStorageItems } from "@/src/application/useCases/Cinema/StorageItem/getStorageItems";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { StorageItem } from "@/src/domain/Cinema/StorageItem";
@@ -14,5 +15,13 @@ export const StorageItemRepositoryImpl : StorageItemRepository = {
         const text = await resp.text();
         const body = JSON.parse(text);
         return body as Paginator<StorageItem>;
+    },
+    addStorageItems : async (entityId : number, cinemaId: number, params: addStorageItemObjectParams) : Promise<StorageItem> => {
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/add-multiple`, params, {});
+        await throwErrorResponse(resp);
+
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as StorageItem;
     },
 };

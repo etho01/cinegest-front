@@ -8,13 +8,8 @@ import { addStorageItemsController } from "@/src/controller/app/Cinema/StorageIt
 import { Select } from "../../ui/form/Select";
 import { Storage } from "@/src/domain/Cinema/Settings/Storage";
 import { Table, Th, Tr, Thead, Tbody, Td } from "../../ui/table/Table";
-
-export interface addStorageItemObjectParams {
-    roomId: number;
-    storageId: number;
-    originId: number;
-    movieVersions : (MovieVersion | null)[];
-}
+import { AsyncSelect } from "../../ui/form/AsyncSelect";
+import { addStorageItemObjectParams } from "@/src/application/useCases/Cinema/StorageItem/addStorageItems";
 
 interface AddStorageItemModalProps {
     isOpen: boolean;
@@ -98,6 +93,27 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                             {object.movieVersions.map((mv, index) => (
                                 <Tr key={index}>
                                     <Td>
+                                        <AsyncSelect
+                                            loadOptions={async (inputValue: string, callback) => {
+                                                const response = await fetch(`/api/${entityId}/cinema/${cinemaId}/movie/version/search?search=` + encodeURIComponent(inputValue));
+                                                const data = await response.json();
+                                                return data.map((version: MovieVersion) => ({
+                                                    label: version.movie?.title + ' - ' + version.versionName,
+                                                    value: version.id.toString(),
+                                                    version: version,
+                                                }));
+                                            }}
+                                            onChange={(selectedOption: { value: string; label: string; version: MovieVersion } | null) => {
+                                                const newVersions = [...object.movieVersions];
+                                                newVersions[index] = selectedOption ? selectedOption.version.id : null;
+                                                setObject({
+                                                    ...object,
+                                                    movieVersions: newVersions,
+                                                });
+                                            }}
+                                            showErrors={showErrors}
+                                            errors={result.validationErrors?.movieVersions[index]?.movieVersionId}
+                                        />
                                     </Td>
                                     <Td>
                                         <Button variant="remove" onClick={() => {

@@ -86,7 +86,7 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                     variant="default" 
                     onClick={() => addModalRef.current?.createNew()}
                 >
-                    Ajouter des KDM
+                    Ajouter un élément de stockage
                 </Button>
             </div>
             <PaginationTab
