@@ -28,9 +28,9 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: {
-            roomId: 0,
-            storageId: 0,
-            originId: 0,
+            roomId: undefined,
+            storageId: undefined,
+            originId: undefined,
             movieVersions: [],
         },
         action: addStorageItemsController,
@@ -71,6 +71,30 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                                 })))
                             }
                             containerClassName="col-span-2"
+                            value={object.roomId !== undefined ? 'room_' + object.roomId.toString() : object.storageId !== undefined ? 'storage_' + object.storageId.toString() : undefined}
+                            onChange={(value) => {
+                                if (value && value.startsWith('room_')) {
+                                    setObject({
+                                        ...object,
+                                        roomId: parseInt(value.substring(5)),
+                                        storageId: undefined,
+                                    });
+                                } else if (value && value.startsWith('storage_')) {
+                                    setObject({
+                                        ...object,
+                                        storageId: parseInt(value.substring(8)),
+                                        roomId: undefined,
+                                    });
+                                } else {
+                                    setObject({
+                                        ...object,
+                                        roomId: undefined,
+                                        storageId: undefined,
+                                    });
+                                }
+                            }}
+                            showErrors={showErrors}
+                            errors={result.validationErrors?.roomId || result.validationErrors?.storageId}
                         />
                         <Select
                             label="Origine"
@@ -112,7 +136,9 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                                                 });
                                             }}
                                             showErrors={showErrors}
-                                            errors={result.validationErrors?.movieVersions[index]?.movieVersionId}
+                                            errors={
+                                                
+                                                result.validationErrors?.movieVersions[index]}
                                         />
                                     </Td>
                                     <Td>
@@ -137,7 +163,7 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                             <Tr>
                                 <Td colSpan={2}>
                                     <div className="flex justify-center">
-                                        <Button variant="default" onClick={() => {
+                                        <Button variant="default" type="button" onClick={() => {
                                             setObject({
                                                 ...object,
                                                 movieVersions: [...object.movieVersions, null],

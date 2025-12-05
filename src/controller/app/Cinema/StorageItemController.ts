@@ -9,10 +9,10 @@ export const addStorageItemsController = actionClient.schema(
     z.object({
         entityId: z.number(),
         cinemaId: z.number(),
-        roomId: z.number(),
-        storageId: z.number(),
-        originId: z.number(),
-        movieVersions: z.array(z.number().nullable()),
+        roomId: z.number().optional(),
+        storageId: z.number().optional(),
+        originId: z.number().optional(),
+        movieVersions: z.array(z.number({message: "Veuillez sélectionner une version de film."})),
     })
 ).action(async ({parsedInput: storageItem}) => {
     await addStorageItems(StorageItemRepositoryImpl, storageItem.entityId, storageItem.cinemaId, storageItem);

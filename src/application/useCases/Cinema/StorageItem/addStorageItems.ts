@@ -1,9 +1,9 @@
 import { StorageItemRepository } from "@/src/application/repositories/Cinema/StorageItemRepository";
 
 export interface addStorageItemObjectParams {
-    roomId: number;
-    storageId: number;
-    originId: number;
+    roomId?: number;
+    storageId?: number;
+    originId?: number;
     movieVersions : (number | null)[];
 }
 
