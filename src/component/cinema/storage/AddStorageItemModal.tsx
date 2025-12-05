@@ -150,6 +150,7 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                             </Tr>
                         </Tbody>
                     </Table>
+                    { hasErrored && showErrors ? <div className="text-red-500">{ result.serverError }</div> : null }
                 </ModalBody>
                 <ModalFooter>
                     <Button variant="outline" onClick={() => setIsOpenState(false)}>

@@ -1,4 +1,4 @@
-import { ObjectNotFound } from "@/src/domain/global"
+import { ErrorApi, ObjectNotFound, ValidationError } from "@/src/domain/global"
 import { Unauthenticated, Unauthorized } from "@/src/domain/User"
 
 
@@ -24,11 +24,27 @@ export const throwErrorResponse = async (resp: Response) => {
         console.error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
         throw new ObjectNotFound();
     }
+    else if (resp.status == 400)
+    {
+        const errorData = await resp.json();
+        console.error(errorData);
+        throw new ErrorApi(
+            errorData.message || "Une erreur est survenue lors de la requête.",
+            errorData.type || "API_ERROR"
+        );
+    }
+    else if (resp.status == 422)
+    {
+        const errorData = await resp.json();
+        console.error(errorData);
+        throw new ValidationError(errorData.message || "Une erreur de validation est survenue.");
+    }
     else if (!resp.ok)
     {
 
         const errorData = await resp.json();
         console.error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
+        console.error(errorData);
         throw new Error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
     }
 }
