@@ -103,6 +103,22 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                                 label: store.name,
                                 value: store.id.toString(),
                             }))}
+                            value={object.originId ? object.originId.toString() : undefined}
+                            onChange={(value) => {
+                                if (value) {
+                                    setObject({
+                                        ...object,
+                                        originId: parseInt(value),
+                                    });
+                                } else {
+                                    setObject({
+                                        ...object,
+                                        originId: undefined,
+                                    });
+                                }
+                            }}
+                            showErrors={showErrors}
+                            errors={result.validationErrors?.originId}
                             containerClassName="col-span-2"
                         />
                     </div>
