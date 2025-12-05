@@ -25,4 +25,8 @@ export const StorageItemRepositoryImpl : StorageItemRepository = {
         const body = JSON.parse(text);
         return body as StorageItem;
     },
+    deleteStorageItem : async (entityId : number, cinemaId: number, storageItemId: number) : Promise<void> => {
+        const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/${storageItemId}`, {}, {});
+        await throwErrorResponse(resp);
+    }
 };

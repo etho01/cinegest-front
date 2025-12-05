@@ -1,5 +1,6 @@
 "use server";
 import { addStorageItems } from "@/src/application/useCases/Cinema/StorageItem/addStorageItems";
+import { deleteStorageItem } from "@/src/application/useCases/Cinema/StorageItem/deleteStorageItem";
 import { StorageItemRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/StorageItemRepositoryImpl";
 import { actionClient } from "@/src/lib/safe-action-client";
 import z from "zod";
@@ -16,4 +17,15 @@ export const addStorageItemsController = actionClient.schema(
     })
 ).action(async ({parsedInput: storageItem}) => {
     await addStorageItems(StorageItemRepositoryImpl, storageItem.entityId, storageItem.cinemaId, storageItem);
+});
+
+
+export const deleteStorageItemController = actionClient.schema(
+    z.object({
+        entityId: z.number(),
+        cinemaId: z.number(),
+        storageItemId: z.number(),
+    })
+).action(async ({parsedInput: {entityId, cinemaId, storageItemId}}) => {
+    await deleteStorageItem(StorageItemRepositoryImpl, entityId, cinemaId, storageItemId);
 });

@@ -8,11 +8,13 @@ import Card from "../../ui/card";
 import { Select } from "../../ui/form/Select";
 import { PaginationTab, PaginationTabRef } from "../../ui/pagination/PaginationTab";
 import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
-import { ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
+import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { useRef } from "react";
 import { Td } from "../../ui/table/Table";
 import { Button } from "../../ui/btn/button";
-import { AddStorageItemModal, addStorageItemObjectParams } from "./AddStorageItemModal";
+import { AddStorageItemModal } from "./AddStorageItemModal";
+import { addStorageItemObjectParams } from "@/src/application/useCases/Cinema/StorageItem/addStorageItems";
+import { deleteStorageItemController } from "@/src/controller/app/Cinema/StorageItemController";
 
 interface PropsStorageItemManager {
     entityId: number;
@@ -103,11 +105,35 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                         <Td>{item?.storage?.name}</Td>
                         <Td>{item?.origin?.name ?? 'Origin externe'}</Td>
                         <Td>
-                            {/* Actions can be added here */}
+                            <div className="flex">
+                            <Button className="ml-2 mr-auto"
+                                variant="remove"
+                                onClick={() => {
+                                    confirmationModalRef.current?.open(
+                                        "Confirmer la suppression",
+                                        `Êtes-vous sûr de vouloir supprimer l'élément de stockage ? Cette action est irréversible.`,
+                                        async () => {
+                                            // Call delete endpoint
+                                            await deleteStorageItemController({
+                                                entityId : parseInt(entityId.toString()),
+                                                cinemaId : parseInt(cinemaId.toString()),
+                                                storageItemId: item.id,
+                                            });
+                                            // Refresh pagination
+                                            //
+                                            paginationRef.current?.refresh();
+                                        }
+                                    );
+                                }}
+                            >
+                                Supprimer
+                            </Button>
+                            </div>
                         </Td>
                     </>
                 )}
             />
+            <ConfirmationModal ref={confirmationModalRef} />
             <AddStorageItemModal
                 ref={addModalRef}
                 entityId={entityId}

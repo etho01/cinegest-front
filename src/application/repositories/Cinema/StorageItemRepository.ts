@@ -7,4 +7,5 @@ import { addStorageItemObjectParams } from "../../useCases/Cinema/StorageItem/ad
 export interface StorageItemRepository {
     getStorageItems(entityId: number, cinemaId: number, props: PropsGetStorageItems): Promise<Paginator<StorageItem>>;
     addStorageItems(entityId: number, cinemaId: number, params: addStorageItemObjectParams): Promise<StorageItem>;
+    deleteStorageItem(entityId: number, cinemaId: number, storageItemId: number): Promise<void>;
 };
