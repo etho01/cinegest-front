@@ -45,6 +45,22 @@ export const ROLES : Roles  = {
             'deleteCinema' : {
                 'name' : 'Supprimer un cinéma',
                 'description' : 'Permet de supprimer un cinéma.'
+            },
+            'viewRoles' : {
+                'name' : 'Voir les rôles',
+                'description' : 'Permet de voir la liste des rôles dans le système.'
+            },
+            'addRole' : {
+                'name' : 'Ajouter un rôle',
+                'description' : 'Permet d\'ajouter un nouveau rôle.'
+            },
+            'editRole' : {
+                'name' : 'Gérer les rôles',
+                'description' : 'Permet de gérer les rôles et leurs permissions.'
+            },
+            'deleteRole' : {
+                'name' : 'Supprimer un rôle',
+                'description' : 'Permet de supprimer un rôle.'
             }
     },
     'cinema' : {

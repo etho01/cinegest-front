@@ -68,6 +68,12 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: 
         {
             cinema = entity.cinemas[0];
         }
+
+        return (
+            <Menu user={user} entity={entity} cinema={cinema} page={page} customParam={customParam}>
+                { await body(user, entity, cinema) }
+            </Menu>
+        )
     } 
     catch (e : any)
     {
@@ -95,8 +101,6 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: 
     }
     
     return (
-        <Menu user={user} entity={entity} cinema={cinema} page={page} customParam={customParam}>
-            { await body(user, entity, cinema) }
-        </Menu>
+        <div>Erreur inconnue</div>
     )
 }

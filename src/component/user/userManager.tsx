@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/src/domain/User";
+import { User, UserHasRight } from "@/src/domain/User";
 import { Paginator } from "../ui/pagination/PaginationType";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
 import { PaginationTab, PaginationTabRef } from "../ui/pagination/PaginationTab";
@@ -18,9 +18,10 @@ interface PropsFetchEntities {
         page?: number;
     };
     entityId: number;
+    user: User;
 }
 
-export const UserManager = ({ initialData, initialParams, entityId }: PropsFetchEntities) => {
+export const UserManager = ({ initialData, initialParams, entityId, user }: PropsFetchEntities) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<User>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -36,6 +37,7 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                     }} 
                     initialValue={initialParams?.search || ""}
                 />
+                {UserHasRight(user, 'addUser', null) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -43,6 +45,7 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                 >
                     Créer un utilisateur
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -64,8 +67,9 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                             <LinkButton href={'/app/' + entityId + '/user/' + item.id}
                                 variant="outline"
                             >
-                                Modifier
+                                Voir
                             </LinkButton>
+                            {UserHasRight(user, 'deleteUser', null) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -82,6 +86,7 @@ export const UserManager = ({ initialData, initialParams, entityId }: PropsFetch
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </td>
                     </>
                 )} 

@@ -1,5 +1,5 @@
 import { Entity } from "@/src/domain/Entity";
-import { User } from "@/src/domain/User";
+import { User, UserHasRight } from "@/src/domain/User";
 import { MenuElement } from "./MenuElement";
 import { faBuilding, faUnlock, faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,9 +13,9 @@ interface EntityMenuProps {
 export const EntityMenu = ({ user, page, entity }: EntityMenuProps) => {
     return (
         <>
-            <MenuElement active={page === "cinemaList"} link={`/app/${entity.id}/cinema`} title="Cinémas" icon={faBuilding} />
-            <MenuElement active={page === "userList"} link={`/app/${entity.id}/user`} title="Utilisateurs" icon={faUser} />
-            <MenuElement active={page === "roleList"} link={`/app/${entity.id}/role`} title="Rôles" icon={faUnlock} />
+            <MenuElement show={UserHasRight(user, 'viewCinemas', null)} active={page === "cinemaList"} link={`/app/${entity.id}/cinema`} title="Cinémas" icon={faBuilding} />
+            <MenuElement show={UserHasRight(user, 'viewUsers', null)} active={page === "userList"} link={`/app/${entity.id}/user`} title="Utilisateurs" icon={faUser} />
+            <MenuElement show={UserHasRight(user, 'viewRoles', null)} active={page === "roleList"} link={`/app/${entity.id}/role`} title="Rôles" icon={faUnlock} />
         </>
     )
 }

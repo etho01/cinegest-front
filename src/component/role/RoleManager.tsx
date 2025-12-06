@@ -1,5 +1,5 @@
 "use client";
-import { Role } from "@/src/domain/User";
+import { Role, User, UserHasRight } from "@/src/domain/User";
 import { Paginator } from "../ui/pagination/PaginationType";
 import Card from "../ui/card";
 import Input from "../ui/form/Input";
@@ -18,9 +18,10 @@ interface PropsFetchRoles {
         page?: number;
     };
     entityId: number;
+    user: User;
 }
 
-export const RoleManager = ({ initialData, initialParams, entityId }: PropsFetchRoles) => {
+export const RoleManager = ({ initialData, initialParams, entityId, user }: PropsFetchRoles) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Role>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -36,13 +37,15 @@ export const RoleManager = ({ initialData, initialParams, entityId }: PropsFetch
                     }} 
                     initialValue={initialParams?.search || ""}
                 />
-                <Button
-                    className="mt-auto" 
-                    variant="default" 
-                    onClick={() => modalRef.current?.createNew()}
-                >
-                    Créer un rôle
-                </Button>
+                {UserHasRight(user, 'addRole', null) && (
+                    <Button
+                        className="mt-auto" 
+                        variant="default" 
+                        onClick={() => modalRef.current?.createNew()}
+                    >
+                        Créer un rôle
+                    </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData}
@@ -53,11 +56,14 @@ export const RoleManager = ({ initialData, initialParams, entityId }: PropsFetch
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1 text-right">
-                            <Button onClick={() => modalRef.current?.loadFromId(item.id)}
-                                variant="outline"
-                            >
-                                Modifier
-                            </Button>
+                            {UserHasRight(user, 'editRole', null) && (
+                                <Button onClick={() => modalRef.current?.loadFromId(item.id)}
+                                    variant="outline"
+                                >
+                                    Modifier
+                                </Button>
+                            )}
+                            {UserHasRight(user, 'deleteRole', null) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -74,6 +80,7 @@ export const RoleManager = ({ initialData, initialParams, entityId }: PropsFetch
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </td>
                     </>
                 )} 

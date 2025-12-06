@@ -7,9 +7,13 @@ interface Props {
     title : string;
     icon : IconProp;
     active : boolean;
+    show ?: boolean;
 }
 
-export const MenuElement = ({ link, title, icon, active } : Props) => {
+export const MenuElement = ({ link, title, icon, active, show = true } : Props) => {
+    if (!show) {
+        return null;
+    }
     return (
         <Link href={link} className={`flex items-center p-2 my-2 hover:bg-gray-700 rounded gap-3 ${active ? "bg-gray-700" : ""}`}>
             <FontAwesomeIcon icon={icon} />

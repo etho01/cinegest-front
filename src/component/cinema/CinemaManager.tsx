@@ -10,6 +10,7 @@ import { Cinema } from "@/src/domain/Cinema";
 import { CinemaModal } from "./CinemaModal";
 import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
 import { deleteCinemaController } from "@/src/controller/app/CinemaController";
+import { UserHasRight } from "@/src/domain/User";
 
 interface PropsFetchEntities {
     initialData : Paginator<Cinema>;
@@ -18,9 +19,10 @@ interface PropsFetchEntities {
         page?: number;
     };
     entityId: number;
+    user: User;
 }
 
-export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFetchEntities) => {
+export const CinemaManager = ({ initialData, initialParams, entityId, user }: PropsFetchEntities) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Cinema>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -36,6 +38,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                     }} 
                     initialValue={initialParams?.search || ""}
                 />
+                {UserHasRight(user, 'addCinema', null) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -43,6 +46,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                 >
                     Créer un cinema
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -57,11 +61,14 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                             {item.postal_code} {item.city}
                         </td>
                         <td className="py-2 px-1 text-right">
+                            {UserHasRight(user, 'editCinema', null) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
                             </Button>
+                            )}
+                            {UserHasRight(user, 'deleteCinema', null) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -79,6 +86,7 @@ export const CinemaManager = ({ initialData, initialParams, entityId }: PropsFet
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </td>
                     </>
                 )} 

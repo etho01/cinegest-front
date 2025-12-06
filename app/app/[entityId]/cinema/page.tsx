@@ -1,6 +1,7 @@
 import { getCinemas } from "@/src/application/useCases/Cinema/getCinemas";
 import { CinemaManager } from "@/src/component/cinema/CinemaManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { CinemaRepositoryImpl } from "@/src/infrastructure/repositories/CinemaRepositoryImpl";
 
 
@@ -24,8 +25,12 @@ export default async function CinemaPage({ params, searchParams }: CinemaPagePro
                     page: page,
                 });
 
+                if (UserHasRight(user, 'viewCinemas', null) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
+
                 return (
-                    <CinemaManager initialData={cinemas} initialParams={{ search, page }} entityId={entityId ? parseInt(entityId, 10) : 0} />
+                    <CinemaManager initialData={cinemas} initialParams={{ search, page }} entityId={entityId ? parseInt(entityId, 10) : 0} user={user} />
                 );
             }}
             entityId={entityId ? parseInt(entityId, 10) : null}

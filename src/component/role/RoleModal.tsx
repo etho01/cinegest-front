@@ -45,7 +45,7 @@ export const RoleModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, 
                 await onSubmit(e);
             }}>
                 <ModalHeader>
-                    <ModalTitle>{isEdit ? "Modifier le cinéma" : "Créer un nouveau cinéma"}</ModalTitle>
+                    <ModalTitle>{isEdit ? "Modifier le rôle" : "Créer un nouveau rôle"}</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <div className="grid gap-2">

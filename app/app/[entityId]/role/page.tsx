@@ -1,6 +1,7 @@
 import { getRoles } from "@/src/application/useCases/Role/getRoles";
 import { RoleManager } from "@/src/component/role/RoleManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { RoleRepositoryImpl } from "@/src/infrastructure/repositories/RoleRepositoryImpl";
 
 interface CinemaPageProps {
@@ -19,8 +20,12 @@ export default async function Page(props: CinemaPageProps) {
             body={async (user) => {
                 const roles = await getRoles(RoleRepositoryImpl, entityId, { search, page });
 
+                if (UserHasRight(user, 'viewRoles', null) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
+
                 return (
-                    <RoleManager initialData={roles} initialParams={{ search, page }} entityId={entityId}  />
+                    <RoleManager user={user} initialData={roles} initialParams={{ search, page }} entityId={entityId}  />
                 );
             }}
             entityId={entityId}
