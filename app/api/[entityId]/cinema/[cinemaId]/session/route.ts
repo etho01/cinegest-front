@@ -1,6 +1,6 @@
-import { getKeys } from "@/src/application/useCases/Cinema/Key/getKeys";
+import { getSessions } from "@/src/application/useCases/Cinema/Sessions/getSessions";
 import { Unauthorized } from "@/src/domain/User";
-import { KeyRepositoryImpl } from "@/src/infrastructure/repositories/KeyRepositoryImpl";
+import { SessionRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/SessionRepositoryImpl";
 
 
 interface getOptionTypesApiProps {
@@ -16,8 +16,9 @@ export async function GET(req : Request, { params } : getOptionTypesApiProps) {
         const page = Number(searchParams.get('page')) ?? 1;
         const rooms = searchParams.getAll('rooms[]').map((v) => parseInt(v));
         const movies = searchParams.getAll('movies[]').map((v) => parseInt(v));
+        const statusParams = searchParams.getAll('status[]');
 
-        const keys = await getKeys(KeyRepositoryImpl, entityId, cinemaId, { page, rooms, movies });
+        const keys = await getSessions(SessionRepositoryImpl, entityId, cinemaId, { page, rooms, movies, status: statusParams });
 
         return Response.json(keys);
     }

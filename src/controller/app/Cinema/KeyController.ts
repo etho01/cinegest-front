@@ -1,7 +1,6 @@
 "use server";
 import { addKeys } from "@/src/application/useCases/Cinema/Key/addKeys";
 import { deleteKey } from "@/src/application/useCases/Cinema/Key/deleteKey";
-import { KeySchema } from "@/src/domain/Cinema/Key";
 import { KeyRepositoryImpl } from "@/src/infrastructure/repositories/KeyRepositoryImpl";
 import { actionClient } from "@/src/lib/safe-action-client";
 import z from "zod";

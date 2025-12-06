@@ -35,8 +35,8 @@ export const ConfirmationModal = React.forwardRef(({  }: ConfirmationModalProps,
                 <p>{message}</p>
             </ModalBody>
             <ModalFooter>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={() => { onConfirm(); onClose(); }} variant="default">Confirm</Button>
+                <Button onClick={onClose}>Annuler</Button>
+                <Button onClick={() => { onConfirm(); onClose(); }} variant="default">Confirmer</Button>
             </ModalFooter>
         </Modal>
     );

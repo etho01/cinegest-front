@@ -2,38 +2,35 @@ import { forwardRef, useImperativeHandle } from "react";
 import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
-import { addKeysController } from "@/src/controller/app/Cinema/KeyController"; 
-import { CustomDateRangePicker } from "../../ui/form/CustomDateRangePicker";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../ui/table/Table";
 import { MovieVersion } from "@/src/domain/Cinema/Movie";
 import { AsyncSelect } from "../../ui/form/AsyncSelect";
-import { AddKeyModalElement } from "@/src/application/useCases/Cinema/Key/addKeys";
 import { Room } from "@/src/domain/Cinema/Settings/Room";
 import { Select } from "../../ui/form/Select";
+import { AddSessionModalElement } from "@/src/application/useCases/Cinema/Sessions/addSessions";
+import { calendarToDate, DateTimePicker, dateToCalendarDateTime } from "../../ui/form";
+import { addSessionController } from "@/src/controller/app/Cinema/SessionController";
 
-interface AddKeyModalProps {
+interface AddSessionModalProps {
     isOpen: boolean;
     onClose: () => void;
-    initialObject: AddKeyModalElement | null;
-    onSaved?: (entity: AddKeyModalElement) => void | Promise<void>;
+    initialObject: AddSessionModalElement | null;
+    onSaved?: (entity: AddSessionModalElement) => void | Promise<void>;
     entityId: number;
     cinemaId: number;
     rooms?: Room[];
 }
 
 
-export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms }: AddKeyModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<AddKeyModalElement>({
+export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms }: AddSessionModalProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<AddSessionModalElement>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: {
-            dateStart: null,
-            dateEnd: null,
-            cinemaId: cinemaId,
-            versions: [],
+            sessions: [],
         },
-        action: addKeysController,
+        action: addSessionController,
         onSaved: (entity) => {
             if (onSaved) {
                 onSaved(entity);
@@ -57,40 +54,25 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         <Modal isOpen={isOpenState} onClose={() => {
             setIsOpenState(false);
             onClose();
-        }} size="xl">
+        }} size="3xl">
             <form onSubmit={async (e) => {
                 await onSubmit(e);
             }}>
                 <ModalHeader>
-                    <ModalTitle>{isEdit ? "Modifier la KDM" : "Ajouter une nouvelle KDM"}</ModalTitle>
+                    <ModalTitle>Ajouter des séances</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
-                    <div className="grid grid-cols-2 gap-2">
-                        <CustomDateRangePicker
-                            label="Période de validité"
-                            containerClassName=" col-span-2 "
-                            showErrors={showErrors}
-                            errors={result.validationErrors?.dateStart || result.validationErrors?.dateEnd}
-                            onChange={function(dateEnd: Date | null, dateStart: Date | null): void {
-                                setObject({
-                                    ...object,
-                                    dateStart: dateStart ? dateStart : null,
-                                    dateEnd: dateEnd ? dateEnd : null,
-                                });
-                            }}
-
-                        />
-                    </div>
                     <Table>
                         <Thead>
                             <Tr>
                                 <Th>Version</Th>
                                 <Th>Salle</Th>
+                                <Th>Date de début</Th>
                                 <Th></Th>
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {object.versions.map((version, index) => (
+                            {object.sessions.map((version, index) => (
                                 <Tr key={index}>
                                     <Td>
                                         <AsyncSelect
@@ -104,43 +86,65 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                                                 }));
                                             }}
                                             onChange={(selectedOption: { value: string; label: string; version: MovieVersion } | null) => {
-                                                const newVersions = [...object.versions];
-                                                newVersions[index].movieVersionId = selectedOption ? selectedOption.version.id : null;
+                                                const newsessions = [...object.sessions];
+                                                newsessions[index].movieVersionId = selectedOption ? selectedOption.version.id : null;
                                                 setObject({
                                                     ...object,
-                                                    versions: newVersions,
+                                                    sessions: newsessions,
                                                 });
                                             }}
                                             showErrors={showErrors}
-                                            errors={result.validationErrors?.versions[index]?.movieVersionId}
+                                            errors={result.validationErrors?.sessions[index]?.movieVersionId}
                                         />
                                     </Td>
                                     <Td>
                                         <Select
-                                            isMulti={true}
+                                            isMulti={false}
                                             options={rooms ? rooms.map((room) => ({
                                                 label: room.name,
-                                                value: room.id.toString(),
+                                                value: room.id,
                                             })) : []}
                                             onChange={(value) => {
-                                                const newVersions = [...object.versions];
-                                                newVersions[index].rooms = value
+                                                const newsessions = [...object.sessions];
+                                                newsessions[index].roomId = value
                                                 setObject({
                                                     ...object,
-                                                    versions: newVersions,
+                                                    sessions: newsessions,
                                                 });
                                             }}
-                                            value={object.versions[index].rooms.map(room => room.toString())}
+                                            value={object.sessions[index].roomId}
                                             showErrors={showErrors}
-                                            errors={result.validationErrors?.versions[index]?.rooms}
+                                            errors={result.validationErrors?.sessions[index]?.roomId}
+                                        />
+                                    </Td>
+                                    <Td>
+                                        <DateTimePicker
+                                            placeholder="Choisissez une date..."
+
+                                            granularity="minute"
+                                            showMonthAndYearPickers={true}
+                                            description="Sélectionnez la date et l'heure de votre événement"
+                                            onChange={(value) => {
+                                                if (!value) return;
+                                                const newsessions = [...object.sessions];
+                                                newsessions[index].startAt = calendarToDate(value);
+                                                console.log(newsessions[index].startAt);
+                                                setObject({
+                                                    ...object,
+                                                    sessions: newsessions,
+                                                });
+                                            }}
+                                            value={object.sessions[index].startAt ? dateToCalendarDateTime(object.sessions[index].startAt) : null}
+                                            showErrors={showErrors}
+                                            errors={result.validationErrors?.sessions[index]?.startAt}
                                         />
                                     </Td>
                                     <Td>
                                         <Button variant="remove" type="button" onClick={() => {
-                                            const newVersions = object.versions.filter((_, i) => i !== index);
+                                            const newsessions = object.sessions.filter((_, i) => i !== index);
                                             setObject({
                                                 ...object,
-                                                versions: newVersions,
+                                                sessions: newsessions,
                                             });
                                         }}>
                                             Supprimer
@@ -148,21 +152,21 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                                     </Td>
                                 </Tr>
                             ))}
-                            {object.versions.length === 0 && (
+                            {object.sessions.length === 0 && (
                                 <Tr>
-                                    <Td colSpan={3} className="text-center">Aucune version sélectionnée</Td>
+                                    <Td colSpan={4} className="text-center">Aucune session ajoutée</Td>
                                 </Tr>
                             )}
                             <Tr>
-                                <Td colSpan={3}>
+                                <Td colSpan={4}>
                                     <div className="flex justify-center">
                                         <Button variant="default" type="button" onClick={() => {
                                             setObject({
                                                 ...object,
-                                                versions: [...object.versions, { movieVersionId: 0, rooms: [] }],
+                                                sessions: [...object.sessions, { movieVersionId: null, roomId: 0, startAt: null }],
                                             });
                                         }}>
-                                            Ajouter une version
+                                            Ajouter une séance
                                         </Button>
                                     </div>
                                 </Td>

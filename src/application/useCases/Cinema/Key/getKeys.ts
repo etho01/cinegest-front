@@ -4,6 +4,8 @@ import { Key } from "@/src/domain/Cinema/Key";
 
 export type PropsGetKeys = {
     page : number;
+    movies?: number[];
+    rooms?: number[];
 };
 
 export const getKeys = async (repo : KeyRepository, entityId: number, cinemaId: number, props: PropsGetKeys) : Promise<Paginator<Key>> => {
