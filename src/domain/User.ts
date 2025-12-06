@@ -93,8 +93,23 @@ export const UserHaveAccessToCinema = (user : User, entityId : number, cinemaId 
     return entity.cinemas?.some((cinema) => cinema.id === cinemaId) ?? false;
 }
 
-export const UserHasRole = (user : User, roleName : string, cinemaId : number | null) : boolean => {
-    return user?.roles?.some((role) => role.name === roleName && role.cinemaId === cinemaId) ?? false;
+export const UserHasRight = (user : User, rightName : string, cinemaId : number | null) : boolean => {
+    if (UserIsSuperAdmin(user)) {
+    //    return true;
+    }
+
+    if (cinemaId === null) {
+        return user.rights?.includes(rightName) ?? false;
+    }
+
+    const rolesWithCinema = user.roles?.filter((role) => role.cinemaId === cinemaId) || [];
+    for (const role of rolesWithCinema) {
+        if (role.rights?.includes(rightName)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 export class Unauthenticated extends Error

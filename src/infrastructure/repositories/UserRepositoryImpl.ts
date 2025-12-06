@@ -24,13 +24,14 @@ export const UserRepositoryImpl: UserRepository = {
 
         const text = await resp.text();
         const body = JSON.parse(text);
-
+        console.log(body);
         const roles = body['roles'].map((roleData: any) => {
             return {
                 id: roleData['id'],
                 name: roleData['name'],
                 cinemaId: roleData['pivot']['cinema_id'],
-                entityId: roleData['entity_id']
+                entityId: roleData['pivot']['entity_id'],
+                rights: roleData['rights'] || []
             }
         });
 
@@ -51,6 +52,7 @@ export const UserRepositoryImpl: UserRepository = {
             roles: roles,
             isSuperAdmin: body['isSuperAdmin'],
             entities: entities,
+            rights: body['rights'] || []
         }
     },
     getUsers : async (entityId : number, params: getUsersParams) : Promise<Paginator<User>> => {

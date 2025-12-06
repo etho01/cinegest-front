@@ -48,21 +48,81 @@ export const ROLES : Roles  = {
             }
     },
     'cinema' : {
-            'viewMovies' : {
-                'name' : 'Voir les films',
-                'description' : 'Permet de voir la liste des films dans le système.'
+            'viewCinemaSessions' : {
+                'name' : 'Voir les séances du cinéma',
+                'description' : 'Permet de voir la liste des séances pour un cinéma spécifique.'
             },
-            'addMovie' : {
-                'name' : 'Ajouter un film',
-                'description' : 'Permet d\'ajouter un nouveau film.'
+            'editCinemaSessions' : {
+                'name' : 'Gerer les séances du cinéma',
+                'description' : 'Gerer les séances pour un cinéma spécifique.'
             },
-            'editMovie' : {
-                'name' : 'Modifier un film',
-                'description' : 'Permet de modifier les détails d\'un film.'
+            'viewCinemaMovies' : {
+                'name' : 'Voir les films du cinéma',
+                'description' : 'Permet de voir la liste des films pour un cinéma spécifique.'
             },
-            'deleteMovie' : {
-                'name' : 'Supprimer un film',
-                'description' : 'Permet de supprimer un film.'
+            'editCinemaMovies' : {
+                'name' : 'Gerer les films du cinéma',
+                'description' : 'Gerer les films pour un cinéma spécifique.'
+            },
+            'editCinemaMovieVersions' : {
+                'name' : 'Gerer les versions des films du cinéma',
+                'description' : 'Gerer les versions des films pour un cinéma spécifique.'
+            },
+            'viewCinemaKey' : {
+                'name' : 'Voir KDM du cinéma',
+                'description' : 'Permet de voir les KDM pour un cinéma spécifique.'
+            },
+            'editCinemaKey' : {
+                'name' : 'Gerer KDM du cinéma',
+                'description' : 'Gerer les KDM pour un cinéma spécifique.'
+            },
+            'viewStrorageItems' : {
+                'name' : 'Voir les éléments de stockage du cinéma',
+                'description' : 'Permet de voir les éléments de stockage pour un cinéma spécifique.'
+            },
+            'editStrorageItems' : {
+                'name' : 'Gerer les éléments de stockage du cinéma',
+                'description' : 'Gerer les éléments de stockage pour un cinéma spécifique.'
+            },
+            'viewOptionsTypes' : {
+                'name' : 'Voir les types d\'options du cinéma',
+                'description' : 'Permet de voir les types d\'options pour un cinéma spécifique.'
+            },
+            'editOptionsTypes' : {
+                'name' : 'Gerer les types d\'options du cinéma',
+                'description' : 'Gerer les types d\'options pour un cinéma spécifique.'
+            },
+            'viewOptions' : {
+                'name' : 'Voir les options du cinéma',
+                'description' : 'Permet de voir les options pour un cinéma spécifique.'
+            },
+            'editOptions' : {
+                'name' : 'Gerer les options du cinéma',
+                'description' : 'Gerer les options pour un cinéma spécifique.'
+            },
+            'viewsStorageTypes' : {
+                'name' : 'Voir les types de stockage du cinéma',
+                'description' : 'Permet de voir les types de stockage pour un cinéma spécifique.'
+            },
+            'editStorageTypes' : {
+                'name' : 'Gerer les types de stockage du cinéma',
+                'description' : 'Gerer les types de stockage pour un cinéma spécifique.'
+            },
+            'viewStorage' : {
+                'name' : 'Voir les stockages du cinéma',
+                'description' : 'Permet de voir les stockages pour un cinéma spécifique.'
+            },
+            'editStorage' : {
+                'name' : 'Gerer les stockages du cinéma',
+                'description' : 'Gerer les stockages pour un cinéma spécifique.'
+            },
+            'viewRooms' : {
+                'name' : 'Voir les salles du cinéma',
+                'description' : 'Permet de voir les salles pour un cinéma spécifique.'
+            },
+            'editRooms' : {
+                'name' : 'Gerer les salles du cinéma',
+                'description' : 'Gerer les salles pour un cinéma spécifique.'
             }
     }
 };
