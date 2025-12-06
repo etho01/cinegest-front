@@ -10,9 +10,10 @@ interface ReviewElementProps extends PropsWithChildren {
     titleClassName?: string;
     childrenClassName?: string;
     updateFunction?: () => void;
+    showUpdate?: boolean;
 }
 
-export const ReviewElement = ({ title, children, containerClassName = "", titleClassName = "", childrenClassName = "", updateFunction }: ReviewElementProps) => {
+export const ReviewElement = ({ title, children, containerClassName = "", titleClassName = "", childrenClassName = "", updateFunction, showUpdate = true }: ReviewElementProps) => {
     return (
         <div className={cn("flex justify-between", containerClassName)}>
             <div >
@@ -23,7 +24,7 @@ export const ReviewElement = ({ title, children, containerClassName = "", titleC
                     {children}
                 </div>
             </div>
-            {updateFunction && 
+            {(updateFunction && showUpdate) && 
                 <div className="my-auto">
                     <Button
                         variant="default"

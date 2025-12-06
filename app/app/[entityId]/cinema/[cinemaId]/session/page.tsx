@@ -4,6 +4,7 @@ import { getAllRooms } from "@/src/application/useCases/Cinema/Settings/room/get
 import { getAllStorages } from "@/src/application/useCases/Cinema/Settings/Storage/getAllStorage";
 import { SessionManager } from "@/src/component/cinema/session/SessionManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { SessionRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/SessionRepositoryImpl";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
@@ -26,6 +27,10 @@ export default async function SessionPage({ params, searchParams }: SessionPageP
     return (
         <ShowMenu
             body={async (user) => {
+                if (UserHasRight(user, 'viewCinemaSessions', cinemaId) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
+
                 const activeMovies = await getAllActiveMovie(MovieRepositoryImpl, entityId, cinemaId);
                 const rooms = await getAllRooms(RoomRepositoryImpl, entityId, cinemaId);
                 const storages = await getAllStorages(StorageRepositoryImpl, entityId, cinemaId);
@@ -50,6 +55,7 @@ export default async function SessionPage({ params, searchParams }: SessionPageP
                         activeMovies={activeMovies}
                         rooms={rooms}
                         storages={storages}
+                        user={user}
                     />
                 );
             }}

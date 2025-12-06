@@ -13,6 +13,7 @@ import { Option } from "@/src/domain/Cinema/Settings/Option";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { useRef } from "react";
 import { OptionModal } from "./OptionModal";
+import { User, UserHasRight } from "@/src/domain/User";
 
 
 interface PropsFetchOptionsTypes {
@@ -25,9 +26,10 @@ interface PropsFetchOptionsTypes {
     entityId: number;
     cinemaId: number;
     allOptionsTypes: OptionType[];
+    user: User;
 }
 
-export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, allOptionsTypes }: PropsFetchOptionsTypes) => {
+export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, allOptionsTypes, user }: PropsFetchOptionsTypes) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Option>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -59,6 +61,7 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                         initialValue={initialParams?.optionTypes ? initialParams.optionTypes.map((id) => id.toString()) : []}
                     />
                 </div>
+                {UserHasRight(user, 'editOptions', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -66,6 +69,7 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                 >
                     Créer une option
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -77,11 +81,14 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                         <Td >{item.name}</Td>
                         <Td>{item.type?.name}</Td>
                         <Td className="text-right">
+                            {UserHasRight(user, 'editOptions', cinemaId) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
                             </Button>
+                            )}
+                            {UserHasRight(user, 'editOptions', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -98,6 +105,7 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </Td>
                     </>
                 )} 

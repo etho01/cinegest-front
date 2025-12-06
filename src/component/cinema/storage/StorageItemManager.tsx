@@ -15,6 +15,7 @@ import { Button } from "../../ui/btn/button";
 import { AddStorageItemModal } from "./AddStorageItemModal";
 import { addStorageItemObjectParams } from "@/src/application/useCases/Cinema/StorageItem/addStorageItems";
 import { deleteStorageItemController } from "@/src/controller/app/Cinema/StorageItemController";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsStorageItemManager {
     entityId: number;
@@ -29,9 +30,10 @@ interface PropsStorageItemManager {
         storage?: number[];
     };
     initialData?: Paginator<StorageItem>;
+    user: User;
 }
 
-export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, storages, initialParams, initialData}: PropsStorageItemManager) => {
+export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, storages, initialParams, initialData, user}: PropsStorageItemManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const addModalRef = useRef<LoadObjectAndShowModalRef<addStorageItemObjectParams>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -83,6 +85,7 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                         initialValue={initialParams?.storage ? initialParams.storage.map((id) => id.toString()) : []}
                     />
                 </div>
+                {UserHasRight(user, 'editStorageItems', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -90,6 +93,7 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                 >
                     Ajouter un élément de stockage
                 </Button>
+                )}
             </div>
             <PaginationTab
                 ref={paginationRef}
@@ -106,6 +110,7 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                         <Td>{item?.origin?.name ?? 'Origin externe'}</Td>
                         <Td>
                             <div className="flex">
+                            {UserHasRight(user, 'editStorageItems', cinemaId) && (
                             <Button className="ml-2 mr-auto"
                                 variant="remove"
                                 onClick={() => {
@@ -128,6 +133,7 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
                             >
                                 Supprimer
                             </Button>
+                            )}
                             </div>
                         </Td>
                     </>

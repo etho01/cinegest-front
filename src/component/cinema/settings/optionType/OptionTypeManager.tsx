@@ -10,6 +10,7 @@ import { deleteOptionTypeController } from "@/src/controller/app/Cinema/Settings
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { useRef } from "react";
 import { OptionTypeModal } from "./OptionTypeModal";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsFetchOptionsTypes {
     initialData : Paginator<OptionType>;
@@ -19,9 +20,10 @@ interface PropsFetchOptionsTypes {
     };
     entityId: number;
     cinemaId: number;
+    user: User;
 }
 
-export const OptionTypeManager = ({ initialData, initialParams, entityId, cinemaId }: PropsFetchOptionsTypes) => {
+export const OptionTypeManager = ({ initialData, initialParams, entityId, cinemaId, user }: PropsFetchOptionsTypes) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<OptionType>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -37,6 +39,7 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                     }} 
                     initialValue={initialParams?.search || ""}
                 />
+                {UserHasRight(user, 'editOptionsTypes', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -44,6 +47,7 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                 >
                     Créer un type d'option
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -54,11 +58,14 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1 text-right">
+                            {UserHasRight(user, 'editOptionsTypes', cinemaId) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
                             </Button>
+                            )}
+                            {UserHasRight(user, 'editOptionsTypes', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -75,6 +82,7 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </td>
                     </>
                 )} 

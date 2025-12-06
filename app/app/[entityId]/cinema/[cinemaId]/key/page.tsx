@@ -3,6 +3,7 @@ import { getAllActiveMovie } from "@/src/application/useCases/Cinema/Movie/getAl
 import { getAllRooms } from "@/src/application/useCases/Cinema/Settings/room/getAllRooms";
 import { KeyManager } from "@/src/component/cinema/key/KeyManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { KeyRepositoryImpl } from "@/src/infrastructure/repositories/KeyRepositoryImpl";
@@ -18,6 +19,10 @@ export default async function KeyPage({ params }: KeyPageProps) {
     return (
         <ShowMenu
             body={async (user) => {
+                if (UserHasRight(user, 'viewCinemaKey', cinemaId) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
+
                 const activeMovies = await getAllActiveMovie(MovieRepositoryImpl, entityId, cinemaId);
                 const keys = await getKeys(KeyRepositoryImpl, entityId, cinemaId, { page: 1 });
                 const rooms = await getAllRooms(RoomRepositoryImpl, entityId, cinemaId);
@@ -30,6 +35,7 @@ export default async function KeyPage({ params }: KeyPageProps) {
                         initialParams={{ page: 1 }} 
                         initialData={keys}
                         rooms={rooms}
+                        user={user}
                     />
                 );
             }}

@@ -36,3 +36,12 @@ export const updateUserRoleController = actionClient.schema(
     await UserRepositoryImpl.updateUserRoles(entityId, userId, rolesUser);
     await UserRepositoryImpl.updateUserRights(entityId, userId, globalRight ?? []);
 })
+
+export const deleteUserController = actionClient.schema(
+    z.object({
+        entityId: z.number(),
+        userId: z.number()
+    })
+).action(async ({parsedInput: { entityId, userId }}) => {
+    await UserRepositoryImpl.deleteUser(entityId, userId);
+})

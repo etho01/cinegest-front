@@ -5,9 +5,11 @@ import { PropsWithChildren } from "react";
 
 interface SettingsCategoryProps extends PropsWithChildren {
     title?: string;
+    show?: boolean;
 }
 
-export const SettingsCategory = ({ title, children }: SettingsCategoryProps) => {
+export const SettingsCategory = ({ title, show = true, children }: SettingsCategoryProps) => {
+    if (!show) return null;
     return (
         <div className="mb-8">
             {title && <h2 className="text-xl font-semibold mb-4">{title}</h2>}
@@ -22,9 +24,11 @@ interface SettingsItemProps {
     icon : IconProp;
     title : string;
     link : string;
+    show?: boolean;
 }
 
-export const SettingsItem = ({ icon, title, link }: SettingsItemProps) => {
+export const SettingsItem = ({ icon, title, link, show = true }: SettingsItemProps) => {
+   // if (!show) return null;
     return (
         <Link href={link} className="p-4 flex border rounded hover:bg-gray-100 items-center flex-col">
             <div className="mx-auto">

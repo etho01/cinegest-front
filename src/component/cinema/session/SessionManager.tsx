@@ -21,6 +21,7 @@ import { addStorageItemObjectParams } from "@/src/application/useCases/Cinema/St
 import { AddKeyModal } from "../key/AddKeyModal";
 import { AddStorageItemModal } from "../storage/AddStorageItemModal";
 import { Storage } from "@/src/domain/Cinema/Settings/Storage";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsSessionManager {
     entityId: number;
@@ -30,10 +31,11 @@ interface PropsSessionManager {
     initialData?: Paginator<Session>;
     rooms: Room[];
     storages: Storage[];
+    user: User;
 }
 
 
-export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams, initialData, rooms, storages   }: PropsSessionManager) => {
+export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams, initialData, rooms, storages, user }: PropsSessionManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const addModalRef = useRef<LoadObjectAndShowModalRef<Session>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -73,6 +75,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                         initialValue={initialParams?.rooms ? initialParams.rooms.map((id) => id.toString()) : []}
                      />
                 </div>
+                {UserHasRight(user, 'editCinemaSessions', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -80,6 +83,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                 >
                     Ajouter des séances
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -99,7 +103,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                                 <div>
                                     {item.statusKey == 'noKey' ? 'Sans clé' : 'Clée présente'}
                                 </div>
-                                {item.statusKey == 'noKey' && (
+                                {(item.statusKey == 'noKey' && UserHasRight(user, 'editCinemaKey', cinemaId)) && (
                                     <Button
                                         variant="default"
                                         size="sm"
@@ -117,7 +121,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                                 <div>
                                     {item.statusServer == 'hasMovieServer' ? 'Présent sur le serveur' : 'Non présent sur le serveur'}
                                 </div>
-                                {item.statusServer == 'noMovieServer' && (
+                                {(item.statusServer == 'noMovieServer' && UserHasRight(user, 'editStorageItems', cinemaId)) && (
                                     <Button
                                         variant="default"
                                         size="sm"
@@ -131,6 +135,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                             </div>
                         </Td>
                         <Td className="text-right">
+                            {UserHasRight(user, 'editCinemaSessions', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -151,6 +156,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </Td>
                     </>
                 )} 

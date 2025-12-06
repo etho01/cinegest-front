@@ -12,8 +12,8 @@ import { deleteStorageController } from "@/src/controller/app/Cinema/Settings/St
 import { Storage } from "@/src/domain/Cinema/Settings/Storage";
 import { StorageType } from "@/src/domain/Cinema/Settings/StorageType";
 import { useRef } from "react";
-import { OptionModal } from "../option/OptionModal";
 import { StorageModal } from "./StorageModal";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsFetchStorageTypes {
     initialData : Paginator<Storage>;
@@ -25,9 +25,10 @@ interface PropsFetchStorageTypes {
     entityId: number;
     cinemaId: number;
     allStorageTypes: StorageType[];
+    user: User;
 }
 
-export const StorageManager = ({ initialData, initialParams, entityId, cinemaId, allStorageTypes }: PropsFetchStorageTypes) => {
+export const StorageManager = ({ initialData, initialParams, entityId, cinemaId, allStorageTypes, user }: PropsFetchStorageTypes) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Storage>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -59,6 +60,7 @@ export const StorageManager = ({ initialData, initialParams, entityId, cinemaId,
                         initialValue={initialParams?.storageTypes ? initialParams.storageTypes.map((id) => id.toString()) : []}
                     />
                 </div>
+                {UserHasRight(user, 'editStorage', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -66,6 +68,7 @@ export const StorageManager = ({ initialData, initialParams, entityId, cinemaId,
                 >
                     Créer une option
                 </Button>
+                )}
             </div>
             <PaginationTab  
                 initialData={initialData} 
@@ -78,11 +81,14 @@ export const StorageManager = ({ initialData, initialParams, entityId, cinemaId,
                         <Td>{item.capacity}</Td>
                         <Td>{item.type?.name}</Td>
                         <Td className="text-right">
+                            {UserHasRight(user, 'editStorage', cinemaId) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
                             </Button>
+                            )}
+                            {UserHasRight(user, 'editStorage', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -99,10 +105,11 @@ export const StorageManager = ({ initialData, initialParams, entityId, cinemaId,
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </Td>
                     </>
                 )} 
-                colList={["Nom", 'Capacité (en terraoctets)', ""]} 
+                colList={["Nom", 'Capacité (en terraoctets)', 'Type', ""]} 
             />
             <ConfirmationModal ref={confirmationModalRef} />
             <StorageModal

@@ -4,6 +4,7 @@ import { getAllStorages } from "@/src/application/useCases/Cinema/Settings/Stora
 import { getStorageItems } from "@/src/application/useCases/Cinema/StorageItem/getStorageItems";
 import { StorageItemManager } from "@/src/component/cinema/storage/StorageItemManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
@@ -23,6 +24,10 @@ export default async function StoragePage({ params, searchParams }: StoragePageP
     return (
         <ShowMenu 
             body={async (user) => {
+                if (UserHasRight(user, 'viewStrorageItems', cinemaId) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
+
                 const rooms = await getAllRooms(RoomRepositoryImpl, entityId, cinemaId);
                 const storages = await getAllStorages(StorageRepositoryImpl, entityId, cinemaId);
                 const movies = await getAllActiveMovie(MovieRepositoryImpl, entityId, cinemaId);
@@ -52,6 +57,7 @@ export default async function StoragePage({ params, searchParams }: StoragePageP
                             rooms: roomsFiltered ? (Array.isArray(roomsFiltered) ? roomsFiltered.map((id) => Number(id)) : [Number(roomsFiltered)]) : undefined,
                         }}
                         initialData={storageItems}
+                        user={user}
                     />
                 );
             }}

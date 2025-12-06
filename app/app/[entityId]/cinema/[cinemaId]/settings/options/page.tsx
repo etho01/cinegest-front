@@ -2,8 +2,10 @@ import { getOptions } from "@/src/application/useCases/Cinema/Settings/Option/ge
 import { getAllOptionsTypes } from "@/src/application/useCases/Cinema/Settings/OptionTypes/getAllOptionsTypes";
 import { OptionManager } from "@/src/component/cinema/settings/option/OptionManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
+import { getObjectFromSearchParams } from "@/src/lib/url";
 
 
 interface OptionsPageProps {
@@ -17,16 +19,15 @@ export default async function OptionsSettingsPage({ params, searchParams }: Opti
     const page = searchParamsObj.page ? Number(searchParamsObj.page) : 1;
     const search = searchParamsObj.search ? String(searchParamsObj.search) : "";
     
-    const optionTypes = searchParamsObj.optionTypes
-        ? Array.isArray(searchParamsObj.optionTypes)
-            ? searchParamsObj.optionTypes.map((id) => Number(id))
-            : [Number(searchParamsObj.optionTypes)]
-        : undefined;
+    const optionTypes = getObjectFromSearchParams(searchParamsObj, 'optionTypes').map((v) => parseInt(v));
 
 
     return (
         <ShowMenu
             body={async (user) => {
+                if (UserHasRight(user, 'viewOptions', cinemaId) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
                 const options = await getOptions(OptionsRepositoryImpl, entityId, cinemaId, { search, page, optionTypes });
 
                 const allOptionsType = await getAllOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId);
@@ -38,6 +39,7 @@ export default async function OptionsSettingsPage({ params, searchParams }: Opti
                         entityId={entityId}
                         cinemaId={cinemaId}
                         allOptionsTypes={allOptionsType}
+                        user={user}
                     />
                 );
             }}

@@ -14,6 +14,7 @@ import { Room } from "@/src/domain/Cinema/Settings/Room";
 import { Storage } from "@/src/domain/Cinema/Settings/Storage";
 import { useRef } from "react";
 import { RoomModal } from "./RoomModal";
+import { User, UserHasRight } from "@/src/domain/User";
 
 
 interface PropsFetchRooms {
@@ -28,9 +29,10 @@ interface PropsFetchRooms {
     cinemaId: number;
     allOptions: Option[];
     allStorages: Storage[];
+    user: User;
 } 
 
-export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, allOptions, allStorages }: PropsFetchRooms) => {
+export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, allOptions, allStorages, user }: PropsFetchRooms) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Room>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -76,6 +78,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                         initialValue={initialParams?.storages ? initialParams.storages.map((id) => id.toString()) : []}
                     />
                 </div>
+                {UserHasRight(user, 'editRooms', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -83,6 +86,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                 >
                     Créer une salle
                 </Button>
+                )}
             </div>
             <PaginationTab
                 initialData={initialData} 
@@ -94,11 +98,14 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                         <Td >{item.name}</Td>
                         <Td >{item.serveurSize}</Td>
                         <Td className="text-right">
+                            {UserHasRight(user, 'editRooms', cinemaId) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
                             </Button>
+                            )}
+                            {UserHasRight(user, 'editRooms', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -115,6 +122,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </Td>
                     </>
                 )} 

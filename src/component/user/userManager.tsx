@@ -10,6 +10,7 @@ import Card from "../ui/card";
 import Input from "../ui/form/Input";
 import { Button, LinkButton } from "../ui/btn/button";
 import { UserCreationModal } from "./userCreationModal";
+import { deleteUserController } from "@/src/controller/app/UserController";
 
 interface PropsFetchEntities {
     initialData? : Paginator<User>;

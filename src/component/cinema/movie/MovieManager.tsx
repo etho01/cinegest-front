@@ -14,6 +14,7 @@ import { Select } from "../../ui/form/Select";
 import { Td } from "../../ui/table/Table";
 import { deleteMovieController } from "@/src/controller/app/Cinema/MovieController";
 import { MovieStatus } from "./MovieSatus";
+import { User, UserHasRight } from "@/src/domain/User";
 
 
 interface PropsFetchMovies {
@@ -26,9 +27,10 @@ interface PropsFetchMovies {
     entityId: number;
     cinemaId: number;
     allOptionsTypes: OptionType[];
+    user: User;
 } 
 
-export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, allOptionsTypes }: PropsFetchMovies) => {
+export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, allOptionsTypes, user }: PropsFetchMovies) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Movie>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -59,6 +61,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                         initialValue={initialParams?.status || []}
                     />
                 </div>
+                {UserHasRight(user, 'editCinemaMovies', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -66,6 +69,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                 >
                     Créer un film
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -85,6 +89,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                             >
                                 Voir
                             </LinkButton>
+                            {UserHasRight(user, 'editCinemaMovies', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -102,6 +107,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </td>
                     </>
                 )} 

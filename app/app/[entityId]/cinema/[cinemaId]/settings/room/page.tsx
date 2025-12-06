@@ -3,9 +3,11 @@ import { getRooms } from "@/src/application/useCases/Cinema/Settings/room/getRoo
 import { getAllStorages } from "@/src/application/useCases/Cinema/Settings/Storage/getAllStorage";
 import { RoomManager } from "@/src/component/cinema/settings/room/RoomManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
+import { getObjectFromSearchParams } from "@/src/lib/url";
 
 
 interface RoomsPageProps {
@@ -19,21 +21,16 @@ export default async function RoomsSettingsPage({ params, searchParams }: RoomsP
     const page = searchParamsObj.page ? Number(searchParamsObj.page) : 1;
     const search = searchParamsObj.search ? String(searchParamsObj.search) : "";
 
-    const options = searchParamsObj.options
-        ? Array.isArray(searchParamsObj.options)
-            ? searchParamsObj.options.map((id) => Number(id))
-            : [Number(searchParamsObj.options)]
-        : undefined;
+    const options = getObjectFromSearchParams(searchParamsObj, 'options').map((v) => parseInt(v));
 
-    const storages = searchParamsObj.storages
-        ? Array.isArray(searchParamsObj.storages)
-            ? searchParamsObj.storages.map((id) => Number(id))
-            : [Number(searchParamsObj.storages)]
-        : undefined;
+    const storages = getObjectFromSearchParams(searchParamsObj, 'storages').map((v) => parseInt(v));
 
     return (
         <ShowMenu
             body={async (user) => {
+                if (UserHasRight(user, 'viewRooms', cinemaId) === false) {
+                 //   throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
                 const rooms = await getRooms(RoomRepositoryImpl, entityId, cinemaId, { page, search });
 
                 const allOptions = await getAllOptions(OptionsRepositoryImpl, entityId, cinemaId);
@@ -47,6 +44,7 @@ export default async function RoomsSettingsPage({ params, searchParams }: RoomsP
                         cinemaId={cinemaId}
                         allOptions={allOptions}
                         allStorages={allStorages}
+                        user={user}
                     />
                 );
             }}

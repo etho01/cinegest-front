@@ -10,6 +10,7 @@ import { Option } from "@/src/domain/Cinema/Settings/Option";
 import { deleteMovieVersionController } from "@/src/controller/app/Cinema/MovieController";
 import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
 import { ErrorModal, ErrorModalRef } from "@/src/component/ui/modal";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface MovieVersionListProps {
     movie : Movie;
@@ -17,9 +18,10 @@ interface MovieVersionListProps {
     cinemaId: number;
     optionsTypes: OptionType[];
     options: Option[];
+    user: User;
 }
 
-export default function MovieVersionList({ movie, entityId, cinemaId, optionsTypes, options } : MovieVersionListProps) {
+export default function MovieVersionList({ movie, entityId, cinemaId, optionsTypes, options, user } : MovieVersionListProps) {
     const [versions, setVersions] = useState(movie.versions);
     const modalRef = useRef<LoadObjectAndShowModalRef<MovieVersion>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -30,6 +32,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
            <div className="flex justify-between">
                 <div className="flex gap-3">
                 </div>
+                {UserHasRight(user, 'editCinemaMovieVersions', cinemaId) && 
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -37,6 +40,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                 >
                     Créer une version
                 </Button>
+                }
             </div>
             <Table>
                 <Thead>
@@ -60,12 +64,15 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                             </Td>
                             <Td>
                                 <div className="flex gap-3">
+                                    {UserHasRight(user, 'editCinemaMovieVersions', cinemaId) && 
                                     <Button
                                         variant="default"
                                         onClick={() => modalRef.current?.loadFromObject(version)}
                                     >
                                         Éditer
                                     </Button>
+                                    }
+                                    {UserHasRight(user, 'editCinemaMovieVersions', cinemaId) && 
                                     <Button
                                         variant="remove"
                                         onClick={async () => {
@@ -89,6 +96,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                                     >
                                         Supprimer
                                     </Button>
+                                    }
                                 </div>
                             </Td>
                         </Tr>

@@ -2,6 +2,7 @@ import { getMovies } from "@/src/application/useCases/Cinema/Movie/getMovies";
 import { getAllOptions } from "@/src/application/useCases/Cinema/Settings/Option/getAllOptions";
 import { MovieManager } from "@/src/component/cinema/movie/MovieManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
@@ -22,6 +23,9 @@ export default async function MoviePage({ params, searchParams }: OptionsPagePro
     return (
         <ShowMenu
             body={async (user) => {
+                if (UserHasRight(user, 'viewCinemaMovies', cinemaId) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
                 const movies = await getMovies(MovieRepositoryImpl, entityId, cinemaId, { search, page, status });
 
                 const options = await getAllOptions(OptionsRepositoryImpl, entityId, cinemaId);
@@ -33,6 +37,7 @@ export default async function MoviePage({ params, searchParams }: OptionsPagePro
                         entityId={entityId}
                         cinemaId={cinemaId}
                         allOptionsTypes={options}
+                        user={user}
                     />
                 );
             }}

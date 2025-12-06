@@ -116,7 +116,7 @@ export const ROLES : Roles  = {
                 'name' : 'Gerer les options du cinéma',
                 'description' : 'Gerer les options pour un cinéma spécifique.'
             },
-            'viewsStorageTypes' : {
+            'viewStorageTypes' : {
                 'name' : 'Voir les types de stockage du cinéma',
                 'description' : 'Permet de voir les types de stockage pour un cinéma spécifique.'
             },

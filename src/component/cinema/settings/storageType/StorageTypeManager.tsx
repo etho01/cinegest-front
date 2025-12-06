@@ -10,6 +10,7 @@ import { deleteStorageTypeController } from "@/src/controller/app/Cinema/Setting
 import { StorageType } from "@/src/domain/Cinema/Settings/StorageType";
 import { useRef } from "react";
 import { StorageTypeModal } from "./StorageTypeModal";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsFetchStorageTypes {
     initialData : Paginator<StorageType>;
@@ -19,9 +20,10 @@ interface PropsFetchStorageTypes {
     };
     entityId: number;
     cinemaId: number;
+    user: User;
 }
 
-export const StorageTypeManager = ({ initialData, initialParams, entityId, cinemaId }: PropsFetchStorageTypes) => {
+export const StorageTypeManager = ({ initialData, initialParams, entityId, cinemaId, user }: PropsFetchStorageTypes) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<StorageType>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -37,6 +39,7 @@ export const StorageTypeManager = ({ initialData, initialParams, entityId, cinem
                     }} 
                     initialValue={initialParams?.search || ""}
                 />
+                {UserHasRight(user, 'editStorageTypes', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -44,6 +47,7 @@ export const StorageTypeManager = ({ initialData, initialParams, entityId, cinem
                 >
                     Créer un type de stockage
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -54,11 +58,14 @@ export const StorageTypeManager = ({ initialData, initialParams, entityId, cinem
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1 text-right">
+                            {UserHasRight(user, 'editStorageTypes', cinemaId) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}
                                 variant="outline"
                             >
                                 Modifier
                             </Button>
+                            )}
+                            {UserHasRight(user, 'editStorageTypes', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -75,6 +82,7 @@ export const StorageTypeManager = ({ initialData, initialParams, entityId, cinem
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </td>
                     </>
                 )} 

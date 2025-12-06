@@ -15,6 +15,7 @@ import { Key } from "@/src/domain/Cinema/Key";
 import { AddKeyModal } from "./AddKeyModal";
 import { Room } from "@/src/domain/Cinema/Settings/Room";
 import { deleteKeyController } from "@/src/controller/app/Cinema/KeyController";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsKeyManager {
     entityId: number;
@@ -27,9 +28,10 @@ interface PropsKeyManager {
     };
     initialData?: Paginator<Key>;
     rooms: Room[];
+    user: User;
 }
 
-export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, initialData, rooms }: PropsKeyManager) => {
+export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, initialData, rooms, user }: PropsKeyManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const addModalRef = useRef<LoadObjectAndShowModalRef<Key>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -67,6 +69,7 @@ export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, in
                         initialValue={initialParams?.rooms ? initialParams.rooms.map((id) => id.toString()) : []}
                      />
                 </div>
+                {UserHasRight(user, 'editCinemaKey', cinemaId) && (
                 <Button
                     className="mt-auto" 
                     variant="default" 
@@ -74,6 +77,7 @@ export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, in
                 >
                     Ajouter des KDM
                 </Button>
+                )}
             </div>
             <PaginationTab 
                 initialData={initialData} 
@@ -88,6 +92,7 @@ export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, in
                         <Td>{item.dateStart}</Td>
                         <Td>{item.dateEnd}</Td>
                         <Td className="text-right">
+                            {UserHasRight(user, 'editCinemaKey', cinemaId) && (
                             <Button className="ml-2"
                                 variant="remove"
                                 onClick={() => {
@@ -108,6 +113,7 @@ export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, in
                             >
                                 Supprimer
                             </Button>
+                            )}
                         </Td>
                     </>
                 )} 

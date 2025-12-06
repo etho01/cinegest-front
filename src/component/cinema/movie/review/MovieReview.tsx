@@ -7,15 +7,17 @@ import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cin
 import { getAllOptions } from "@/src/application/useCases/Cinema/Settings/Option/getAllOptions";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import MovieReviewCard from "./Tab/MovieReviewcard";
+import { User } from "@/src/domain/User";
 
 
 interface MovieReviewProps {
     movie : Movie;
     entityId: number;
     cinemaId: number;
+    user: User;
 }
 
-export default async function MovieReview({ movie, entityId, cinemaId } : MovieReviewProps) 
+export default async function MovieReview({ movie, entityId, cinemaId, user } : MovieReviewProps) 
 {
     const optionsTypes = await getAllOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId);
     const options = await getAllOptions(OptionsRepositoryImpl, entityId, cinemaId);
@@ -30,7 +32,7 @@ export default async function MovieReview({ movie, entityId, cinemaId } : MovieR
                         },
                         body: {
                             content: (
-                                <MovieReviewCard movie={movie} entityId={entityId} cinemaId={cinemaId} />
+                                <MovieReviewCard  movie={movie} entityId={entityId} cinemaId={cinemaId} user={user} />
                             ),
                         },
                     },
@@ -46,6 +48,7 @@ export default async function MovieReview({ movie, entityId, cinemaId } : MovieR
                                     cinemaId={cinemaId}
                                     optionsTypes={optionsTypes}
                                     options={options}
+                                    user={user}
                                 />
                             ),
                         },

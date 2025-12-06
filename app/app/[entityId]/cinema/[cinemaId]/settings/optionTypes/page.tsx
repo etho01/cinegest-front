@@ -1,6 +1,7 @@
 import { getOptionsTypes } from "@/src/application/useCases/Cinema/Settings/OptionTypes/getOptionsTypes";
 import { OptionTypeManager } from "@/src/component/cinema/settings/optionType/OptionTypeManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
+import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
 
 interface OptionTypesPageProps {
@@ -17,6 +18,10 @@ export default async function OptionTypesSettingsPage({ params, searchParams }: 
     return (
         <ShowMenu
             body={async (user) => {
+                if (UserHasRight(user, 'viewOptionsTypes', cinemaId) === false) {
+                    throw new Unauthorized('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+                }
+
                 const optionTypes = await getOptionsTypes(OptionTypesRepositoryImpl, entityId, cinemaId, { search, page });
                 
                 return (
@@ -25,6 +30,7 @@ export default async function OptionTypesSettingsPage({ params, searchParams }: 
                         initialParams={{ search, page }}
                         entityId={entityId}
                         cinemaId={cinemaId}
+                        user={user}
                     />
                 );
             }}

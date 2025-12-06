@@ -5,15 +5,17 @@ import { Movie } from "@/src/domain/Cinema/Movie";
 import { MovieStatus } from "../../MovieSatus";
 import { UpdateSizeMovie, UpdateSizeMovieRef } from "../UpdateSizeMovie";
 import { useRef, useState } from "react";
+import { User, UserHasRight } from "@/src/domain/User";
 
 
 interface MovieReviewProps {
     movie: Movie;
     entityId: number;
     cinemaId: number;
+    user: User;
 }
 
-export default function MovieReviewCard({ movie, entityId, cinemaId }: MovieReviewProps) {
+export default function MovieReviewCard({ movie, entityId, cinemaId, user }: MovieReviewProps) {
     const [movieUpdated, setMovie] = useState<Movie>(movie);
     const updateSizeModal = useRef<UpdateSizeMovieRef>(null);
 
@@ -24,7 +26,7 @@ export default function MovieReviewCard({ movie, entityId, cinemaId }: MovieRevi
                     <ReviewElement title="Titre" containerClassName=" col-span-2 ">
                         {movieUpdated.title}
                     </ReviewElement>
-                    <ReviewElement title="Taille du film (Go)" updateFunction={() => {
+                    <ReviewElement title="Taille du film (Go)" showUpdate={UserHasRight(user, 'editCinemaMovies', cinemaId)} updateFunction={() => {
                         updateSizeModal.current?.show();
                     }}>
                         {movieUpdated.size}

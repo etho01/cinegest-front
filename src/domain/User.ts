@@ -95,7 +95,7 @@ export const UserHaveAccessToCinema = (user : User, entityId : number, cinemaId 
 
 export const UserHasRight = (user : User, rightName : string, cinemaId : number | null) : boolean => {
     if (UserIsSuperAdmin(user)) {
-    //    return true;
+        return true;
     }
 
     if (cinemaId === null) {
@@ -109,6 +109,15 @@ export const UserHasRight = (user : User, rightName : string, cinemaId : number 
         }
     }
 
+    return false;
+}
+
+export const UserHasOneRight = (user : User, rightNames : string[], cinemaId : number | null) : boolean => {
+    for (const rightName of rightNames) {
+        if (UserHasRight(user, rightName, cinemaId)) {
+            return true;
+        }
+    }
     return false;
 }
 
