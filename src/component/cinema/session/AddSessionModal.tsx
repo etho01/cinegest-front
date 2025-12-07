@@ -128,7 +128,6 @@ export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onS
                                                 if (!value) return;
                                                 const newsessions = [...object.sessions];
                                                 newsessions[index].startAt = calendarToDate(value);
-                                                console.log(newsessions[index].startAt);
                                                 setObject({
                                                     ...object,
                                                     sessions: newsessions,

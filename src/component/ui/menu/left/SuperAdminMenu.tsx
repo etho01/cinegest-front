@@ -8,8 +8,8 @@ interface SuperAdminMenuProps {
 export const SuperAdminMenu = ({ page } : SuperAdminMenuProps) => {
     return (
         <>
-            <MenuElement active={page === "entityList"} link="/app/entity" title="Entités" icon={faCity} />
-            <MenuElement active={page === "adminList"} link="/app/admin" title="Administrateurs" icon={faCrown} />
+            <MenuElement active={page === "entity"} link="/app/entity" title="Entités" icon={faCity} />
+            <MenuElement active={page === "superadmin"} link="/app/admin" title="Administrateurs" icon={faCrown} />
         </>
     )
 }

@@ -24,7 +24,6 @@ export const UserRepositoryImpl: UserRepository = {
 
         const text = await resp.text();
         const body = JSON.parse(text);
-        console.log(body);
         const roles = body['roles'].map((roleData: any) => {
             return {
                 id: roleData['id'],

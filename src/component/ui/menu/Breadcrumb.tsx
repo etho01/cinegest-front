@@ -4,6 +4,8 @@ import Link from "next/link";
 import { BreadcrumbSelector } from "./BreadcrumbSelector";
 import { Entity } from "@/src/domain/Entity";
 import { Cinema } from "@/src/domain/Cinema";
+import { Button } from "../btn/button";
+import { Logout } from "@/src/controller/app/AuthController";
 
 interface Props {
     entity : Entity | null;

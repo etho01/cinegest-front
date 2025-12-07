@@ -15,19 +15,15 @@ export const DateTimePickerTimezoneExample = () => {
 
     const handleDateChange = (value: DateValue) => {
         setSelectedDate(value);
-        console.log('Date sélectionnée:', value);
         
         // Conversion sûre vers Date JavaScript
         if (value) {
             const jsDate = dateValueToDate(value);
-            console.log('Date JavaScript:', jsDate);
-            console.log('Formatted:', formatDateValue(value));
         }
     };
 
     const handleDateTimeChange = (value: DateValue) => {
         setSelectedDateTime(value);
-        console.log('DateTime sélectionné:', value);
     };
 
     return (

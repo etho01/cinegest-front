@@ -17,7 +17,6 @@ export const StorageItemRepositoryImpl : StorageItemRepository = {
         return body as Paginator<StorageItem>;
     },
     addStorageItems : async (entityId : number, cinemaId: number, params: addStorageItemObjectParams) : Promise<StorageItem> => {
-        console.log(params);
         const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/stores`, params, {});
         await throwErrorResponse(resp);
 

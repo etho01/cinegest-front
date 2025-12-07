@@ -5,6 +5,8 @@ import { Select } from "../form/Select";
 import { Cinema } from "@/src/domain/Cinema";
 import { Entity } from "@/src/domain/Entity";
 import { useRouter } from 'next/navigation'
+import { Logout } from "@/src/controller/app/AuthController";
+import { Button, LinkButton } from "../btn/button";
 
 
 interface BreadcrumbSelectorProps {
@@ -53,7 +55,17 @@ export const BreadcrumbSelector = ({ user, cinema, entity } : BreadcrumbSelector
                     />
                 )
             )}
-
+                <LinkButton href="/account">
+                    Mon compte
+                </LinkButton>
+                <form onSubmit={async (e) => {
+                     e.preventDefault();
+                    await Logout();
+                }}>
+                    <Button>
+                        Se déconnecter
+                    </Button>
+                </form>
         </div>
     )
 }

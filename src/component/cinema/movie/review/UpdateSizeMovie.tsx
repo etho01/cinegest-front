@@ -31,7 +31,6 @@ export const UpdateSizeMovie = forwardRef(({ movie, entityId, cinemaId, onSaved,
         emptyObject: {size: 0},
         action: updateMovieSizeController,
         onSaved: (entity) => {
-            console.log("UpdateSizeMovie onSaved", entity);
             if (onSaved) onSaved(entity.size);
         },
         customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + ''), movieId: movie.id },
