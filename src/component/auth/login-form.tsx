@@ -4,6 +4,7 @@ import { useAction } from "next-safe-action/hooks";
 import Input from "../ui/form/Input";
 import { FormButton } from "../ui/btn/form-button";
 import { Register } from "@/src/controller/app/AuthController";
+import Link from "next/link";
 
 
 export const LoginForm = () => {
@@ -26,7 +27,6 @@ export const LoginForm = () => {
             </div>
             <Input 
                 errors={result.validationErrors?.email} 
-                value="barbeynicolas.basly@gmail.com"
                 required 
                 type="text" 
                 name="email" 
@@ -36,7 +36,6 @@ export const LoginForm = () => {
             />
             <Input 
                 errors={result.validationErrors?.password} 
-                value="password&"
                 required 
                 type="password" 
                 name="password" 
@@ -49,7 +48,14 @@ export const LoginForm = () => {
                     Se connecter
                 </FormButton>
             </div>
-            { hasErrored ? <div className="text-red-500">{ result.serverError }</div> : null }
+            
+            <div className="text-center mt-4">
+                <Link href="/forgot-password" className="text-blue-600 hover:text-blue-800 text-sm">
+                    Mot de passe oublié ?
+                </Link>
+            </div>
+            
+            { hasErrored ? <div className="text-red-500 mt-4 text-center">{ result.serverError }</div> : null }
         </form>
     );
 }

@@ -12,6 +12,31 @@ export const UserLogSchema = z.object({
     password : z.string().max(255),
 })
 
+export type PasswordResetRequest = {
+    email: string
+}
+
+export const PasswordResetRequestSchema = z.object({
+    email: z.string().email({ message: "Veuillez entrer une adresse email valide" })
+})
+
+export type PasswordReset = {
+    email: string,
+    token: string,
+    password: string,
+    passwordConfirmation: string
+}
+
+export const PasswordResetSchema = z.object({
+    email: z.string().email({ message: "Veuillez entrer une adresse email valide" }),
+    token: z.string().min(1, { message: "Le token de réinitialisation est requis" }),
+    password: z.string().min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" }),
+    passwordConfirmation: z.string().min(1, { message: "La confirmation du mot de passe est requise" })
+}).refine((data) => data.password === data.passwordConfirmation, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["passwordConfirmation"]
+})
+
 export type Role = {
     id : number,
     name : string,

@@ -3,7 +3,9 @@ import { addUser } from "@/src/application/useCases/User/addUser";
 import { updateMe } from "@/src/application/useCases/User/updateMe";
 import { updateMePassword } from "@/src/application/useCases/User/updateMePassword";
 import { updateUser } from "@/src/application/useCases/User/updateUser";
-import { UserSchema } from "@/src/domain/User";
+import { requestPasswordReset } from "@/src/application/useCases/User/requestPasswordReset";
+import { resetPassword } from "@/src/application/useCases/User/resetPassword";
+import { UserSchema, PasswordResetRequestSchema, PasswordResetSchema } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
 import { actionClient } from "@/src/lib/safe-action-client";
 import z from "zod";
@@ -65,3 +67,15 @@ export const deleteUserController = actionClient.schema(
 ).action(async ({parsedInput: { entityId, userId }}) => {
     await UserRepositoryImpl.deleteUser(entityId, userId);
 })
+
+export const requestPasswordResetController = actionClient.schema(
+    PasswordResetRequestSchema
+).action(async ({parsedInput: request}) => {
+    await requestPasswordReset(UserRepositoryImpl, request);
+});
+
+export const resetPasswordController = actionClient.schema(
+    PasswordResetSchema
+).action(async ({parsedInput: reset}) => {
+    await resetPassword(UserRepositoryImpl, reset);
+});

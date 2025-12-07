@@ -8,13 +8,17 @@ export async function middleware(req: NextRequest) {
     const cookieStore = await cookies();
     let isLog = cookieStore.has('login-token');
 
-    if (pathname.startsWith('/login') && isLog)
+    // Pages publiques (pas besoin d'être connecté)
+    const publicPaths = ['/login', '/forgot-password', '/reset-password'];
+    const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+
+    if (isPublicPath && isLog)
     {
         const url = req.nextUrl.clone();
         url.pathname = "/app";
         return NextResponse.redirect(url);
     }
-    else if (!isLog && (pathname == '' || pathname.startsWith('/app')))
+    else if (!isLog && !isPublicPath && (pathname == '' || pathname.startsWith('/app')))
     {
         const url = req.nextUrl.clone();
         url.pathname = "/login";

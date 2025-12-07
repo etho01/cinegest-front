@@ -1,5 +1,5 @@
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
-import { User, UserLog } from "@/src/domain/User";
+import { User, UserLog, PasswordResetRequest, PasswordReset } from "@/src/domain/User";
 import { getUsersParams } from "../useCases/User/getUsers";
 import { rolesCinemaListType } from "../useCases/User/updateUserRole";
 import { UpdateMePasswordProps } from "../useCases/User/updateMePassword";
@@ -18,4 +18,6 @@ export interface UserRepository {
     updateUserRights : (entityId: number, userId: number, rights: string[]) => Promise<User>,
     updateMe : (user : User) => Promise<User>,
     updateMePassword : (props : UpdateMePasswordProps) => Promise<void>,
+    requestPasswordReset : (request: PasswordResetRequest) => Promise<void>,
+    resetPassword : (reset: PasswordReset) => Promise<void>,
 }

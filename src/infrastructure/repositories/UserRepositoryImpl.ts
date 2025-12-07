@@ -3,7 +3,7 @@ import { getUsersParams } from "@/src/application/useCases/User/getUsers";
 import { UpdateMePasswordProps } from "@/src/application/useCases/User/updateMePassword";
 import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
-import { User, UserLog } from "@/src/domain/User";
+import { User, UserLog, PasswordResetRequest, PasswordReset } from "@/src/domain/User";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
 import { throwErrorResponse } from "@/src/lib/request/Request";
 
@@ -121,6 +121,14 @@ export const UserRepositoryImpl: UserRepository = {
     updateMePassword : async (props: UpdateMePasswordProps) : Promise<void> => {
         console.log("Updating password with props:", props);
         const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/me/password`, props, {});
+        await throwErrorResponse(resp);
+    },
+    requestPasswordReset : async (request: PasswordResetRequest) : Promise<void> => {
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/forgot-password`, request, {});
+        await throwErrorResponse(resp);
+    },
+    resetPassword : async (reset: PasswordReset) : Promise<void> => {
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/reset-password`, reset, {});
         await throwErrorResponse(resp);
     },
 }
