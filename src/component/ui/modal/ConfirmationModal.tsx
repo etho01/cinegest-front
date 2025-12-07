@@ -2,14 +2,11 @@ import React from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "./Modal";
 import { Button } from "../btn/button";
 
-interface ConfirmationModalProps {
-}
-
 export interface ConfirmationModalRef {
     open: (title: string, message: string, onConfirm: () => void, onClose?: () => void) => void;
 }
 
-export const ConfirmationModal = React.forwardRef(({  }: ConfirmationModalProps, ref) => {
+export const ConfirmationModal = React.forwardRef((_, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [title, setTitle] = React.useState("");
     const [message, setMessage] = React.useState("");

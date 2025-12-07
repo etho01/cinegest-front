@@ -30,7 +30,7 @@ interface PropsFetchMovies {
     user: User;
 } 
 
-export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, allOptionsTypes, user }: PropsFetchMovies) => {
+export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, user }: PropsFetchMovies) => {
     const paginationRef = useRef<PaginationTabRef>(null);
     const modalRef = useRef<LoadObjectAndShowModalRef<Movie>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
@@ -76,7 +76,7 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, a
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/movie/gets`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Movie, index) => (
+                lineRenderer={(item : Movie) => (
                     <>
                         <td className="py-2 px-1">{item.title}</td>
                         <td className="py-2 px-1">{item.releaseDate ? new Date(item.releaseDate).toLocaleDateString() : "N/A"}</td>

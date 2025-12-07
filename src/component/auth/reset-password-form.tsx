@@ -39,7 +39,8 @@ export const ResetPasswordForm = ({ token, email }: ResetPasswordFormProps) => {
             setTimeout(() => {
                 router.push("/login");
             }, 3000);
-        } catch (error) {
+        } catch (e) {
+            throw e;
             // L'erreur est gérée par useAction
         }
     };

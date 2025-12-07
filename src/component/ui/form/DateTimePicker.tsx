@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { DatePicker } from "@heroui/date-picker";
-import { CalendarDate, CalendarDateTime, ZonedDateTime, parseDate, parseDateTime, getLocalTimeZone } from "@internationalized/date";
 import { cn } from "../../utils";
 import Label from "./Label";
 import { FormError, formError } from "./FormError";
@@ -52,16 +51,12 @@ export const DateTimePicker = ({
     granularity = "minute",
     hideTimeZone = false,
     hourCycle = 24,
-    showMonthAndYearPickers = true,
-    className = '',
-    timeZone,
     onChange,
     onBlur,
     onFocus,
     ...props
 }: Props) => {
     // Utilise le fuseau horaire local par défaut pour éviter les décalages
-    const defaultTimeZone = timeZone || getLocalTimeZone();
     const [internalValue, setInternalValue] = useState<DateValue>(value || defaultValue || null);
 
     const handleChange = (newValue: DateValue) => {

@@ -1,10 +1,9 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
 import Input from "../../ui/form/Input";
 import { Superadmin, SuperadminEmpty } from "@/src/domain/superadmin";
-import { useAction } from "next-safe-action/hooks";
-import { addOrUpdateSuperadminController, addSuperadminController } from "@/src/controller/app/SuperadminController";
+import { addOrUpdateSuperadminController } from "@/src/controller/app/SuperadminController";
 import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
 
 interface SuperadminModelProps {
@@ -14,8 +13,8 @@ interface SuperadminModelProps {
     onSaved?: (entity: Superadmin) => void | Promise<void>;
 }
 
-export const SuperadminModal = forwardRef(({ isOpen, onClose, initialObject, onSaved }: SuperadminModelProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Superadmin>({
+export const SuperadminModal = forwardRef(({ isOpen, initialObject, onSaved }: SuperadminModelProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Superadmin>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
@@ -24,7 +23,7 @@ export const SuperadminModal = forwardRef(({ isOpen, onClose, initialObject, onS
         onSaved: onSaved,
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,

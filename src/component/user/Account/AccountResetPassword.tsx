@@ -1,6 +1,5 @@
 "use client"
 import { updateMePasswordController } from "@/src/controller/app/UserController";
-import { AccountFormProps } from "./AccountForm";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { UpdateMePasswordProps } from "@/src/application/useCases/User/updateMePassword";

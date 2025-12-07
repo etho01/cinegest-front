@@ -17,7 +17,6 @@ import {
     faBuilding,
     faMapMarkerAlt,
     faGlobe,
-    faUsers,
     faHardDrive,
     faPlayCircle,
     faTools

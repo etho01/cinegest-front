@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DateTimePicker } from './DateTimePicker';
-import { DateValue, nowZoned, today } from '@/src/lib/DateTimePickerUtils';
+import { DateValue, today } from '@/src/lib/DateTimePickerUtils';
 
 export const DateTimePickerFormatExample = () => {
     const [selectedDate1, setSelectedDate1] = useState<DateValue>(null);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DateTimePicker } from './DateTimePicker';
-import { DateValue, nowZoned, createSafeDateValue, dateValueToDate, formatDateValue } from '@/src/lib/DateTimePickerUtils';
+import { DateValue, nowZoned, createSafeDateValue, formatDateValue } from '@/src/lib/DateTimePickerUtils';
 import { getLocalTimeZone } from '@internationalized/date';
 
 export const DateTimePickerTimezoneExample = () => {
@@ -15,11 +15,6 @@ export const DateTimePickerTimezoneExample = () => {
 
     const handleDateChange = (value: DateValue) => {
         setSelectedDate(value);
-        
-        // Conversion sûre vers Date JavaScript
-        if (value) {
-            const jsDate = dateValueToDate(value);
-        }
     };
 
     const handleDateTimeChange = (value: DateValue) => {

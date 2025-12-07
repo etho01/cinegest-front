@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { formError, FormError } from "./FormError";
 import Label from "./Label";
 import {DateRangePicker, DateRangePickerProps} from "@heroui/date-picker";
@@ -19,8 +18,7 @@ extends Omit<DateRangePickerProps, 'label' | 'containerClassName' | 'errors' | '
     dateEnd?: string
 }
 
-export const CustomDateRangePicker = ({className = '', label = '', containerClassName = '', errors = undefined, showErrors = true, initialValue = '', onChange, ...props} : CustomDateRangePickerProps) => {
-    const [value, setValue] = useState(initialValue);
+export const CustomDateRangePicker = ({className = '', label = '', containerClassName = '', errors = undefined, showErrors = true, onChange, ...props} : CustomDateRangePickerProps) => {
 
     let htmlFor = "";
     if (props['id'] != undefined)

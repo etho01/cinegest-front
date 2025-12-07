@@ -1,4 +1,3 @@
-import { User } from "@/src/domain/User"
 import { PropsWithChildren } from "react"
 import { MenuProps } from "./showMenu"
 import { LeftMenu } from "./left/LeftMenu"

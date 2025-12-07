@@ -1,7 +1,7 @@
 import { Entity } from "@/src/domain/Entity";
 import { User, UserHasOneRight, UserHasRight } from "@/src/domain/User";
 import { MenuElement } from "./MenuElement";
-import { faBuilding, faFilm, faGear, faKey, faS, faServer, faStore, faUnlock, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faFilm, faGear, faKey, faServer } from "@fortawesome/free-solid-svg-icons";
 import { Cinema } from "@/src/domain/Cinema";
 
 

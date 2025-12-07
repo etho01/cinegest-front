@@ -52,7 +52,7 @@ export const RoleManager = ({ initialData, initialParams, entityId, user }: Prop
                 initialParams={initialParams}
                 endpoint={`api/${entityId}/roles`}
                 ref={paginationRef}
-                lineRenderer={(item : Role, index) => (
+                lineRenderer={(item : Role) => (
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1 text-right">
@@ -90,7 +90,7 @@ export const RoleManager = ({ initialData, initialParams, entityId, user }: Prop
                 entityId={entityId} 
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(role) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

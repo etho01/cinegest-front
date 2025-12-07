@@ -16,8 +16,8 @@ interface RoleModalProps {
     entityId?: number;
 }
 
-export const RoleModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId }: RoleModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Role>({
+export const RoleModal = forwardRef(({ isOpen, initialObject, onSaved, entityId }: RoleModalProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Role>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

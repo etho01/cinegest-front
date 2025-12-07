@@ -1,4 +1,3 @@
-import { int } from "zod";
 import { cn } from "../../utils";
 
 export const Table = ({ className, ...props }: React.ComponentPropsWithRef<'table'>) => {

@@ -1,4 +1,4 @@
-import { faBuilding, faChartLine, faCity, faCrown } from "@fortawesome/free-solid-svg-icons"
+import { faCity, faCrown } from "@fortawesome/free-solid-svg-icons"
 import { MenuElement } from "./MenuElement"
 
 interface SuperAdminMenuProps {

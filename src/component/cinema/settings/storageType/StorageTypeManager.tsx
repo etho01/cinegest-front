@@ -54,7 +54,7 @@ export const StorageTypeManager = ({ initialData, initialParams, entityId, cinem
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/settings/storage-type`} 
                 ref={paginationRef} 
-                lineRenderer={(item : StorageType, index) => (
+                lineRenderer={(item : StorageType) => (
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1 text-right">
@@ -94,7 +94,7 @@ export const StorageTypeManager = ({ initialData, initialParams, entityId, cinem
                 cinemaId={cinemaId}
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(storageType) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

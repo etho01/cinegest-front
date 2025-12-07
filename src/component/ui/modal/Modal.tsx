@@ -4,7 +4,6 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../utils';
-import { Button } from '../btn/button';
 import { PropsWithChildren, HTMLAttributes } from 'react';
 
 // Modal variants pour différentes tailles
@@ -237,7 +236,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(({
 
     // Hooks personnalisés
     useModalEvents(isOpen, onClose, closeOnEscape);
-    const { firstFocusableElement, lastFocusableElement } = useModalFocus(
+    const {  } = useModalFocus(
         isOpen, 
         modalRef, 
         initialFocus

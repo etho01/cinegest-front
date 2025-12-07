@@ -3,7 +3,7 @@ import { getRooms } from "@/src/application/useCases/Cinema/Settings/room/getRoo
 import { getAllStorages } from "@/src/application/useCases/Cinema/Settings/Storage/getAllStorage";
 import { RoomManager } from "@/src/component/cinema/settings/room/RoomManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
-import { Unauthorized, UserHasRight } from "@/src/domain/User";
+import { UserHasRight } from "@/src/domain/User";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";

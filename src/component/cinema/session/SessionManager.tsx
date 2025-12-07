@@ -195,7 +195,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                 isOpen={false}
                 initialObject={null}
                 onClose={() => {}}
-                onSaved={async (key) => {
+                onSaved={async () => {
                     paginationRef.current?.refresh();
                 }}
                 rooms={rooms}

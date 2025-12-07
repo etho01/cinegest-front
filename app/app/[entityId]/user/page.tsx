@@ -1,7 +1,7 @@
 import { getUsers } from "@/src/application/useCases/User/getUsers";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { UserManager } from "@/src/component/user/userManager";
-import { Unauthorized, UserHasRight } from "@/src/domain/User";
+import { UserHasRight } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
 
 interface UserPageProps {

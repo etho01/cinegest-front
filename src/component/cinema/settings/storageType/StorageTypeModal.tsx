@@ -17,20 +17,20 @@ interface StorageTypeModalProps {
 }
 
 
-export const StorageTypeModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId }: StorageTypeModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<StorageType>({
+export const StorageTypeModal = forwardRef(({ isOpen, initialObject, onSaved, entityId, cinemaId }: StorageTypeModalProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<StorageType>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: StorageTypeEmpty,
         action: addOrUpdateStorageTypeController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
         },
         customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,

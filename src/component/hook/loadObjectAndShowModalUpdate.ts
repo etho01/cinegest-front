@@ -30,7 +30,7 @@ export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErr
         if (customData) {
             formData = { ...formData, ...customData };
         }
-        let result = await executeAsync(formData);
+        const result = await executeAsync(formData);
         if (result?.data) {
             objectTemp = result.data;
         }
@@ -40,7 +40,7 @@ export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErr
         }
 
         setIsOpenState(false);
-        onSaved && onSaved(objectTemp);
+        if (onSaved) onSaved(objectTemp);
     }
 
     return {

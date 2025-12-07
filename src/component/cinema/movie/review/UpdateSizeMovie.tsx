@@ -5,7 +5,6 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/co
 import { updateMovieSizeController } from "@/src/controller/app/Cinema/MovieController";
 import { Movie } from "@/src/domain/Cinema/Movie";
 import { forwardRef, useImperativeHandle } from "react";
-import { size } from "zod";
 
 interface MovieSizeUpdate {
     size: number;
@@ -24,7 +23,7 @@ export interface UpdateSizeMovieRef {
 }
 
 export const UpdateSizeMovie = forwardRef(({ movie, entityId, cinemaId, onSaved, isOpen }: updateMovieProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<MovieSizeUpdate>({
+    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<MovieSizeUpdate>({
         initialObject: null,
         isOpen: isOpen,
         showErrorsBase: false,

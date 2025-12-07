@@ -12,7 +12,6 @@ import {
     faKey, 
     faCalendarDays, 
     faChartLine,
-    faPlus,
     faEye,
     faCog,
     faServer,

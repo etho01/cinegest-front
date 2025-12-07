@@ -20,7 +20,8 @@ export const ForgotPasswordForm = () => {
         try {
             await executeAsync(request);
             setIsSubmitted(true);
-        } catch (error) {
+        } catch (e) {
+            throw e;
             // L'erreur est gérée par useAction
         }
     };

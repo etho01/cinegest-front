@@ -44,7 +44,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                 initialParams={initialParams} 
                 endpoint="api/entity" 
                 ref={paginationRef} 
-                lineRenderer={(item : Entity, index) => (
+                lineRenderer={(item : Entity) => (
                     <>
                         <td className="py-2 px-1">
                             {item.name}
@@ -78,7 +78,7 @@ export default function EntityManager({ initialData, initialParams }: PropsFetch
                 colList={["Nom", ""]} 
             />
             <EntityModal 
-                onSaved={(entity) => {location.reload(); paginationRef.current?.refresh();}} 
+                onSaved={() => {location.reload(); paginationRef.current?.refresh();}} 
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 

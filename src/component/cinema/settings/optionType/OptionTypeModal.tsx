@@ -5,7 +5,6 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/co
 import { addOrUpdateOptionTypeController } from "@/src/controller/app/Cinema/Settings/OptionTypesController";
 import { OptionType, OptionTypeEmpty } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { forwardRef, useImperativeHandle } from "react";
-import { set } from "zod";
 
 
 interface OptionTypeModalProps {
@@ -17,20 +16,20 @@ interface OptionTypeModalProps {
     cinemaId?: number;
 }
 
-export const OptionTypeModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId }: OptionTypeModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<OptionType>({
+export const OptionTypeModal = forwardRef(({ isOpen, initialObject, onSaved, entityId, cinemaId }: OptionTypeModalProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<OptionType>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: OptionTypeEmpty,
         action: addOrUpdateOptionTypeController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
         },
         customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,

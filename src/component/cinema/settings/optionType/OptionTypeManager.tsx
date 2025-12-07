@@ -54,7 +54,7 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/settings/option-types`} 
                 ref={paginationRef} 
-                lineRenderer={(item : OptionType, index) => (
+                lineRenderer={(item : OptionType) => (
                     <>
                         <td className="py-2 px-1">{item.name}</td>
                         <td className="py-2 px-1 text-right">
@@ -94,7 +94,7 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                 cinemaId={cinemaId}
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(optionType) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

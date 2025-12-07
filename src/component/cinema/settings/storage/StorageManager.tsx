@@ -75,7 +75,7 @@ export const StorageManager = ({ initialData, initialParams, entityId, cinemaId,
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/settings/storage`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Storage, index) => (
+                lineRenderer={(item : Storage) => (
                     <>
                         <Td >{item.name}</Td>
                         <Td>{item.capacity}</Td>
@@ -117,7 +117,7 @@ export const StorageManager = ({ initialData, initialParams, entityId, cinemaId,
                 cinemaId={cinemaId}
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(option) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

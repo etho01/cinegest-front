@@ -1,7 +1,6 @@
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { User, UserHasRight } from "@/src/domain/User";
-import { Entity } from "@/src/domain/Entity";
-import { Cinema } from "@/src/domain/Cinema";
+import { Entity } from "@/src/domain/Entity"
 import Card from "@/src/component/ui/card";
 import { Button } from "@/src/component/ui/btn/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,10 +12,7 @@ import {
     faChartLine,
     faPlus,
     faEye,
-    faCog,
     faFilm,
-    faKey,
-    faCalendarDays
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
@@ -30,7 +26,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
 
     return (
         <ShowMenu
-            body={async (user: User, entity: Entity | null, cinema: Cinema | null) => {
+            body={async (user: User, entity: Entity | null) => {
                 if (!entity) {
                     return (
                         <div className="p-6">

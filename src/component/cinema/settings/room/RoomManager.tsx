@@ -93,7 +93,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/settings/room`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Room, index) => (
+                lineRenderer={(item : Room) => (
                     <>
                         <Td >{item.name}</Td>
                         <Td >{item.serveurSize}</Td>
@@ -134,7 +134,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                 cinemaId={cinemaId}
                 isOpen={false} 
                 ref={modalRef} 
-                onSaved={(option) => {
+                onSaved={() => {
                     paginationRef.current?.refresh();
                 }} 
                 onClose={function (): void {} } 

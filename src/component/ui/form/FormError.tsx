@@ -1,6 +1,6 @@
 
 export type formError = {
-    _errors?: String[] | undefined
+    _errors?: string[] | undefined
 }
 
 interface Props {

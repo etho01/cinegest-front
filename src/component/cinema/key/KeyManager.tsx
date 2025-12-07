@@ -9,7 +9,6 @@ import { Paginator } from "../../ui/pagination/PaginationType";
 import Card from "../../ui/card";
 import { Button } from "../../ui/btn/button";
 import { Select } from "../../ui/form/Select";
-import Pagination from "../../ui/pagination/Pagination";
 import { Td } from "../../ui/table/Table";
 import { Key } from "@/src/domain/Cinema/Key";
 import { AddKeyModal } from "./AddKeyModal";
@@ -127,7 +126,7 @@ export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, in
                 isOpen={false}
                 initialObject={null}
                 onClose={() => {}}
-                onSaved={async (key) => {
+                onSaved={async () => {
                     paginationRef.current?.refresh();
                 }}
                 rooms={rooms}

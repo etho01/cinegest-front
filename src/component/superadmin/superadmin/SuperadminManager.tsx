@@ -7,7 +7,6 @@ import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/Confirma
 import { Superadmin } from "@/src/domain/superadmin";
 import { Paginator } from "../../ui/pagination/PaginationType";
 import { useRef } from "react";
-import { EntityModal } from "../entity/EntityModal";
 import { SuperadminModal } from "./SuperadminModal";
 import { deleteSuperadminController } from "@/src/controller/app/SuperadminController";
 import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
@@ -46,7 +45,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                 initialParams={initialParams} 
                 endpoint="api/superadmin" 
                 ref={paginationRef} 
-                lineRenderer={(item : Superadmin, index) => (
+                lineRenderer={(item : Superadmin) => (
                     <>
                         <td className="py-2 px-1">
                             {item.firstname} {item.lastname}
@@ -85,7 +84,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                 colList={["Nom", "Email", "Téléphone", ""]} 
             />
             <SuperadminModal 
-                onSaved={(entity) => {paginationRef.current?.refresh();}} 
+                onSaved={() => {paginationRef.current?.refresh();}} 
                 ref={modalRef} 
                 isOpen={false} 
                 onClose={() => {}} 

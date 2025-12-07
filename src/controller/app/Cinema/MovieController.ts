@@ -38,6 +38,8 @@ export const addOrUpdateMovieVersionController = actionClient.schema(
     {
         movieVersion = await updateMovieVersion(MovieRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput);
     }
+
+    return movieVersion;
 });
 
 export const deleteMovieVersionController = actionClient.schema(

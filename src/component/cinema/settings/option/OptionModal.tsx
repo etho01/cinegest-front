@@ -26,7 +26,7 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         emptyObject: OptionEmpty,
         action: addOrUpdateOptionController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
         },
         customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') },
         setDefaultValues: (object: Option) => {

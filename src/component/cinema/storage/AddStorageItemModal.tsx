@@ -23,7 +23,7 @@ interface AddStorageItemModalProps {
 }
 
 export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms, storages }: AddStorageItemModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<addStorageItemObjectParams>({
+    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<addStorageItemObjectParams>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
@@ -134,7 +134,7 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                                 <Tr key={index}>
                                     <Td>
                                         <AsyncSelect
-                                            loadOptions={async (inputValue: string, callback) => {
+                                            loadOptions={async (inputValue: string) => {
                                                 const response = await fetch(`/api/${entityId}/cinema/${cinemaId}/movie/version/search?search=` + encodeURIComponent(inputValue));
                                                 const data = await response.json();
                                                 return data.map((version: MovieVersion) => ({

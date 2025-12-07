@@ -30,8 +30,8 @@ function arraysEqual(a : number[], b: number[]) {
 }
 
 function getRolesCinemaListTypeIdsFromRoles(roles: Role[]): rolesCinemaListType[] {
-    let cinemaListTemp: { [key: number]: number[] } = {};
-    let rolesCinemaListType: rolesCinemaListType[] = [];
+    const cinemaListTemp: { [key: number]: number[] } = {};
+    const rolesCinemaListType: rolesCinemaListType[] = [];
 
     roles.forEach(role => {
         if (role.cinemaId !== null) {
@@ -48,7 +48,7 @@ function getRolesCinemaListTypeIdsFromRoles(roles: Role[]): rolesCinemaListType[
             continue;
         }
 
-        let cinemaIdList: number[] = [];
+        const cinemaIdList: number[] = [];
         cinemaIdList.push(parseInt(cinemaId));
 
         for (const cinemaId2 in cinemaListTemp) {
@@ -69,11 +69,11 @@ function getRolesCinemaListTypeIdsFromRoles(roles: Role[]): rolesCinemaListType[
 }
 
 export default function UserManageRole({ user, entityId, allCinemaList, allRoleList }: UserManageRoleProps) {
-    let roles = user.roles || [];
+    const roles = user.roles || [];
     const [globalRight, setGlobalRight] = useState<string[]>(user.rights || []);
     const [rolesUser, setRolesUser] = useState<rolesCinemaListType[]>(getRolesCinemaListTypeIdsFromRoles(roles));
 
-    const { executeAsync, hasErrored, result, input } = useAction(updateUserRoleController);
+    const { executeAsync, result } = useAction(updateUserRoleController);
 
     return (
         <form onSubmit={async (e) => {
@@ -107,7 +107,7 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
                                     isMulti={true}
                                     errors={result.validationErrors?.rolesUser ? result.validationErrors?.rolesUser[index]?.roles : undefined}
                                     onChange={(newValue) => {
-                                        let updatedList = [...rolesUser];
+                                        const updatedList = [...rolesUser];
                                         updatedList[index].roles = newValue;
                                         setRolesUser(updatedList);
                                     }}
@@ -120,7 +120,7 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
                                     isMulti={true}
                                     errors={result.validationErrors?.rolesUser ? result.validationErrors?.rolesUser[index]?.cinemas : undefined}
                                     onChange={(newValue) => {
-                                        let updatedList = [...rolesUser];
+                                        const updatedList = [...rolesUser];
                                         updatedList[index].cinemas = newValue;
                                         setRolesUser(updatedList);
                                     }}

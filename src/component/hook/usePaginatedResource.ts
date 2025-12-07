@@ -1,7 +1,7 @@
 // hooks/usePaginatedResource.ts
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Paginator } from "../ui/pagination/PaginationType";
 import { withSearchParams } from "@/src/lib/url";
 import { Unauthorized } from "@/src/domain/User";

@@ -23,7 +23,7 @@ export const Tab = ({ tabList, className, selectTab }: TabProps) => {
     const [selectedTab, setSelectedTab] = useState<number>(selectTab || 0);
 
     return (
-        <div>
+        <div className={cn(className ? className : "")}>
             <div className="">
                 {tabList.map((tab, index) => (
                     <div key={index} className={cn(

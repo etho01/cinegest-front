@@ -2,15 +2,13 @@ import React from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "./Modal";
 import { Button } from "../btn/button";
 
-interface ErrorModalProps {
-}
 
 export interface ErrorModalRef {
     open: (title: string, error: string | Error, onClose?: () => void) => void;
     close: () => void;
 }
 
-export const ErrorModal = React.forwardRef<ErrorModalRef, ErrorModalProps>(({}, ref) => {
+export const ErrorModal = React.forwardRef<ErrorModalRef>(({}, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [title, setTitle] = React.useState("Erreur");
     const [errorMessage, setErrorMessage] = React.useState("");

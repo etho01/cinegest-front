@@ -4,8 +4,6 @@ import Link from "next/link";
 import { BreadcrumbSelector } from "./BreadcrumbSelector";
 import { Entity } from "@/src/domain/Entity";
 import { Cinema } from "@/src/domain/Cinema";
-import { Button } from "../btn/button";
-import { Logout } from "@/src/controller/app/AuthController";
 
 interface Props {
     entity : Entity | null;
@@ -24,7 +22,7 @@ export interface BreadcrumbLevel {
 }
 
 export const Breadcrumb = ({ entity, cinema, page, user, customParam } : Props) => {
-    let breadcrumbLevel : BreadcrumbLevel | null = BreadcrumbPageList[page] || null;
+    const breadcrumbLevel : BreadcrumbLevel | null = BreadcrumbPageList[page] || null;
 
     return (
         <div className="bg-white mb-5 p-5 flex justify-between shadow-sm rounded-md">

@@ -23,7 +23,7 @@ interface AddSessionModalProps {
 
 
 export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms }: AddSessionModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<AddSessionModalElement>({
+    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<AddSessionModalElement>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
@@ -76,7 +76,7 @@ export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onS
                                 <Tr key={index}>
                                     <Td>
                                         <AsyncSelect
-                                            loadOptions={async (inputValue: string, callback) => {
+                                            loadOptions={async (inputValue: string) => {
                                                 const response = await fetch(`/api/${entityId}/cinema/${cinemaId}/movie/version/search?search=` + encodeURIComponent(inputValue));
                                                 const data = await response.json();
                                                 return data.map((version: MovieVersion) => ({

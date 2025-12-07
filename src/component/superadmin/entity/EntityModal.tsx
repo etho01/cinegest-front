@@ -1,6 +1,6 @@
 "use client"
 import { Entity, EntityEmpty } from "@/src/domain/Entity";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
 import Input from "../../ui/form/Input";
@@ -14,20 +14,20 @@ interface EntityModelProps {
     onSaved?: (entity: Entity) => void | Promise<void>;
 }
 
-export const EntityModal = forwardRef(({ isOpen, onClose, initialObject, onSaved }: EntityModelProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Entity>({
+export const EntityModal = forwardRef(({ isOpen, initialObject, onSaved }: EntityModelProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Entity>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: EntityEmpty,
         action: addOrUpdateEntityController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
             location.reload();
         },
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
@@ -52,6 +52,7 @@ export const EntityModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                         errors={result.validationErrors?.name}
                         showErrors={showErrors}
                     />
+                    { hasErrored && showErrors ? <div className="text-red-500">{ result.serverError }</div> : null }
                 </ModalBody>
                 <ModalFooter>
                     <Button variant="outline" onClick={() => setIsOpenState(false)}>

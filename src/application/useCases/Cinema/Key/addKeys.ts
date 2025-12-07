@@ -1,6 +1,4 @@
 import { KeyRepository } from "@/src/application/repositories/Cinema/KeyRepository";
-import { MovieVersion } from "@/src/domain/Cinema/Movie";
-import { Room } from "@/src/domain/Cinema/Settings/Room";
 
 export interface AddKeyModalElement {
     dateStart: Date | null;

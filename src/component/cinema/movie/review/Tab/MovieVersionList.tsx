@@ -119,7 +119,7 @@ export default function MovieVersionList({ movie, entityId, cinemaId, optionsTyp
                 cinemaId={cinemaId}
                 movieId={movie.id}
                 onSaved={async (savedVersion) => {
-                    let updatedVersions = [...versions];
+                    const updatedVersions = [...versions];
                     const existingIndex = updatedVersions.findIndex(v => v.id === savedVersion.id);
                     if (existingIndex >= 0) {
                         // Update existing version

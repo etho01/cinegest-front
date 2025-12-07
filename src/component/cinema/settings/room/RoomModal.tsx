@@ -21,15 +21,15 @@ interface RoomModalProps {
     allStorages: Storage[];
 }
 
-export const RoomModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, allOptions, allStorages }: RoomModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<Room>({
+export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId, cinemaId, allOptions, allStorages }: RoomModalProps, ref) => {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Room>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: RoomEmpty,
         action: addOrUpdateRoomController,
         onSaved: (entity) => {
-            onSaved && onSaved(entity);
+            if (onSaved) onSaved(entity);
         },
         customData: { entityId: parseInt(entityId + ''), cinemaId: parseInt(cinemaId + '') },
         setDefaultValues: (object: Room) => {
@@ -39,7 +39,7 @@ export const RoomModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, 
         }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,

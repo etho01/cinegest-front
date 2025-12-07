@@ -28,7 +28,7 @@ interface SettingsItemProps {
 }
 
 export const SettingsItem = ({ icon, title, link, show = true }: SettingsItemProps) => {
-   // if (!show) return null;
+    if (!show) return null;
     return (
         <Link href={link} className="p-4 flex border rounded hover:bg-gray-100 items-center flex-col">
             <div className="mx-auto">

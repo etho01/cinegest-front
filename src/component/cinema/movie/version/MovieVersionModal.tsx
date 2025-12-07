@@ -4,11 +4,10 @@ import Input from "@/src/component/ui/form/Input";
 import { Select } from "@/src/component/ui/form/Select";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/component/ui/modal";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
-import { addMovieController, addOrUpdateMovieVersionController } from "@/src/controller/app/Cinema/MovieController";
+import { addOrUpdateMovieVersionController } from "@/src/controller/app/Cinema/MovieController";
 import { MovieVersion, MovieVersionEmpty } from "@/src/domain/Cinema/Movie";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
-import { Room } from "@/src/domain/Cinema/Settings/Room";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 interface MovieVersionModalProps {
@@ -32,14 +31,14 @@ type optionSelectType = {
 export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, movieId, optionsTypes, options }: MovieVersionModalProps, ref) => {
     const [ optionSelectList, setOptionSelectList ] = useState<optionSelectType[]>([]);
 
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject, onSubmit, hasErrored, result, input } = loadObjectAndShowModalUpdate<MovieVersion>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<MovieVersion>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,
         emptyObject: MovieVersionEmpty,
         action: addOrUpdateMovieVersionController,
         onSaved: (object) => {
-            onSaved && onSaved(object);
+            if (onSaved) onSaved(object);
         },
         customDataFunc: (object) => {
             const optionsToSend = optionSelectList.filter(optionSelect => optionSelect.optionId !== undefined).map(optionSelect => {
@@ -56,13 +55,13 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
         }
     });
 
-    const loadFromId = async (id : number) => {};
+    const loadFromId = async () => {};
 
     useImperativeHandle(ref, () => ({
         loadFromId,
         loadFromObject : (obj: MovieVersion) => {
             loadFromObject(obj);
-            let initialOptionSelectList : optionSelectType[] = [];
+            const initialOptionSelectList : optionSelectType[] = [];
             obj.options.forEach(option => {
                 const optionSelected = options.find(opt => opt.id === option.id);
                 if (optionSelected) {
@@ -128,7 +127,7 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                                             }).map(optionType => ({ value: optionType.id, label: optionType.name }))}
                                             value={optionSelect.optionTypeId ? optionSelect.optionTypeId : null}
                                             onChange={(optionTypeId) => {
-                                                let updatedList = [...optionSelectList];
+                                                const updatedList = [...optionSelectList];
                                                 updatedList[index].optionTypeId = optionTypeId;
                                                 updatedList[index].optionId = undefined;
                                                 setOptionSelectList(updatedList);
@@ -144,7 +143,7 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                                                 }).map(option => ({ value: option.id, label: option.name }))}
                                                 value={optionSelect.optionId ? optionSelect.optionId : null}
                                                 onChange={(optionId) => {
-                                                    let updatedList = [...optionSelectList];
+                                                    const updatedList = [...optionSelectList];
                                                     updatedList[index].optionId = optionId;
                                                     setOptionSelectList(updatedList);
                                                 }}
