@@ -13,7 +13,7 @@ export const Menu = ({user, entity, cinema, page, children, customParam} : Props
         
         <div className="flex justify-between h-full">
             <LeftMenu user={user} entity={entity} cinema={cinema} page={page} />
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col overflow-y-auto">
                 <div className="border-b">
 
                 </div>
