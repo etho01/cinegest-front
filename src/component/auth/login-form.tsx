@@ -36,7 +36,7 @@ export const LoginForm = () => {
             />
             <Input 
                 errors={result.validationErrors?.password} 
-                value="password"
+                value="password&"
                 required 
                 type="password" 
                 name="password" 

@@ -2,6 +2,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { User, UserLog } from "@/src/domain/User";
 import { getUsersParams } from "../useCases/User/getUsers";
 import { rolesCinemaListType } from "../useCases/User/updateUserRole";
+import { UpdateMePasswordProps } from "../useCases/User/updateMePassword";
 
 
 export interface UserRepository {
@@ -15,4 +16,6 @@ export interface UserRepository {
     deleteUser : (entityId : number, userId : number) => Promise<void>,
     updateUserRoles : (entityId: number, userId: number, rolesUser: rolesCinemaListType[]) => Promise<User>,
     updateUserRights : (entityId: number, userId: number, rights: string[]) => Promise<User>,
+    updateMe : (user : User) => Promise<User>,
+    updateMePassword : (props : UpdateMePasswordProps) => Promise<void>,
 }

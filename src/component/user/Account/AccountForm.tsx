@@ -1,15 +1,21 @@
-"use client";
 import { User } from "@/src/domain/User";
 import Card from "../../ui/card";
+import { AccountFormUserData } from "./AccountFormUserData";
+import { AccountResetPassword } from "./AccountResetPassword";
 
-interface AccountFormProps {
+export interface AccountFormProps {
     user : User
 }
 
 export const AccountForm = ({ user }: AccountFormProps) => {
     return (
-        <Card>
-            
-        </Card>
+        <>
+            <Card>
+                <AccountFormUserData user={user} />
+            </Card>
+            <Card>
+                <AccountResetPassword />
+            </Card>
+        </>
     );
 }

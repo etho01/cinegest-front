@@ -37,6 +37,7 @@ export const throwErrorResponse = async (resp: Response) => {
     {
         const errorData = await resp.json();
         console.error(errorData);
+        console.error(`Validation Error: ${resp.status} - ${errorData.message || resp.statusText}`);
         throw new ValidationError(errorData.message || "Une erreur de validation est survenue.");
     }
     else if (!resp.ok)

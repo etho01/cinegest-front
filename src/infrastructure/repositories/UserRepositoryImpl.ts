@@ -1,5 +1,6 @@
 import { UserRepository } from "@/src/application/repositories/UserRepository";
 import { getUsersParams } from "@/src/application/useCases/User/getUsers";
+import { UpdateMePasswordProps } from "@/src/application/useCases/User/updateMePassword";
 import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { User, UserLog } from "@/src/domain/User";
@@ -10,6 +11,7 @@ import { throwErrorResponse } from "@/src/lib/request/Request";
 export const UserRepositoryImpl: UserRepository = {
     connect: async (userLog: UserLog) => {
         const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/login`, userLog, {});
+        await throwErrorResponse(resp);
 
         const text = await resp.text()
         const body = JSON.parse(text);
@@ -107,5 +109,18 @@ export const UserRepositoryImpl: UserRepository = {
         const text = await resp.text();
         const body = JSON.parse(text);
         return body as User;
-    }
+    },
+    updateMe : async (user : User) : Promise<User> => {
+        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/me`, user, {});
+        await throwErrorResponse(resp);
+
+        const text = await resp.text();
+        const body = JSON.parse(text);
+        return body as User;
+    },
+    updateMePassword : async (props: UpdateMePasswordProps) : Promise<void> => {
+        console.log("Updating password with props:", props);
+        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/me/password`, props, {});
+        await throwErrorResponse(resp);
+    },
 }
