@@ -10,11 +10,17 @@ import z from "zod";
 export const addOrUpdateRoleController = actionClient.schema(
     RoleSchema
 ).action(async ({parsedInput: role}) => {
+    // Convertir undefined en null pour cinemaId si nécessaire
+    const roleData = {
+        ...role,
+        cinemaId: role.cinemaId ?? null
+    } as Role;
+    
     let roleSaved : Role;
     if (role.id === 0) {
-        roleSaved = await addRole(RoleRepositoryImpl, role.entityId, role);
+        roleSaved = await addRole(RoleRepositoryImpl, role.entityId, roleData);
     } else {
-        roleSaved =  await updateRole(RoleRepositoryImpl, role.entityId, role);
+        roleSaved =  await updateRole(RoleRepositoryImpl, role.entityId, roleData);
     }
 
     return roleSaved;

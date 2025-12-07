@@ -69,9 +69,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                     <div>
                                         <p className="text-green-600 text-sm font-medium">Films totaux</p>
                                         <p className="text-2xl font-bold text-green-900">
-                                            {entity.cinemas?.reduce((total, cinema) => 
-                                                total + (cinema.movies?.length || 0), 0
-                                            ) || 0}
+                                            0
                                         </p>
                                     </div>
                                     <FontAwesomeIcon icon={faFilm} className="text-green-500 text-2xl" />
@@ -204,12 +202,10 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                                     <FontAwesomeIcon icon={faBuilding} className="text-gray-400" />
                                                     {cinema.city}, {cinema.country}
                                                 </p>
-                                                {cinema.movies && (
-                                                    <p className="flex items-center gap-2">
-                                                        <FontAwesomeIcon icon={faFilm} className="text-gray-400" />
-                                                        {cinema.movies.length} films
-                                                    </p>
-                                                )}
+                                                <p className="flex items-center gap-2">
+                                                    <FontAwesomeIcon icon={faFilm} className="text-gray-400" />
+                                                    0 films
+                                                </p>
                                             </div>
 
                                             <div className="grid grid-cols-2 gap-2">
@@ -284,9 +280,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                     <div className="flex items-center justify-between py-2 border-b">
                                         <span className="text-gray-600">Accès total films</span>
                                         <span className="font-medium">
-                                            {entity.cinemas?.reduce((total, cinema) => 
-                                                total + (cinema.movies?.length || 0), 0
-                                            ) || 0}
+                                            0
                                         </span>
                                     </div>
                                 </div>

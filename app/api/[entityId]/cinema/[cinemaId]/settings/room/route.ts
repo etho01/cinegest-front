@@ -3,15 +3,17 @@ import { Unauthorized } from "@/src/domain/User";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 
 
-interface getRoomApiProps {
-    params: Promise<{ entityId: number; cinemaId: number }>;
+interface getRoomsApiProps {
+    params: Promise<{ entityId: string; cinemaId: string }>;
 }
 
-export async function GET(req : Request, { params } : getRoomApiProps) {
+export async function GET(req : Request, { params } : getRoomsApiProps) {
     try 
     {
         const { searchParams } = new URL(req.url);
-        const { entityId, cinemaId } = await params;
+        const resolvedParams = await params;
+        const entityId = parseInt(resolvedParams.entityId);
+        const cinemaId = parseInt(resolvedParams.cinemaId);
         
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';

@@ -3,7 +3,7 @@ import { Unauthorized } from "@/src/domain/User";
 import { RoleRepositoryImpl } from "@/src/infrastructure/repositories/RoleRepositoryImpl";
 
 interface GetRolesApiProps {
-    params: Promise<{ entityId: number }>;
+    params: Promise<{ entityId: string }>;
 }
 
 export async function GET(req : Request, { params } : GetRolesApiProps) {
@@ -15,7 +15,8 @@ export async function GET(req : Request, { params } : GetRolesApiProps) {
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';
 
-        const roles = await getRoles(RoleRepositoryImpl, paramsObj.entityId, { search, page });
+        const entityId = parseInt(paramsObj.entityId);
+        const roles = await getRoles(RoleRepositoryImpl, entityId, { search, page });
 
         return Response.json(roles);
     }

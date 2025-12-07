@@ -10,7 +10,7 @@ import { Cinema } from "@/src/domain/Cinema";
 import { CinemaModal } from "./CinemaModal";
 import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
 import { deleteCinemaController } from "@/src/controller/app/CinemaController";
-import { UserHasRight } from "@/src/domain/User";
+import { User, UserHasRight } from "@/src/domain/User";
 
 interface PropsFetchEntities {
     initialData : Paginator<Cinema>;

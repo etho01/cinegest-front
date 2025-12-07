@@ -18,7 +18,14 @@ export const addKeysController = actionClient.schema(
         })),
     })
 ).action(async ({parsedInput}) => {
-    await addKeys(KeyRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, parsedInput)
+    const transformedInput = {
+        ...parsedInput,
+        versions: parsedInput.versions.map(version => ({
+            ...version,
+            rooms: version.rooms.map(room => parseInt(room))
+        }))
+    };
+    await addKeys(KeyRepositoryImpl, parsedInput.entityId, parsedInput.cinemaId, transformedInput)
 })
 
 export const deleteKeyController = actionClient.schema(

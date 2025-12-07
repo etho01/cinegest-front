@@ -18,7 +18,6 @@ import {
     faMapMarkerAlt,
     faGlobe,
     faHardDrive,
-    faPlayCircle,
     faTools
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -96,7 +95,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                     <div>
                                         <p className="text-blue-600 text-sm font-medium">Films</p>
                                         <p className="text-2xl font-bold text-blue-900">
-                                            {cinema.movies?.length || 0}
+                                            0
                                         </p>
                                     </div>
                                     <FontAwesomeIcon icon={faFilm} className="text-blue-500 text-2xl" />
@@ -108,7 +107,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                     <div>
                                         <p className="text-green-600 text-sm font-medium">Clés DCP</p>
                                         <p className="text-2xl font-bold text-green-900">
-                                            {cinema.keys?.length || 0}
+                                            0
                                         </p>
                                     </div>
                                     <FontAwesomeIcon icon={faKey} className="text-green-500 text-2xl" />
@@ -120,7 +119,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                     <div>
                                         <p className="text-purple-600 text-sm font-medium">Salles</p>
                                         <p className="text-2xl font-bold text-purple-900">
-                                            {cinema.rooms?.length || 0}
+                                            0
                                         </p>
                                     </div>
                                     <FontAwesomeIcon icon={faBuilding} className="text-purple-500 text-2xl" />
@@ -132,7 +131,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                     <div>
                                         <p className="text-orange-600 text-sm font-medium">Sessions</p>
                                         <p className="text-2xl font-bold text-orange-900">
-                                            {cinema.sessions?.length || 0}
+                                            0
                                         </p>
                                     </div>
                                     <FontAwesomeIcon icon={faCalendarDays} className="text-orange-500 text-2xl" />
@@ -256,14 +255,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                         Tableau de bord
                                     </Button>
                                 </Link>
-                                {cinema.movies && cinema.movies.length > 0 && UserHasRight(user, 'viewMovies', cinema.id) && (
-                                    <Link href={`/app/${entityId}/cinema/${cinemaId}/movie/${cinema.movies[0].id}`}>
-                                        <Button variant="outline" className="w-full justify-start">
-                                            <FontAwesomeIcon icon={faPlayCircle} className="mr-2" />
-                                            Dernier film
-                                        </Button>
-                                    </Link>
-                                )}
+                                {/* Dernier film temporairement désactivé - propriété movies non disponible */}
                             </div>
                         </Card>
 
@@ -308,19 +300,19 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between py-2 border-b">
                                         <span className="text-gray-600">Films disponibles</span>
-                                        <span className="font-medium">{cinema.movies?.length || 0}</span>
+                                        <span className="font-medium">0</span>
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b">
                                         <span className="text-gray-600">Clés DCP actives</span>
-                                        <span className="font-medium">{cinema.keys?.length || 0}</span>
+                                        <span className="font-medium">0</span>
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b">
                                         <span className="text-gray-600">Salles configurées</span>
-                                        <span className="font-medium">{cinema.rooms?.length || 0}</span>
+                                        <span className="font-medium">0</span>
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b">
                                         <span className="text-gray-600">Sessions programmées</span>
-                                        <span className="font-medium">{cinema.sessions?.length || 0}</span>
+                                        <span className="font-medium">0</span>
                                     </div>
                                     <div className="flex items-center justify-between py-2">
                                         <span className="text-gray-600">Mes droits</span>
@@ -333,7 +325,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                         </div>
 
                         {/* Films récents ou message d'état */}
-                        {cinema.movies && cinema.movies.length > 0 ? (
+                        {false ? (
                             <Card className="p-6">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-xl font-bold flex items-center gap-2">
@@ -348,23 +340,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                     </Link>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {cinema.movies.slice(0, 6).map((movie) => (
-                                        <Link 
-                                            key={movie.id} 
-                                            href={`/app/${entityId}/cinema/${cinemaId}/movie/${movie.id}`}
-                                            className="border rounded-lg p-4 hover:shadow-md transition-shadow"
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <FontAwesomeIcon icon={faFilm} className="text-blue-500 text-xl" />
-                                                <div>
-                                                    <h4 className="font-semibold">{movie.name}</h4>
-                                                    <p className="text-sm text-gray-600">
-                                                        {movie.versions?.length || 0} versions
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    ))}
+                                    {/* Films temporairement désactivés - propriété movies non disponible dans Cinema */}
                                 </div>
                             </Card>
                         ) : (

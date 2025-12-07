@@ -4,14 +4,16 @@ import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Mo
 
 
 interface getOptionTypesApiProps {
-    params: Promise<{ entityId: number; cinemaId: number }>;
+    params: Promise<{ entityId: string; cinemaId: string }>;
 }
 
 export async function GET(req : Request, { params } : getOptionTypesApiProps) {
     try 
     {
         const { searchParams } = new URL(req.url);
-        const { entityId, cinemaId } = await params;
+        const resolvedParams = await params;
+        const entityId = parseInt(resolvedParams.entityId);
+        const cinemaId = parseInt(resolvedParams.cinemaId);
         
         const search = searchParams.get('search') ?? '';
 

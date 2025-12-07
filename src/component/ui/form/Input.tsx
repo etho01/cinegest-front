@@ -5,7 +5,7 @@ import { FormError, formError } from "./FormError";
 
 
 interface Props extends 
-  React.ComponentPropsWithRef<'input'> {
+  Omit<React.ComponentPropsWithRef<'input'>, 'onChange'> {
     label : string,
     containerClassName? : string,
     errors? : formError | undefined

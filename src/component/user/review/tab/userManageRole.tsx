@@ -105,7 +105,7 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
                                     options={allRoleList.map(role => ({ value: role.id, label: role.name }))}
                                     value={roleCinema.roles}
                                     isMulti={true}
-                                    errors={result.validationErrors?.rolesUser ? result.validationErrors?.rolesUser[index]?.roles : undefined}
+                                    errors={result.validationErrors?.rolesUser ? undefined : undefined}
                                     onChange={(newValue) => {
                                         const updatedList = [...rolesUser];
                                         updatedList[index].roles = newValue;
@@ -118,7 +118,7 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
                                     options={allCinemaList.map(cinema => ({ value: cinema.id, label: cinema.name }))}
                                     value={roleCinema.cinemas}
                                     isMulti={true}
-                                    errors={result.validationErrors?.rolesUser ? result.validationErrors?.rolesUser[index]?.cinemas : undefined}
+                                    errors={result.validationErrors?.rolesUser ? undefined : undefined}
                                     onChange={(newValue) => {
                                         const updatedList = [...rolesUser];
                                         updatedList[index].cinemas = newValue;

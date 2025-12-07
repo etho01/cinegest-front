@@ -1,8 +1,12 @@
 import { PropsWithChildren } from "react";
 
-export default function Card({ children }: PropsWithChildren) {
+interface CardProps extends PropsWithChildren {
+    className?: string;
+}
+
+export default function Card({ children, className = "" }: CardProps) {
     return (
-        <div className="bg-white shadow px-0 sm:px-6 py-3 rounded-lg mb-5 mx-auto">
+        <div className={`bg-white shadow px-0 sm:px-6 py-3 rounded-lg mb-5 mx-auto ${className}`}>
             {children}
         </div>
     );

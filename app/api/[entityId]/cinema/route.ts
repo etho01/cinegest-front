@@ -3,7 +3,7 @@ import { Unauthorized } from "@/src/domain/User";
 import { CinemaRepositoryImpl } from "@/src/infrastructure/repositories/CinemaRepositoryImpl";
 
 interface GetCinemasApiProps {
-    params: Promise<{ entityId: number }>;
+    params: Promise<{ entityId: string }>;
 }
 
 export async function GET(req : Request, { params } : GetCinemasApiProps) {
@@ -11,11 +11,12 @@ export async function GET(req : Request, { params } : GetCinemasApiProps) {
     {
         const { searchParams } = new URL(req.url);
         const paramsObj = await params;
+        const entityId = parseInt(paramsObj.entityId);
         
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';
 
-        const cinemas = await getCinemas(CinemaRepositoryImpl, {entityId: paramsObj.entityId, page, search})
+        const cinemas = await getCinemas(CinemaRepositoryImpl, {entityId, page, search})
 
         return Response.json(cinemas);
     }

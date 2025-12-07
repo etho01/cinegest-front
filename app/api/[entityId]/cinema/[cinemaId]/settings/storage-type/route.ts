@@ -4,14 +4,16 @@ import { StorageTypeRepositoryImpl } from "@/src/infrastructure/repositories/Cin
 
 
 interface getStorageTypesApiProps {
-    params: Promise<{ entityId: number; cinemaId: number }>;
+    params: Promise<{ entityId: string; cinemaId: string }>;
 }
 
 export async function GET(req : Request, { params } : getStorageTypesApiProps) {
     try 
     {
         const { searchParams } = new URL(req.url);
-        const { entityId, cinemaId } = await params;
+        const resolvedParams = await params;
+        const entityId = parseInt(resolvedParams.entityId);
+        const cinemaId = parseInt(resolvedParams.cinemaId);
         
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';

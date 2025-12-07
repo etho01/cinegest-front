@@ -4,7 +4,7 @@ import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserReposi
 
 
 interface GetUsersApiProps {
-    params: Promise<{ entityId: number }>;
+    params: Promise<{ entityId: string }>;
 }
 
 export async function GET(req : Request, { params } : GetUsersApiProps) {
@@ -16,7 +16,8 @@ export async function GET(req : Request, { params } : GetUsersApiProps) {
         const page = Number(searchParams.get('page')) ?? 1;
         const search = searchParams.get('search') ?? '';
 
-        const users = await getUsers(UserRepositoryImpl, paramsObj.entityId, {
+        const entityId = parseInt(paramsObj.entityId);
+        const users = await getUsers(UserRepositoryImpl, entityId, {
             page,
             search
         })

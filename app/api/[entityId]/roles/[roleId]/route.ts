@@ -3,16 +3,18 @@ import { Unauthorized } from "@/src/domain/User";
 import { RoleRepositoryImpl } from "@/src/infrastructure/repositories/RoleRepositoryImpl";
 
 
-interface GetRolesApiProps {
-    params: Promise<{ entityId: number; roleId: number }>;
+interface GetRoleApiProps {
+    params: Promise<{ entityId: string; roleId: string }>;
 }
 
-export async function GET(req : Request, { params } : GetRolesApiProps) {
+export async function GET(req : Request, { params } : GetRoleApiProps) {
     try 
     {
         const paramsObj = await params;
+        const entityId = parseInt(paramsObj.entityId);
+        const roleId = parseInt(paramsObj.roleId);
 
-        const role = await getRole(RoleRepositoryImpl, paramsObj.entityId, paramsObj.roleId);
+        const role = await getRole(RoleRepositoryImpl, entityId, roleId);
 
         return Response.json(role);
     }
