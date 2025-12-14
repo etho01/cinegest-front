@@ -21,6 +21,7 @@ export const throwErrorResponse = async (resp: Response) => {
     else if (resp.status == 404) 
     {
         const errorData = await resp.json();
+        console.error(errorData);
         console.error(`API Error: ${resp.status} - ${errorData.message || resp.statusText}`);
         throw new ObjectNotFound();
     }

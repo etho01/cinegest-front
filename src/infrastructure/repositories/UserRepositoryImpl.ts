@@ -119,7 +119,6 @@ export const UserRepositoryImpl: UserRepository = {
         return body as User;
     },
     updateMePassword : async (props: UpdateMePasswordProps) : Promise<void> => {
-        console.log("Updating password with props:", props);
         const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/me/password`, props, {});
         await throwErrorResponse(resp);
     },

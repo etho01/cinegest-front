@@ -37,6 +37,7 @@ export const BreadcrumbSelector = ({ user, cinema, entity } : BreadcrumbSelector
             ) : (
                 <Select 
                     className="mt-auto"
+                    placeholder="Sélectionner une entité"
                     onChange={(value) => {router.push('/app/' + value)}} 
                     value={entity?.id}
                     options={entitiesList ? entitiesList.map((entity) => ({ value: entity.id, label: entity.name })) : []} 
@@ -49,6 +50,7 @@ export const BreadcrumbSelector = ({ user, cinema, entity } : BreadcrumbSelector
                 ) : (
                     <Select 
                         className="mt-auto"
+                        placeholder="Sélectionner un cinéma"
                         value={baseCinema?.id}
                         onChange={(value) => {router.push('/app/' + baseEntity!.id + '/cinema/' + value)}} 
                         options={baseEntity.cinemas.map((cinema) => ({ value: cinema.id, label: cinema.name }))} 

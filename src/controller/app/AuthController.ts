@@ -14,7 +14,6 @@ export const Register = actionClient.schema(
 ).action(async ({parsedInput: input}) => {
     const cookieStore = await cookies();
     const token = await connect(UserRepositoryImpl, input);
-    console.log("Received token:", token);
     cookieStore.set('login-token', token, {
         httpOnly : true,
         secure: true
