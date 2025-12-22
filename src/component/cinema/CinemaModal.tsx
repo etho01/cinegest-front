@@ -78,8 +78,7 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                             value={object.address_complement} 
                             onChange={(value) => {
                                 setObject({ ...object, address_complement: value });
-                            }} 
-                            required
+                            }}
                             showErrors={showErrors}
                             containerClassName=" col-span-2 "
                         />

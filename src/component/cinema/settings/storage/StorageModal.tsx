@@ -80,7 +80,7 @@ export const StorageModal = forwardRef(({ isOpen, initialObject, onSaved, entity
                         <Select
                             containerClassName=" col-span-2 "
                             errors={result.validationErrors?.option_type_id}
-                            label="Type d'option"
+                            label="Type de stockage"
                             value={object.storage_type_id ? object.storage_type_id.toString() : ''}
                             onChange={(value) => {
                                 setObject({ ...object, storage_type_id: value ? parseInt(value) : undefined });
