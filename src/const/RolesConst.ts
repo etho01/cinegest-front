@@ -139,6 +139,10 @@ export const ROLES : Roles  = {
             'editRooms' : {
                 'name' : 'Gerer les salles du cinéma',
                 'description' : 'Gerer les salles pour un cinéma spécifique.'
+            },
+            'editCinemaApiPrices' : {
+                'name' : 'Gerer les prix Cinema API du cinéma',
+                'description' : 'Gerer les prix Cinema API pour un cinéma spécifique.'
             }
     }
 };

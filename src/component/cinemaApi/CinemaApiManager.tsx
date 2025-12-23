@@ -9,7 +9,7 @@ import { useRef } from "react";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
 import Card from "../ui/card";
 import { Input, Select } from "../ui/form";
-import { Button } from "../ui/btn/button";
+import { Button, LinkButton } from "../ui/btn/button";
 import { Td } from "../ui/table/Table";
 import { CinemaApiModal } from "./CinemaApiModal";
 import { deleteCinemaApiController } from "@/src/controller/app/CinemaApiController";
@@ -65,7 +65,7 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
                     variant="default" 
                     onClick={() => modalRef.current?.createNew()}
                 >
-                    Créer une option
+                    Créer une api
                 </Button>
                 )}
             </div>
@@ -82,11 +82,12 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
                         
                         <Td className="text-right">
                             {UserHasRight(user, 'editCinemaApi', null) && (
-                            <Button onClick={() => modalRef.current?.loadFromObject(item)}
-                                variant="outline"
-                            >
-                                Modifier
-                            </Button>
+                                <LinkButton 
+                                    href={`/app/${entityId}/cinemaApi/${item.id}`}
+                                    variant="outline"
+                                >
+                                    Voir / Éditer
+                                </LinkButton>
                             )}
                             {UserHasRight(user, 'editCinemaApi', null) && (
                             <Button className="ml-2"
