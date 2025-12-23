@@ -80,6 +80,7 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                     <>
                         <Td >{item.name}</Td>
                         <Td>{item.type?.name}</Td>
+                        <Td>{item.price} €</Td>
                         <Td className="text-right">
                             {UserHasRight(user, 'editOptions', cinemaId) && (
                             <Button onClick={() => modalRef.current?.loadFromObject(item)}

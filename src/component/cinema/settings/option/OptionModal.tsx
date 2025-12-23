@@ -67,6 +67,19 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                             showErrors={showErrors}
                             containerClassName=" col-span-2 "
                         />
+                        <Input 
+                            errors={result.validationErrors?.price}
+                            label="Prix (€)"
+                            type="number"
+                            step="0.01"
+                            value={object.price}
+                            onChange={(value) => {
+                                setObject({ ...object, price: parseFloat(value) });
+                            }} 
+                            required
+                            showErrors={showErrors}
+                            containerClassName=" col-span-2 "
+                        />
                         <Select
                             containerClassName=" col-span-2 "
                             errors={result.validationErrors?.option_type_id}
