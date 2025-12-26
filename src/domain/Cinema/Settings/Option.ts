@@ -7,6 +7,7 @@ export interface Option {
     type? : OptionType;
     option_type_id? : number;
     price: number;
+    publicName ?: string;
 }
 
 export const OptionSchema = z.object({
@@ -14,6 +15,7 @@ export const OptionSchema = z.object({
     name: z.string().min(2).max(100),
     option_type_id: z.number(),
     price: z.number().min(0),
+    publicName: z.string().min(2).max(100).optional(),
 });
 
 export const OptionEmpty: Option = {
@@ -21,4 +23,5 @@ export const OptionEmpty: Option = {
     name: "",
     option_type_id: 0,
     price: 0,
+    publicName: undefined,
 };

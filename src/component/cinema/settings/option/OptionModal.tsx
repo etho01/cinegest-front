@@ -78,7 +78,18 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                             }} 
                             required
                             showErrors={showErrors}
-                            containerClassName=" col-span-2 "
+                            containerClassName=""
+                        />
+                        <Input 
+                            errors={result.validationErrors?.publicName}
+                            label="Nom public" 
+                            value={object.publicName} 
+                            onChange={(value) => {
+                                setObject({ ...object, publicName: value });
+                            }} 
+                            required
+                            showErrors={showErrors}
+                            containerClassName=""
                         />
                         <Select
                             containerClassName=" col-span-2 "
