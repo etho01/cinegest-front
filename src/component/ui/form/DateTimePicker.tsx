@@ -92,36 +92,28 @@ export const DateTimePicker = ({
                 size="md"
                 radius="md"
                 labelPlacement="outside"
-                // Force l'utilisation du fuseau horaire local pour éviter les décalages
                 defaultValue={defaultValue}
                 classNames={{
                     base: "bg-white shadow-xl rounded-xl calendarContainer group",
                     timeInput: "bg-gray-50",
-
                 }}
-
                 calendarProps={{
                     classNames: {
-
+                        base: "bg-white",
+                        content: "bg-white",
+                        gridHeader: "bg-white shadow-none",
+                        gridHeaderRow: "bg-white",
+                        gridHeaderCell: "text-gray-600",
+                        gridBody: "bg-white",
+                        gridBodyRow: "bg-white first:border-t-0",
                         cellButton: [
-                            "data-[today=true]:bg-gray-200 rounded-small",
-                            "data-[today=true]:data-[selected=true]:bg-primary/50",
-                            "data-[today=true]:data-[range-start=true]:bg-primary",
-                            "data-[today=true]:data-[selection-start=true]:bg-primary",
-                            "data-[today=true]:data-[range-end=true]:bg-primary",
-                            "data-[today=true]:data-[selection-end=true]:bg-primary",
-                            "data-[selected=true]:bg-primary/50",
-                            // start (pseudo)
-                            "data-[range-start=true]:bg-primary",
-                            "data-[selection-start=true]:bg-primary",
-                            // end (pseudo)
-                            "data-[range-end=true]:bg-primary",
-                            "data-[selection-end=true]:bg-primary",
+                            "bg-white hover:bg-gray-100",
+                            "data-[today=true]:bg-gray-200",
+                            "data-[selected=true]:bg-primary data-[selected=true]:text-white",
+                            "data-[disabled=true]:opacity-30",
                         ],
                     },
                 }}
-
-                {...props}
             />
             
             {errors && showErrors && <FormError errors={errors} />}
