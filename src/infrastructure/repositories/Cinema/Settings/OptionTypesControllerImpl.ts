@@ -3,46 +3,37 @@ import { getOptionsTypesProps } from "@/src/application/useCases/Cinema/Settings
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
-import { throwErrorResponse } from "@/src/lib/request/Request";
+import { buildApiUrl } from "@/src/lib/config/api";
 
 
 export const OptionTypesRepositoryImpl : OptionTypesRepository = {
     getOptionsTypes: async (entityId: number, cinemaId: number, props: getOptionsTypesProps) : Promise<Paginator<OptionType>> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types`, props, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Paginator<OptionType>;
+        return ApiRequestServeur.getAndParse<Paginator<OptionType>>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types`),
+            props
+        );
     },
     deleteOptionType: async (entityId: number, cinemaId: number, optionTypeId: number) : Promise<boolean> => {
-        const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/${optionTypeId}`, {}, {});
-        await throwErrorResponse(resp);
-
+        await ApiRequestServeur.deleteRequest(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/${optionTypeId}`)
+        );
         return true;
     },
     addOptionType: async (entityId: number, cinemaId: number, optionType: OptionType) : Promise<OptionType> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types`, optionType, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as OptionType;
+        return ApiRequestServeur.postAndParse<OptionType>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types`),
+            optionType
+        );
     },
     updateOptionType: async (entityId: number, cinemaId: number, optionType: OptionType) : Promise<OptionType> => {
-        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/${optionType.id}`, optionType, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as OptionType;
+        return ApiRequestServeur.putAndParse<OptionType>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/${optionType.id}`),
+            optionType
+        );
     },
     getAllOptionsTypes: async (entityId: number, cinemaId: number) : Promise<OptionType[]> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/all`, {}, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as OptionType[];
+        return ApiRequestServeur.getAndParse<OptionType[]>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/option-types/all`)
+        );
     },
 };
