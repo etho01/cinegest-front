@@ -1,12 +1,13 @@
 import { ErrorApi, ObjectNotFound, ValidationError } from "@/src/domain/global"
 import { Unauthenticated, Unauthorized } from "@/src/domain/User"
+import { RequestParams, RequestHeaders } from "./types"
 
 
 export interface ApiRequestInterface {
-    GET : (url : string, params : any, header : any) => Promise<Response>
-    POST : (url : string, params : any, header : any) => Promise<Response>
-    PUT : (url : string, params : any, header : any) => Promise<Response>
-    DELETE : (url : string, params : any, header : any) => Promise<Response>
+    GET : (url : string, params : RequestParams, header : RequestHeaders) => Promise<Response>
+    POST : (url : string, params : RequestParams, header : RequestHeaders) => Promise<Response>
+    PUT : (url : string, params : RequestParams, header : RequestHeaders) => Promise<Response>
+    DELETE : (url : string, params : RequestParams, header : RequestHeaders) => Promise<Response>
 }
 
 export const throwErrorResponse = async (resp: Response) => {

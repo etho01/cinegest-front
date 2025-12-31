@@ -1,6 +1,13 @@
 // lib/url.ts
-export function withSearchParams(base: string, params: Record<string, unknown>) 
+import { RequestParams } from "./request/types";
+
+export function withSearchParams(base: string, params: RequestParams): string 
 {
+    // Si params est undefined ou FormData, retourner l'URL de base
+    if (!params || params instanceof FormData) {
+        return base;
+    }
+
     const u = new URL(
         base,
         typeof window !== "undefined" ? window.location.origin : "http://local"

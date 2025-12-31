@@ -3,44 +3,36 @@ import { getOptionsProps } from "@/src/application/useCases/Cinema/Settings/Opti
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { StorageType } from "@/src/domain/Cinema/Settings/StorageType";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
-import { throwErrorResponse } from "@/src/lib/request/Request";
+import { buildApiUrl } from "@/src/lib/config/api";
 
 
 export const StorageTypeRepositoryImpl : StorageTypeRepository = {
     deleteStorageType : async (entityId: number, cinemaId: number, storageTypeId: number): Promise<void> => {
-        const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/${storageTypeId}`, {}, {});
-        await throwErrorResponse(resp);
+        return ApiRequestServeur.deleteRequest(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/${storageTypeId}`)
+        );
     },
     getStorageTypes : async (entityId: number, cinemaId: number, props : getOptionsProps) => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type`, props, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Paginator<StorageType>;
+        return ApiRequestServeur.getAndParse<Paginator<StorageType>>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type`),
+            props
+        );
     },
     addStorageType : async (entityId: number, cinemaId: number, storageType: StorageType) : Promise<StorageType> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type`, storageType, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as StorageType;
+        return ApiRequestServeur.postAndParse<StorageType>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type`),
+            storageType
+        );
     },
     updateStorageType : async (entityId: number, cinemaId: number, storageType: StorageType) : Promise<StorageType> => {
-        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/${storageType.id}`, storageType, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as StorageType;
+        return ApiRequestServeur.putAndParse<StorageType>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/${storageType.id}`),
+            storageType
+        );
     },
     getAllStorageTypes : async (entityId: number, cinemaId: number) : Promise<StorageType[]> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/all`, {}, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as StorageType[];
+        return ApiRequestServeur.getAndParse<StorageType[]>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/settings/storage-type/all`)
+        );
     },
 };

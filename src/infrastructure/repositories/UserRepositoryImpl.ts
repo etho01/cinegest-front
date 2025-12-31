@@ -5,20 +5,20 @@ import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserR
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { User, UserLog, PasswordResetRequest, PasswordReset } from "@/src/domain/User";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
+import { buildApiUrl } from "@/src/lib/config/api";
 import { throwErrorResponse } from "@/src/lib/request/Request";
 
 
 export const UserRepositoryImpl: UserRepository = {
     connect: async (userLog: UserLog) => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/login`, userLog, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text()
-        const body = JSON.parse(text);
+        const body = await ApiRequestServeur.postAndParse<{ token: string }>(
+            buildApiUrl('api/app/auth/login'),
+            userLog
+        );
         return body['token'];
     },
     logout: async () => {
-        await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/logout`, {}, {});
+        await ApiRequestServeur.POST(buildApiUrl('api/app/auth/logout'), {}, {});
     },
     me: async (): Promise<User> => {
         const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/me`, {}, {});
@@ -57,12 +57,10 @@ export const UserRepositoryImpl: UserRepository = {
         }
     },
     getUsers : async (entityId : number, params: getUsersParams) : Promise<Paginator<User>> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users`, params, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Paginator<User>;
+        return ApiRequestServeur.getAndParse<Paginator<User>>(
+            buildApiUrl(`api/app/entity/${entityId}/users`),
+            params
+        );
     },
     getUser : async (entityId : number, userId : number) : Promise<User | null> => {
         const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
@@ -76,58 +74,48 @@ export const UserRepositoryImpl: UserRepository = {
         return body as User;
     },
     addUser : async (entityId : number, user : User) : Promise<User> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users`, user, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as User;
+        return ApiRequestServeur.postAndParse<User>(
+            buildApiUrl(`api/app/entity/${entityId}/users`),
+            user
+        );
     },
     updateUser : async (entityId : number, user : User) : Promise<User> => {
-        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/entity/${entityId}/users/${user.id}`, user, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as User;
+        return ApiRequestServeur.putAndParse<User>(
+            buildApiUrl(`api/app/entity/${entityId}/users/${user.id}`),
+            user
+        );
     },
     deleteUser : async (entityId : number, userId : number) : Promise<void> => {
-        await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}`, {}, {});
+        await ApiRequestServeur.DELETE(buildApiUrl(`api/app/entity/${entityId}/users/${userId}`), {}, {});
     },
     updateUserRoles : async (entityId: number, userId: number, rolesUser: rolesCinemaListType[]) => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/roles`, { rolesUser }, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as User;
+        return ApiRequestServeur.postAndParse<User>(
+            buildApiUrl(`api/app/entity/${entityId}/users/${userId}/roles`),
+            { rolesUser }
+        );
     },
     updateUserRights : async (entityId: number, userId: number, rights: string[]) => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/users/${userId}/rights`, { rights }, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as User;
+        return ApiRequestServeur.postAndParse<User>(
+            buildApiUrl(`api/app/entity/${entityId}/users/${userId}/rights`),
+            { rights }
+        );
     },
     updateMe : async (user : User) : Promise<User> => {
-        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/me`, user, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as User;
+        return ApiRequestServeur.putAndParse<User>(
+            buildApiUrl('api/app/me'),
+            user
+        );
     },
     updateMePassword : async (props: UpdateMePasswordProps) : Promise<void> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/me/password`, props, {});
+        const resp = await ApiRequestServeur.POST(buildApiUrl('api/app/me/password'), props, {});
         await throwErrorResponse(resp);
     },
     requestPasswordReset : async (request: PasswordResetRequest) : Promise<void> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/forgot-password`, request, {});
+        const resp = await ApiRequestServeur.POST(buildApiUrl('api/app/auth/forgot-password'), request, {});
         await throwErrorResponse(resp);
     },
     resetPassword : async (reset: PasswordReset) : Promise<void> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/auth/reset-password`, reset, {});
+        const resp = await ApiRequestServeur.POST(buildApiUrl('api/app/auth/reset-password'), reset, {});
         await throwErrorResponse(resp);
     },
 }

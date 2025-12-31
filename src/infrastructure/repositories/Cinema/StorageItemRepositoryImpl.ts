@@ -4,28 +4,25 @@ import { PropsGetStorageItems } from "@/src/application/useCases/Cinema/StorageI
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { StorageItem } from "@/src/domain/Cinema/StorageItem";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
-import { throwErrorResponse } from "@/src/lib/request/Request";
+import { buildApiUrl } from "@/src/lib/config/api";
 
 
 export const StorageItemRepositoryImpl : StorageItemRepository = {
     getStorageItems : async (entityId : number, cinemaId: number, props: PropsGetStorageItems) : Promise<Paginator<StorageItem>> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item`, props, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Paginator<StorageItem>;
+        return ApiRequestServeur.getAndParse<Paginator<StorageItem>>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item`),
+            props
+        );
     },
     addStorageItems : async (entityId : number, cinemaId: number, params: addStorageItemObjectParams) : Promise<StorageItem> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/stores`, params, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as StorageItem;
+        return ApiRequestServeur.postAndParse<StorageItem>(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/stores`),
+            params
+        );
     },
     deleteStorageItem : async (entityId : number, cinemaId: number, storageItemId: number) : Promise<void> => {
-        const resp = await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/${storageItemId}`, {}, {});
-        await throwErrorResponse(resp);
+        return ApiRequestServeur.deleteRequest(
+            buildApiUrl(`api/app/entity/${entityId}/cinemas/${cinemaId}/storage-item/${storageItemId}`)
+        );
     }
 };

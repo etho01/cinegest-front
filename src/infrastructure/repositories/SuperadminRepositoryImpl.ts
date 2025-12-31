@@ -2,35 +2,31 @@ import { SuperadminRepository } from "@/src/application/repositories/SuperadminR
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { fetchSuperadminProps, Superadmin } from "@/src/domain/superadmin";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
-import { throwErrorResponse } from "@/src/lib/request/Request";
+import { buildApiUrl } from "@/src/lib/config/api";
 
 
 export const SuperadminRepositoryImpl: SuperadminRepository = {
     fetchAdmins: async (props : fetchSuperadminProps) : Promise<Paginator<Superadmin>> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/superadmin/superadmin`, props, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Paginator<Superadmin>;
+        return ApiRequestServeur.getAndParse<Paginator<Superadmin>>(
+            buildApiUrl('api/app/superadmin/superadmin'),
+            props
+        );
     },
     addSuperadmin: async (superadmin: Superadmin): Promise<Superadmin> => {
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/superadmin/superadmin`, superadmin, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Superadmin;
+        return ApiRequestServeur.postAndParse<Superadmin>(
+            buildApiUrl('api/app/superadmin/superadmin'),
+            superadmin
+        );
     },
     updateSuperadmin: async (superadmin: Superadmin): Promise<Superadmin> => {
-        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/superadmin/superadmin/${superadmin.id}`, superadmin, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Superadmin;
+        return ApiRequestServeur.putAndParse<Superadmin>(
+            buildApiUrl(`api/app/superadmin/superadmin/${superadmin.id}`),
+            superadmin
+        );
     },
     deleteSuperadmin: async (superadminId: number): Promise<void> => {
-        await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/superadmin/superadmin/${superadminId}`, {}, {});
+        return ApiRequestServeur.deleteRequest(
+            buildApiUrl(`api/app/superadmin/superadmin/${superadminId}`)
+        );
     }
 }

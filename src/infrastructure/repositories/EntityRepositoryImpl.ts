@@ -3,34 +3,31 @@ import { PropsFetchEntities } from "@/src/application/useCases/Entity/fetchEntit
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { Entity } from "@/src/domain/Entity";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
-import { throwErrorResponse } from "@/src/lib/request/Request";
+import { buildApiUrl } from "@/src/lib/config/api";
 
 
 export const EntityRepositoryImpl: EntityRepository = {
     fetchEntities : async (props: PropsFetchEntities) : Promise<Paginator<Entity>> => {
-        const resp = await ApiRequestServeur.GET(`${process.env.API_URL}api/app/superadmin/entity`, props, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Paginator<Entity>;
+        return ApiRequestServeur.getAndParse<Paginator<Entity>>(
+            buildApiUrl('api/app/superadmin/entity'),
+            props
+        );
     },
-    addEntity: async (entity: Entity) : Promise<Entity> => {    
-        const resp = await ApiRequestServeur.POST(`${process.env.API_URL}api/app/superadmin/entity`, entity, {});
-        await throwErrorResponse(resp);
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Entity;
+    addEntity: async (entity: Entity) : Promise<Entity> => {
+        return ApiRequestServeur.postAndParse<Entity>(
+            buildApiUrl('api/app/superadmin/entity'),
+            entity
+        );
     },
-    updateEntity: async (entity: Entity) : Promise<Entity> => {    
-        const resp = await ApiRequestServeur.PUT(`${process.env.API_URL}api/app/superadmin/entity/${entity.id}`, entity, {});
-        await throwErrorResponse(resp);
-
-        const text = await resp.text();
-        const body = JSON.parse(text);
-        return body as Entity;
+    updateEntity: async (entity: Entity) : Promise<Entity> => {
+        return ApiRequestServeur.putAndParse<Entity>(
+            buildApiUrl(`api/app/superadmin/entity/${entity.id}`),
+            entity
+        );
     },
-    delete: async (entityId: number) : Promise<void> => {    
-        await ApiRequestServeur.DELETE(`${process.env.API_URL}api/app/superadmin/entity/${entityId}`, {}, {});
+    delete: async (entityId: number) : Promise<void> => {
+        return ApiRequestServeur.deleteRequest(
+            buildApiUrl(`api/app/superadmin/entity/${entityId}`)
+        );
     }
 };
