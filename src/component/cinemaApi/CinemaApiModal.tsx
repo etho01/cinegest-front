@@ -67,6 +67,17 @@ export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onS
                             showErrors={showErrors}
                             containerClassName=" col-span-2 "
                         />
+                        <Input 
+                            errors={result.validationErrors?.websiteUrl}
+                            label="URL du site web" 
+                            value={object.websiteUrl || ""} 
+                            onChange={(value) => {
+                                setObject({ ...object, websiteUrl: value });
+                            }} 
+                            showErrors={showErrors}
+                            containerClassName=" col-span-2 "
+                            placeholder="https://exemple.com"
+                        />
                         <Select 
                             errors={result.validationErrors?.cinemaIds}
                             label="Cinémas" 

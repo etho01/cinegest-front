@@ -77,8 +77,7 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
                 lineRenderer={(item : CinemaApi) => (
                     <>
                         <Td >{item.name}</Td>
-                        <Td >{item.cinemas?.map(cinema => cinema.name).join(', ')}</Td>
-                        <Td >{item.apiKey}</Td>
+                        <Td >{item.cinemas?.map(cinema => cinema.name).join(', ')}</Td>                        <Td >{item.websiteUrl || '-'}</Td>                        <Td >{item.apiKey}</Td>
                         
                         <Td className="text-right">
                             {UserHasRight(user, 'editCinemaApi', null) && (
@@ -110,7 +109,7 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
                         </Td>
                     </>
                 )} 
-                colList={["Nom", "Cinema", "Clé api", ""]} 
+                colList={["Nom", "Cinema", "URL du site web", "Clé api", ""]} 
             />
             <ConfirmationModal   ref={confirmationModalRef} />
             <CinemaApiModal

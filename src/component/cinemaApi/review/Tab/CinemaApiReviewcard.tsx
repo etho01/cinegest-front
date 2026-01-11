@@ -33,6 +33,15 @@ export const CinemaApiReviewcard = ({ cinemaApi, entityId, cinemas }: CinemaApiR
                     <Input className="col-span-2 w-full" label="Nom de l'API" value={cinemaApiUpdated.name} onChange={(value) => {
                         setCinemaApiUpdated({...cinemaApiUpdated, name: value});
                     }} />
+                    <Input 
+                        className="col-span-2 w-full" 
+                        label="URL du site web" 
+                        value={cinemaApiUpdated.websiteUrl || ""} 
+                        onChange={(value) => {
+                            setCinemaApiUpdated({...cinemaApiUpdated, websiteUrl: value});
+                        }} 
+                        placeholder="https://exemple.com"
+                    />
                     <Select 
                         errors={result.validationErrors?.cinemaIds as formError | undefined}
                         label="Cinémas" 
