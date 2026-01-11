@@ -96,6 +96,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                 lineRenderer={(item : Room) => (
                     <>
                         <Td >{item.name}</Td>
+                        <Td >{item.capacity}</Td>
                         <Td >{item.serveurSize}</Td>
                         <Td className="text-right">
                             {UserHasRight(user, 'editRooms', cinemaId) && (
@@ -126,7 +127,7 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                         </Td>
                     </>
                 )} 
-                colList={["Nom", "Taille du serveur (en To)", ""]} 
+                colList={["Nom", "Nombre de sièges", "Taille du serveur (en To)", ""]} 
             />
             <ConfirmationModal ref={confirmationModalRef} />
             <RoomModal

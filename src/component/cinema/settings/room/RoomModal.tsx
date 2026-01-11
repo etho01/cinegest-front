@@ -115,6 +115,18 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                             showErrors={showErrors}
                             containerClassName=" col-span-2 "
                         />
+                        <Input
+                            errors={result.validationErrors?.serveurSize}
+                            label="Nombre de sièges"
+                            type="number"
+                            value={object.capacity ? object.capacity.toString() : ''}
+                            onChange={(value) => {
+                                setObject({ ...object, capacity: parseInt(value) });
+                            }}
+                            required
+                            showErrors={showErrors}
+                            containerClassName=" col-span-2 "
+                        />
                     </div>
                     { hasErrored && showErrors ? <div className="text-red-500">{ result.serverError }</div> : null }
                 </ModalBody>
