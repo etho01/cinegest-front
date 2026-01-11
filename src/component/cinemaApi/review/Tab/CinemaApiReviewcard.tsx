@@ -39,7 +39,8 @@ export const CinemaApiReviewcard = ({ cinemaApi, entityId, cinemas }: CinemaApiR
                         value={cinemaApiUpdated.websiteUrl || ""} 
                         onChange={(value) => {
                             setCinemaApiUpdated({...cinemaApiUpdated, websiteUrl: value});
-                        }} 
+                        }}
+                        required
                         placeholder="https://exemple.com"
                     />
                     <Select 
