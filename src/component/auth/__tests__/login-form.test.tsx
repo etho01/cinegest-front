@@ -50,7 +50,8 @@ jest.mock('../../ui/btn/form-button', () => ({
   FormButton: ({ children, ...props }: any) => <button {...props}>{children}</button>,
 }))
 
-const { useAction } = require('next-safe-action/hooks')
+import { useAction } from 'next-safe-action/hooks'
+jest.mock('next-safe-action/hooks')
 
 describe('LoginForm', () => {
   const mockExecuteAsync = jest.fn()

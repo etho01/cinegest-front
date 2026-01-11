@@ -3,11 +3,10 @@ import { PaginationTab } from '../PaginationTab'
 import { Paginator } from '../PaginationType'
 
 // Mock the hook
+import { usePaginatedResource } from '../../../hook/usePaginatedResource'
 jest.mock('../../../hook/usePaginatedResource', () => ({
   usePaginatedResource: jest.fn(),
 }))
-
-const { usePaginatedResource } = require('../../../hook/usePaginatedResource')
 
 describe('PaginationTab', () => {
   const mockData: Paginator<any> = {
