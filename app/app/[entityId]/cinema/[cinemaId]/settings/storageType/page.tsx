@@ -3,7 +3,12 @@ import { StorageTypeManager } from "@/src/component/cinema/settings/storageType/
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { StorageTypeRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageTypeRepositoryImpl";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des types de stockage - CineGest",
+    description: "Gérez les types de stockage de votre cinéma",
+};
 
 interface StorageTypesPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

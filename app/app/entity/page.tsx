@@ -3,6 +3,12 @@ import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import EntityManager from "@/src/component/superadmin/entity/EntityManager";
 import { EntityRepositoryImpl } from "@/src/infrastructure/repositories/EntityRepositoryImpl";
 import { Unauthorized, UserIsSuperAdmin } from "@/src/domain/User";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gestion des entités - CineGest",
+    description: "Gérez les entités de l'application",
+};
 
 interface PageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>

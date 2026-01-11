@@ -3,6 +3,12 @@ import { RoleManager } from "@/src/component/role/RoleManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { RoleRepositoryImpl } from "@/src/infrastructure/repositories/RoleRepositoryImpl";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gestion des rôles - CineGest",
+    description: "Gérez les rôles et permissions de votre entité",
+};
 
 interface CinemaPageProps {
     params: Promise<{ entityId: number }>;

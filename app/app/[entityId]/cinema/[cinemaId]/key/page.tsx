@@ -7,8 +7,12 @@ import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { KeyRepositoryImpl } from "@/src/infrastructure/repositories/KeyRepositoryImpl";
+import { Metadata } from "next";
 
-
+export const metadata: Metadata = {
+    title: "Gestion des clés KDM - CineGest",
+    description: "Gérez les clés de déchiffrement de votre cinéma",
+};
 
 interface KeyPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

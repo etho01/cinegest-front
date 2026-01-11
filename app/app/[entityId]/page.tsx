@@ -4,6 +4,7 @@ import { Entity } from "@/src/domain/Entity"
 import Card from "@/src/component/ui/card";
 import { Button } from "@/src/component/ui/btn/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Metadata } from "next";
 import { 
     faBuilding, 
     faServer, 
@@ -15,6 +16,11 @@ import {
     faFilm,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Détail de l'entité - CineGest",
+    description: "Tableau de bord et gestion de l'entité",
+};
 
 interface EntityPageProps {
     params: Promise<{ entityId: number }>;

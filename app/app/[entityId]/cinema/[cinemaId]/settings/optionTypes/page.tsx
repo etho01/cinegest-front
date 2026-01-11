@@ -3,6 +3,12 @@ import { OptionTypeManager } from "@/src/component/cinema/settings/optionType/Op
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gestion des types d'options - CineGest",
+    description: "Gérez les types d'options de votre cinéma",
+};
 
 interface OptionTypesPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

@@ -3,6 +3,19 @@ import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import UserReview from "@/src/component/user/review/userReview";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
+import { Metadata } from "next";
+
+export async function generateMetadata(props: UserPageProps): Promise<Metadata> {
+    const { params } = props;
+    const { entityId, userId } = await params;
+    const user = await getUser(UserRepositoryImpl, entityId, userId);
+    const fullName = user ? `${user.firstname} ${user.lastname}`.trim() : 'Utilisateur';
+    
+    return {
+        title: `${fullName} - CineGest`,
+        description: `Détails de l'utilisateur ${fullName}`,
+    };
+}
 
 interface UserPageProps {
     params: Promise<{ entityId: number, userId: number }>;

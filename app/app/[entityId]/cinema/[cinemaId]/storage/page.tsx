@@ -10,6 +10,12 @@ import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Set
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
 import { StorageItemRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/StorageItemRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gestion du stockage - CineGest",
+    description: "Gérez les éléments stockés de votre cinéma",
+};
 
 interface StoragePageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

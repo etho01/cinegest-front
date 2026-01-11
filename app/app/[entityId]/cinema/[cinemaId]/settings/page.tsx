@@ -3,6 +3,12 @@ import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { SettingsCategory, SettingsItem } from "@/src/component/ui/settings/Settings";
 import { Unauthorized, UserHasOneRight, UserHasRight } from "@/src/domain/User";
 import { faSchool } from "@fortawesome/free-solid-svg-icons";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Paramètres du cinéma - CineGest",
+    description: "Configuration et paramètres du cinéma",
+};
 
 interface CinemaPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

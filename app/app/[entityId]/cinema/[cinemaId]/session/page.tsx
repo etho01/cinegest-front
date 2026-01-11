@@ -10,6 +10,12 @@ import { SessionRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gestion des séances - CineGest",
+    description: "Gérez les séances de votre cinéma",
+};
 
 interface SessionPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

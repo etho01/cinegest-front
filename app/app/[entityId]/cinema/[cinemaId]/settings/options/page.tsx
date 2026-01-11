@@ -6,7 +6,12 @@ import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { OptionTypesRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionTypesControllerImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des options - CineGest",
+    description: "Gérez les options de votre cinéma",
+};
 
 interface OptionsPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

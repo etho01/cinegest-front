@@ -6,7 +6,12 @@ import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
 import { StorageTypeRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageTypeRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des stockages - CineGest",
+    description: "Gérez les stockages de votre cinéma",
+};
 
 interface StoragesPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

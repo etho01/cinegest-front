@@ -3,6 +3,18 @@ import MovieReview from "@/src/component/cinema/movie/review/MovieReview";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
+import { Metadata } from "next";
+
+export async function generateMetadata(props: OptionsPageProps): Promise<Metadata> {
+    const { params } = props;
+    const { entityId, cinemaId, movieId } = await params;
+    const movie = await getMovie(MovieRepositoryImpl, entityId, cinemaId, movieId);
+    
+    return {
+        title: `${movie.title} - Film - CineGest`,
+        description: `Détails et gestion du film ${movie.title}`,
+    };
+}
 
 interface OptionsPageProps {
     params: Promise<{ entityId: number; cinemaId: number; movieId: number }>;

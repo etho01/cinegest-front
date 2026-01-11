@@ -18,6 +18,12 @@ import {
     faUserShield
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Tableau de bord - CineGest",
+    description: "Tableau de bord de gestion cinématographique",
+};
 
 export default async function Page() {
     return (

@@ -3,7 +3,12 @@ import { CinemaManager } from "@/src/component/cinema/CinemaManager";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { CinemaRepositoryImpl } from "@/src/infrastructure/repositories/CinemaRepositoryImpl";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des cinémas - CineGest",
+    description: "Gérez les cinémas de votre entité",
+};
 
 interface CinemaPageProps {
     params: Promise<{ entityId: string }>;

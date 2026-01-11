@@ -3,7 +3,12 @@ import SuperadminManager from "@/src/component/superadmin/superadmin/SuperadminM
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserIsSuperAdmin } from "@/src/domain/User";
 import { SuperadminRepositoryImpl } from "@/src/infrastructure/repositories/SuperadminRepositoryImpl";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Administration - CineGest",
+    description: "Gestion des super administrateurs",
+};
 
 interface AdminPageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>

@@ -6,7 +6,12 @@ import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { MovieRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/MovieRepositoryImpl";
 import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/OptionsRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des films - CineGest",
+    description: "Gérez les films de votre cinéma",
+};
 
 interface OptionsPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

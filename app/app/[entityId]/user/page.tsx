@@ -3,6 +3,12 @@ import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { UserManager } from "@/src/component/user/userManager";
 import { UserHasRight } from "@/src/domain/User";
 import { UserRepositoryImpl } from "@/src/infrastructure/repositories/UserRepositoryImpl";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Gestion des utilisateurs - CineGest",
+    description: "Gérez les utilisateurs de votre entité",
+};
 
 interface UserPageProps {
     params: Promise<{ entityId: string }>;

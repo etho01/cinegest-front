@@ -21,6 +21,12 @@ import {
     faTools
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Détail du cinéma - CineGest",
+    description: "Tableau de bord et gestion du cinéma",
+};
 
 interface CinemaPageProps {
     params: Promise<{ entityId: number, cinemaId: number }>;

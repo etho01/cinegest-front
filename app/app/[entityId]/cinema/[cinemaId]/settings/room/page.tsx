@@ -8,7 +8,12 @@ import { OptionsRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/
 import { RoomRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/RoomRepositoryImpl";
 import { StorageRepositoryImpl } from "@/src/infrastructure/repositories/Cinema/Settings/StorageRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des salles - CineGest",
+    description: "Gérez les salles de votre cinéma",
+};
 
 interface RoomsPageProps {
     params: Promise<{ entityId: number; cinemaId: number }>;

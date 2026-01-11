@@ -6,7 +6,12 @@ import { Unauthorized, UserHasRight } from "@/src/domain/User";
 import { CinemaApiRepositoryImpl } from "@/src/infrastructure/repositories/CinemaApiRepositoryImpt";
 import { CinemaRepositoryImpl } from "@/src/infrastructure/repositories/CinemaRepositoryImpl";
 import { getObjectFromSearchParams } from "@/src/lib/url";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Gestion des API Cinémas - CineGest",
+    description: "Gérez les API de vos cinémas",
+};
 
 interface CinemaApiPageProps {
     params: Promise<{ entityId: number }>;
