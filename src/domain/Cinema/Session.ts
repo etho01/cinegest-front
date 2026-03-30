@@ -15,6 +15,7 @@ export type Session = {
     room?: Room;
     statusKey?: string;
     statusServer?: string;
+    nbSeatsSold?: number;
 
 };
 

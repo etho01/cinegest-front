@@ -151,7 +151,7 @@ export default async function Page() {
                                             <Link href={`/app/${entity.id}/cinema/${cinema.id}/session`}>
                                                 <Button variant="outline" className="w-full justify-start">
                                                     <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />
-                                                    Sessions
+                                                    Séances
                                                 </Button>
                                             </Link>
                                         )}

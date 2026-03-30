@@ -90,14 +90,33 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                 initialParams={initialParams} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/session`} 
                 ref={paginationRef} 
-                lineRenderer={(item : Session) => (
+                lineRenderer={(item : Session) => {
+                    const formatDate = (isoString: string) => {
+                        const date = new Date(isoString);
+                        return date.toLocaleDateString('fr-FR', { 
+                            year: 'numeric', 
+                            month: '2-digit', 
+                            day: '2-digit' 
+                        });
+                    };
+                    
+                    const formatTime = (isoString: string) => {
+                        const date = new Date(isoString);
+                        return date.toLocaleTimeString('fr-FR', { 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                        });
+                    };
+                    
+                    return (
                     <>
                         <Td>{item.movie?.title}</Td>
                         <Td>{item.movieVersion?.versionName}</Td>
                         <Td>{item.room?.name}</Td>
-                        <Td>{item.startTime}</Td>
-                        <Td>{item.startTime}</Td>
-                        <Td>{item.endTime}</Td>
+                        <Td>{formatDate(item.startTime)}</Td>
+                        <Td>{formatTime(item.startTime)}</Td>
+                        <Td>{formatTime(item.endTime)}</Td>
+                        <Td>{item.nbSeatsSold || 0} / {item.room?.capacity || 0}</Td>
                         <Td>
                             <div className="flex justify-between">
                                 <div>
@@ -159,8 +178,8 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
                             )}
                         </Td>
                     </>
-                )} 
-                colList={["Film", "Version", 'Salle', "Date", "Heure de début", "Heure de fin", "Actions"]} 
+                )}} 
+                colList={["Film", "Version", 'Salle', "Date", "Heure de début", "Heure de fin", "Nombre de sièges vendus", "Clé", "Serveur", "Actions"]}
             />
             <AddKeyModal
                 ref={addKeyModalRef}
