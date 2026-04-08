@@ -2,8 +2,6 @@
 import { FormButton } from "@/src/component/ui/btn/form-button";
 import { formError, Select } from "@/src/component/ui/form";
 import Input from "@/src/component/ui/form/Input";
-import { ReviewCategory } from "@/src/component/ui/review/ReviewCategory";
-import { ReviewElement } from "@/src/component/ui/review/ReviewElement";
 import { updateCinemaApiController } from "@/src/controller/app/CinemaApiController";
 import { Cinema } from "@/src/domain/Cinema";
 import { CinemaApi } from "@/src/domain/CinemaApi";
@@ -19,7 +17,7 @@ interface CinemaApiReviewcardProps {
 export const CinemaApiReviewcard = ({ cinemaApi, entityId, cinemas }: CinemaApiReviewcardProps) => {
     cinemaApi.cinemaIds = cinemaApi.cinemas?.map(cinema => cinema.id) || [];
 
-    const { executeAsync, hasErrored, result, input } = useAction(updateCinemaApiController);
+    const { executeAsync, hasErrored, result } = useAction(updateCinemaApiController);
 
     const [cinemaApiUpdated, setCinemaApiUpdated] = useState<CinemaApi>(cinemaApi);
 

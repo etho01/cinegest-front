@@ -1,8 +1,6 @@
 /**
  * Tests d'intégration pour le flow de login/authentification
  */
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 // Mock fetch globally
 const mockFetch = jest.fn()

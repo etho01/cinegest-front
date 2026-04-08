@@ -1,4 +1,3 @@
-import { en } from "zod/locales";
 import { BreadcrumbLevel } from "./src/component/ui/menu/Breadcrumb";
 import { UserHasRight, UserIsSuperAdmin } from "./src/domain/User";
 

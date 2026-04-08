@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { loadObjectAndShowModal, LoadObjectAndShowModalRef, loadObjectAndShowModalObjectProps } from '../loadObjectAndShowModal'
+import { loadObjectAndShowModal, loadObjectAndShowModalObjectProps } from '../loadObjectAndShowModal'
 
 interface TestUser {
   id: number

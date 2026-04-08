@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LoginForm } from '../login-form'
 
@@ -26,7 +26,7 @@ jest.mock('next/link', () => {
 
 // Mock Input component
 jest.mock('../../ui/form/Input', () => {
-  return function MockInput({ label, name, type, required, errors, ...props }: any) {
+  return function MockInput({ label, name, type, required, errors }: any) {
     return (
       <div>
         <label htmlFor={name}>{label}</label>

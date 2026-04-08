@@ -1,5 +1,4 @@
 import { getCinemaApi } from "@/src/application/useCases/cinemaApi/getCinemaApi";
-import { getCinemaApis } from "@/src/application/useCases/cinemaApi/getCinemaApis";
 import { CinemaApiReview } from "@/src/component/cinemaApi/review/CinemaApiReview";
 import { ShowMenu } from "@/src/component/ui/menu/showMenu";
 import { Unauthorized, UserHasRight } from "@/src/domain/User";
@@ -21,7 +20,7 @@ interface CinemaApiPageProps {
     params: Promise<{ entityId: number; cinemaApiId: number }>;
 }
 
-export default async (props: CinemaApiPageProps) => {
+export default async function Page (props: CinemaApiPageProps) {
     const { params } = props;
     const { entityId, cinemaApiId } = await params;
 

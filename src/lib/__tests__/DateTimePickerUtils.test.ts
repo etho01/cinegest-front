@@ -7,8 +7,6 @@ import {
   formatDateValue,
   now,
   today,
-  dateToZonedDateTime,
-  nowZoned,
   dateValueToDate,
   createSafeDateValue,
 } from '../DateTimePickerUtils'

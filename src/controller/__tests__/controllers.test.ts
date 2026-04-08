@@ -1,4 +1,4 @@
-import { describe, it, expect, jest } from '@jest/globals'
+import { describe, it, expect } from '@jest/globals'
 
 describe('AuthController', () => {
   it('should be tested when implemented', () => {
