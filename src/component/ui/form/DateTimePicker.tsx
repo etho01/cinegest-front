@@ -54,7 +54,6 @@ export const DateTimePicker = ({
     onChange,
     onBlur,
     onFocus,
-    ...props
 }: Props) => {
     // Utilise le fuseau horaire local par défaut pour éviter les décalages
     const [internalValue, setInternalValue] = useState<DateValue>(value || defaultValue || null);

@@ -11,8 +11,6 @@ describe('PageError', () => {
   })
 
   it('should render with error styling', () => {
-    const error = new Error('Error occurred')
-    const { container } = render(<PageError error={error} />)
     
     const errorElement = screen.getByText('Error occurred')
     expect(errorElement).toBeInTheDocument()

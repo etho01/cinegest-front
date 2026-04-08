@@ -88,7 +88,7 @@ export function usePaginatedResource<T>({
         setIsInit(true);
         //if (!data) return; // si déjà SSR, on attend une interaction
             runFetch(url).catch((e) => setErrorState(e as Error));
-    }, [url]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [url, initialData, runFetch, isInit]); 
 
     // Sync URL (page/per_page/params)
     useEffect(() => {

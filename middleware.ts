@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const cookieStore = await cookies();
-    let isLog = cookieStore.has('login-token');
+    const isLog = cookieStore.has('login-token');
 
     // Pages publiques (pas besoin d'être connecté)
     const publicPaths = ['/login', '/forgot-password', '/reset-password'];

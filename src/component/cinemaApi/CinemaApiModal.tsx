@@ -14,11 +14,10 @@ interface CinaApiModalProps {
     initialObject: CinemaApi | null;
     onSaved?: (entity: CinemaApi) => void | Promise<void>;
     entityId?: number;
-    cinemaId?: number;
     cinemas : Cinema[];
 }
 
-export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, cinemas }: CinaApiModalProps, ref) => {
+export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onSaved, entityId, cinemas }: CinaApiModalProps, ref) => {
     const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<CinemaApi>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,

@@ -83,7 +83,7 @@ export const Select = ( {className = '', label = '', containerClassName = '', er
         }
         
         setSelectedValue(selectedOption);
-    }, [value]);
+    }, [value, isMulti, options]);
     
     useEffect(() => {
         if (initialValue === undefined) {
@@ -100,7 +100,7 @@ export const Select = ( {className = '', label = '', containerClassName = '', er
         }
 
         setSelectedValue(selectedOption);
-    }, [initialValue]);
+    }, [initialValue, isMulti, options]);
 
     return (
         <div className={containerClassName}>
