@@ -14,10 +14,8 @@ const eslintConfig = [
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
-      'react/display-name': 'off',
       'react/no-unescaped-entities': 'off',
-      'react-hooks/rules-of-hooks': 'off',
-      'react-hooks/exhaustive-deps': 'off',
+      'react/display-name': 'off',
     },
   },
   {
