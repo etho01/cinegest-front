@@ -1,7 +1,7 @@
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { PropsGetSessions } from "../../useCases/Cinema/Sessions/getSessions";
-import { Session } from "inspector/promises";
 import { AddSessionModalElement } from "../../useCases/Cinema/Sessions/addSessions";
+import { Session } from "@/src/domain/Cinema/Session";
 
 
 export interface SessionRepository {

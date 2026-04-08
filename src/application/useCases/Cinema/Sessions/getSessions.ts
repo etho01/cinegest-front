@@ -1,4 +1,6 @@
 import { SessionRepository } from "@/src/application/repositories/Cinema/SessionRepository";
+import { Paginator } from "@/src/component/ui/pagination/PaginationType";
+import { Session } from "@/src/domain/Cinema/Session";
 
 export interface PropsGetSessions {
     page : number;
@@ -8,6 +10,6 @@ export interface PropsGetSessions {
     status? : string[];
 };
 
-export const getSessions = async (repo : SessionRepository, entityId: number, cinemaId: number, props: PropsGetSessions) : Promise<any> => {
-    return await repo.getSessions(entityId, cinemaId, props);
+export const getSessions = async (repo : SessionRepository, entityId: number, cinemaId: number, props: PropsGetSessions) : Promise<Paginator<Session>> => {
+    return repo.getSessions(entityId, cinemaId, props);
 }

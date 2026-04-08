@@ -3,11 +3,21 @@ import { getUsersParams } from "@/src/application/useCases/User/getUsers";
 import { UpdateMePasswordProps } from "@/src/application/useCases/User/updateMePassword";
 import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
-import { User, UserLog, PasswordResetRequest, PasswordReset } from "@/src/domain/User";
+import { User, UserLog, PasswordResetRequest, PasswordReset} from "@/src/domain/User";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
 import { buildApiUrl } from "@/src/lib/config/api";
 import { throwErrorResponse } from "@/src/lib/request/Request";
+import { Entity } from "@/src/domain/Entity";
 
+interface RoleApi {
+    id: number,
+    name: string,
+    pivot: {
+        cinema_id: number | null,
+        entity_id: number | null,
+    },
+    rights?: string[]
+}
 
 export const UserRepositoryImpl: UserRepository = {
     connect: async (userLog: UserLog) => {
@@ -26,7 +36,7 @@ export const UserRepositoryImpl: UserRepository = {
 
         const text = await resp.text();
         const body = JSON.parse(text);
-        const roles = body['roles'].map((roleData: any) => {
+        const roles = body['roles'].map((roleData: RoleApi) => {
             return {
                 id: roleData['id'],
                 name: roleData['name'],
@@ -36,7 +46,7 @@ export const UserRepositoryImpl: UserRepository = {
             }
         });
 
-        const entities = body['entities'].map((entityData: any) => {
+        const entities = body['entities'].map((entityData: Entity) => {
             return {
                 id: entityData['id'],
                 name: entityData['name'],
