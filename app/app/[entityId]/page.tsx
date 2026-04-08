@@ -38,7 +38,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                         <div className="p-6">
                             <Card className="p-6 text-center">
                                 <h2 className="text-xl font-bold text-red-600 mb-2">Entité non trouvée</h2>
-                                <p className="text-gray-600">L'entité demandée n'existe pas ou vous n'y avez pas accès.</p>
+                                <p className="text-gray-600">L&lsquo;entité demandée n&lsquo;existe pas ou vous n&lsquo;y avez pas accès.</p>
                             </Card>
                         </div>
                     );
@@ -52,7 +52,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                 {entity.name}
                             </h1>
                             <p className="text-indigo-100">
-                                Tableau de bord de l'entité
+                                Tableau de bord de l&lsquo;entité
                             </p>
                         </div>
 
@@ -113,7 +113,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                             <Card className="p-6">
                                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                                     <FontAwesomeIcon icon={faBuilding} className="text-indigo-500" />
-                                    Gestion de l'entité
+                                    Gestion de l&lsquo;entité
                                 </h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {UserHasRight(user, 'viewCinemas', null) && (
@@ -182,7 +182,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-xl font-bold flex items-center gap-2">
                                         <FontAwesomeIcon icon={faServer} className="text-blue-500" />
-                                        Cinémas de l'entité
+                                        Cinémas de l&lsquo;entité
                                     </h2>
                                     {UserHasRight(user, 'viewCinemas', null) && (
                                         <Link href={`/app/${entity.id}/cinema`}>
@@ -242,7 +242,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                 <FontAwesomeIcon icon={faServer} className="text-gray-300 text-4xl mb-4" />
                                 <h3 className="text-lg font-semibold text-gray-600 mb-2">Aucun cinéma</h3>
                                 <p className="text-gray-500 mb-4">
-                                    Cette entité n'a pas encore de cinémas associés.
+                                    Cette entité n&lsquo;a pas encore de cinémas associés.
                                 </p>
                                 {UserHasRight(user, 'createCinema', null) && (
                                     <Link href={`/app/${entity.id}/cinema`}>
@@ -259,12 +259,12 @@ export default async function EntityPage({ params }: EntityPageProps) {
                         <Card className="p-6">
                             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                                 <FontAwesomeIcon icon={faBuilding} className="text-indigo-500" />
-                                Informations de l'entité
+                                Informations de l&lsquo;entité
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between py-2 border-b">
-                                        <span className="text-gray-600">Nom de l'entité</span>
+                                        <span className="text-gray-600">Nom de l&lsquo;entité</span>
                                         <span className="font-medium">{entity.name}</span>
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b">
@@ -272,7 +272,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                                         <span className="font-medium">{entity.cinemas?.length || 0}</span>
                                     </div>
                                     <div className="flex items-center justify-between py-2">
-                                        <span className="text-gray-600">ID de l'entité</span>
+                                        <span className="text-gray-600">ID de l&lsquo;entité</span>
                                         <span className="font-medium">#{entity.id}</span>
                                     </div>
                                 </div>

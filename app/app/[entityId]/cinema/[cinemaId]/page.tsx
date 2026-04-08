@@ -44,7 +44,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                         <div className="p-6">
                             <Card className="p-6 text-center">
                                 <h2 className="text-xl font-bold text-red-600 mb-2">Entité non trouvée</h2>
-                                <p className="text-gray-600">L'entité demandée n'existe pas ou vous n'y avez pas accès.</p>
+                                <p className="text-gray-600">L&lsquo;entité demandée n&lsquo;existe pas ou vous n&lsquo;y avez pas accès.</p>
                             </Card>
                         </div>
                     );
@@ -55,7 +55,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                         <div className="p-6">
                             <Card className="p-6 text-center">
                                 <h2 className="text-xl font-bold text-red-600 mb-2">Cinéma non trouvé</h2>
-                                <p className="text-gray-600">Le cinéma demandé n'existe pas ou vous n'y avez pas accès.</p>
+                                <p className="text-gray-600">Le cinéma demandé n&lsquo;existe pas ou vous n&lsquo;y avez pas accès.</p>
                                 <Link href={`/app/${entityId}/cinema`} className="mt-4 inline-block">
                                     <Button variant="outline">
                                         <FontAwesomeIcon icon={faServer} className="mr-2" />
@@ -354,7 +354,7 @@ export default async function CinemaPage({ params }: CinemaPageProps) {
                                 <FontAwesomeIcon icon={faFilm} className="text-gray-300 text-4xl mb-4" />
                                 <h3 className="text-lg font-semibold text-gray-600 mb-2">Aucun film</h3>
                                 <p className="text-gray-500 mb-4">
-                                    Ce cinéma n'a pas encore de films ajoutés.
+                                    Ce cinéma n&lsquo;a pas encore de films ajoutés.
                                 </p>
                                 {UserHasRight(user, 'createMovie', cinema.id) && (
                                     <Link href={`/app/${entityId}/cinema/${cinemaId}/movie`}>

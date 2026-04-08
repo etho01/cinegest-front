@@ -111,7 +111,7 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                     <Table>
                         <Thead>
                             <Tr>
-                                <Th>Type d'option</Th>
+                                <Th>Type d&lsquo;option</Th>
                                 <Th>Option</Th>
                                 <Th>Actions</Th>
                             </Tr>
@@ -121,7 +121,7 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                                 <Tr key={index} index={index}>
                                     <Td>
                                         <Select
-                                            placeholder="Sélectionner un type d'option"
+                                            placeholder="Sélectionner un type d&lsquo;option"
                                             options={optionsTypes.filter(optionType => {
                                                 return !optionSelectList.some((os, i) => os.optionTypeId === optionType.id && i !== index);
                                             }).map(optionType => ({ value: optionType.id, label: optionType.name }))}
@@ -149,7 +149,7 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                                                 }}
                                             />
                                         ) : (
-                                            <div className="text-gray-500">Sélectionnez un type d'option d'abord</div>
+                                            <div className="text-gray-500">Sélectionnez un type d&lsquo;option d&lsquo;abord</div>
                                         )}
                                     </Td>
                                     <Td>

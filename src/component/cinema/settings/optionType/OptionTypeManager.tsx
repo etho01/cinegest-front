@@ -45,7 +45,7 @@ export const OptionTypeManager = ({ initialData, initialParams, entityId, cinema
                     variant="default" 
                     onClick={() => modalRef.current?.createNew()}
                 >
-                    Créer un type d'option
+                    Créer un type d&lsquo;option
                 </Button>
                 )}
             </div>

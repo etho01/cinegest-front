@@ -101,7 +101,7 @@ export const ModalAdvancedExample = () => {
                 <ModalBody>
                     <div className="space-y-4">
                         <p className="text-gray-600">
-                            Cette modal démontre l'intégration avancée de <code className="bg-gray-100 px-2 py-1 rounded">useRef</code> :
+                            Cette modal démontre l&rsquo;intégration avancée de <code className="bg-gray-100 px-2 py-1 rounded">useRef</code> :
                         </p>
                         
                         <div className="bg-blue-50 p-4 rounded-lg">
@@ -211,7 +211,7 @@ export const ModalAdvancedExample = () => {
                         </p>
                         <div className="bg-red-50 p-3 rounded border border-red-200">
                             <p className="text-sm text-red-800">
-                                💡 Le focus initial est sur "Annuler" pour la sécurité
+                                💡 Le focus initial est sur &lsquo;Annuler&lsquo; pour la sécurité
                             </p>
                         </div>
                     </div>

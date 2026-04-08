@@ -105,7 +105,7 @@ export const ModalExample = () => {
                 
                 <ModalBody>
                     <p className="text-gray-600">
-                        Cette modal s'ouvre avec le focus sur le bouton "Annuler" 
+                        Cette modal s&rsquo;ouvre avec le focus sur le bouton &lsquo;Annuler&lsquo; 
                         grâce à la prop <code className="bg-gray-100 px-2 py-1 rounded">initialFocus</code>.
                     </p>
                 </ModalBody>
