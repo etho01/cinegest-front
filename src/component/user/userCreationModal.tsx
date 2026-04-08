@@ -1,5 +1,5 @@
 import { User, UserEmpty } from "@/src/domain/User";
-import { loadObjectAndShowModalUpdate } from "../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../hook/useLoadObjectAndShowModalUpdate";
 import { forwardRef, useImperativeHandle } from "react";
 import { addUserController } from "@/src/controller/app/UserController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
@@ -15,7 +15,7 @@ interface UserCreationModalProps {
 }
 
 export const UserCreationModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId }: UserCreationModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<User>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<User>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

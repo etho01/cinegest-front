@@ -1,4 +1,4 @@
-import { loadObjectAndShowModalUpdate } from "@/src/component/hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "@/src/component/hook/useLoadObjectAndShowModalUpdate";
 import { Button } from "@/src/component/ui/btn/button";
 import Input from "@/src/component/ui/form/Input";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/component/ui/modal";
@@ -23,7 +23,7 @@ export interface UpdateSizeMovieRef {
 }
 
 export const UpdateSizeMovie = forwardRef(({ movie, entityId, cinemaId, onSaved, isOpen }: updateMovieProps, ref) => {
-    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<MovieSizeUpdate>({
+    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<MovieSizeUpdate>({
         initialObject: null,
         isOpen: isOpen,
         showErrorsBase: false,

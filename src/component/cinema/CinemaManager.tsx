@@ -8,7 +8,7 @@ import Input from "../ui/form/Input";
 import { Paginator } from "../ui/pagination/PaginationType";
 import { Cinema } from "@/src/domain/Cinema";
 import { CinemaModal } from "./CinemaModal";
-import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../hook/useLoadObjectAndShowModal";
 import { deleteCinemaController } from "@/src/controller/app/CinemaController";
 import { User, UserHasRight } from "@/src/domain/User";
 
@@ -24,7 +24,7 @@ interface PropsFetchEntities {
 
 export const CinemaManager = ({ initialData, initialParams, entityId, user }: PropsFetchEntities) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Cinema>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Cinema>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

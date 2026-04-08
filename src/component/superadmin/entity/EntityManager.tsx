@@ -9,7 +9,7 @@ import { Button, LinkButton } from "../../ui/btn/button";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { deleteEntityController } from "@/src/controller/app/EntityController";
 import Card from "../../ui/card";
-import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 
 interface PropsFetchEntities {
     initialData : Paginator<Entity>;
@@ -18,7 +18,7 @@ interface PropsFetchEntities {
 
 export default function EntityManager({ initialData, initialParams }: PropsFetchEntities) {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Entity>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Entity>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

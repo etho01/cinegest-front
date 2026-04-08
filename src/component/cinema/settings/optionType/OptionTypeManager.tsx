@@ -1,5 +1,5 @@
 "use client";
-import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObjectAndShowModal";
 import { Button } from "@/src/component/ui/btn/button";
 import Card from "@/src/component/ui/card";
 import Input from "@/src/component/ui/form/Input";
@@ -25,7 +25,7 @@ interface PropsFetchOptionsTypes {
 
 export const OptionTypeManager = ({ initialData, initialParams, entityId, cinemaId, user }: PropsFetchOptionsTypes) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<OptionType>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<OptionType>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

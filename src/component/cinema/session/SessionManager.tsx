@@ -1,5 +1,5 @@
 "use client";
-import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 import Card from "../../ui/card";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { PaginationTab, PaginationTabRef } from "../../ui/pagination/PaginationTab";
@@ -37,10 +37,10 @@ interface PropsSessionManager {
 
 export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams, initialData, rooms, storages, user }: PropsSessionManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const addModalRef = useRef<LoadObjectAndShowModalRef<Session>>(null);
+    const addModalRef = useRef<useLoadObjectAndShowModalRef<Session>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
-    const addKeyModalRef = useRef<LoadObjectAndShowModalRef<AddKeyModalElement>>(null);
-    const addStorageModalRef = useRef<LoadObjectAndShowModalRef<addStorageItemObjectParams>>(null);
+    const addKeyModalRef = useRef<useLoadObjectAndShowModalRef<AddKeyModalElement>>(null);
+    const addStorageModalRef = useRef<useLoadObjectAndShowModalRef<addStorageItemObjectParams>>(null);
 
     return (
         <Card>

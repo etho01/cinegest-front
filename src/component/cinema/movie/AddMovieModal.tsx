@@ -1,6 +1,6 @@
 import { Movie, MovieEmpty, MovieSearchResult } from "@/src/domain/Cinema/Movie";
 import { forwardRef, useImperativeHandle } from "react";
-import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShowModalUpdate";
 import { addMovieController } from "@/src/controller/app/Cinema/MovieController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
@@ -17,7 +17,7 @@ interface AddMovieModalProps {
 }
 
 export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId }: AddMovieModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Movie>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<Movie>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

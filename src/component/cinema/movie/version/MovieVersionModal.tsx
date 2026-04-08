@@ -1,4 +1,4 @@
-import { loadObjectAndShowModalUpdate } from "@/src/component/hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "@/src/component/hook/useLoadObjectAndShowModalUpdate";
 import { Button } from "@/src/component/ui/btn/button";
 import Input from "@/src/component/ui/form/Input";
 import { Select } from "@/src/component/ui/form/Select";
@@ -31,7 +31,7 @@ type optionSelectType = {
 export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, movieId, optionsTypes, options }: MovieVersionModalProps, ref) => {
     const [ optionSelectList, setOptionSelectList ] = useState<optionSelectType[]>([]);
 
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<MovieVersion>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<MovieVersion>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

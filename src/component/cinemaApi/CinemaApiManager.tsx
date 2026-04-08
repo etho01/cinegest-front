@@ -4,7 +4,6 @@ import { Paginator } from "../ui/pagination/PaginationType";
 import { User, UserHasRight } from "@/src/domain/User";
 import { Cinema } from "@/src/domain/Cinema";
 import { PaginationTab, PaginationTabRef } from "../ui/pagination/PaginationTab";
-import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
 import { useRef } from "react";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
 import Card from "../ui/card";
@@ -13,6 +12,7 @@ import { Button, LinkButton } from "../ui/btn/button";
 import { Td } from "../ui/table/Table";
 import { CinemaApiModal } from "./CinemaApiModal";
 import { deleteCinemaApiController } from "@/src/controller/app/CinemaApiController";
+import { useLoadObjectAndShowModalRef } from "../hook/useLoadObjectAndShowModal";
 
 
 interface PropsFetchCinemaApis {
@@ -29,7 +29,7 @@ interface PropsFetchCinemaApis {
 
 export const CinemaApiManager = ({ initialData, initialParams, entityId, user, cinemas }: PropsFetchCinemaApis) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<CinemaApi>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<CinemaApi>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (
@@ -37,8 +37,8 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
             <div className="flex justify-between">
                 <div className="flex gap-3">
                     <Input 
-                        label="Rechercher une option" 
-                        placeholder="Rechercher une option" 
+                        label="Rechercher une api" 
+                        placeholder="Rechercher une api" 
                         onChange={(value) => {
                             paginationRef.current?.updateParam("search", value);
                         }} 
@@ -77,8 +77,9 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
                 lineRenderer={(item : CinemaApi) => (
                     <>
                         <Td >{item.name}</Td>
-                        <Td >{item.cinemas?.map(cinema => cinema.name).join(', ')}</Td>                        <Td >{item.websiteUrl || '-'}</Td>                        <Td >{item.apiKey}</Td>
-                        
+                        <Td >{item.cinemas?.map(cinema => cinema.name).join(', ')}</Td>
+                        <Td >{item.websiteUrl || '-'}</Td>
+                        <Td >{item.apiKey}</Td>
                         <Td className="text-right">
                             {UserHasRight(user, 'editCinemaApi', null) && (
                                 <LinkButton 

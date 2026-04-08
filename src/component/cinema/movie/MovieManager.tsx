@@ -6,7 +6,7 @@ import Card from "../../ui/card";
 import { Button, LinkButton } from "../../ui/btn/button";
 import Input from "../../ui/form/Input";
 import { PaginationTab, PaginationTabRef } from "../../ui/pagination/PaginationTab";
-import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { useRef } from "react";
 import { AddMovieModal } from "./AddMovieModal";
@@ -32,7 +32,7 @@ interface PropsFetchMovies {
 
 export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, user }: PropsFetchMovies) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Movie>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Movie>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

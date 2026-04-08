@@ -4,7 +4,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/mo
 import { Button } from "../ui/btn/button";
 import Input from "../ui/form/Input";
 import { SelectCountry } from "../ui/form/Select";
-import { loadObjectAndShowModalUpdate } from "../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../hook/useLoadObjectAndShowModalUpdate";
 import { addOrUpdateCinemaController } from "@/src/controller/app/CinemaController";
 
 interface CinemaModalProps {
@@ -16,7 +16,7 @@ interface CinemaModalProps {
 }
 
 export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId }: CinemaModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Cinema>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<Cinema>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

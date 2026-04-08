@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle } from "react";
-import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShowModalUpdate";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
 import { addKeysController } from "@/src/controller/app/Cinema/KeyController"; 
@@ -23,7 +23,7 @@ interface AddKeyModalProps {
 
 
 export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms }: AddKeyModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<AddKeyModalElement>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<AddKeyModalElement>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

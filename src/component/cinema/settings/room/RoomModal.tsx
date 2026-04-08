@@ -1,4 +1,4 @@
-import { loadObjectAndShowModalUpdate } from "@/src/component/hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "@/src/component/hook/useLoadObjectAndShowModalUpdate";
 import { Button } from "@/src/component/ui/btn/button";
 import Input from "@/src/component/ui/form/Input";
 import { Select } from "@/src/component/ui/form/Select";
@@ -22,7 +22,7 @@ interface RoomModalProps {
 }
 
 export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId, cinemaId, allOptions, allStorages }: RoomModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Room>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<Room>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

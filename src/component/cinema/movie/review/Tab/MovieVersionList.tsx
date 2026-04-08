@@ -3,7 +3,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table"
 import { Movie, MovieVersion } from "@/src/domain/Cinema/Movie";
 import { useRef, useState } from "react";
 import { MovieVersionModal } from "../../version/MovieVersionModal";
-import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObjectAndShowModal";
 import { Button } from "@/src/component/ui/btn/button";
 import { OptionType } from "@/src/domain/Cinema/Settings/OptionTypes";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
@@ -23,7 +23,7 @@ interface MovieVersionListProps {
 
 export default function MovieVersionList({ movie, entityId, cinemaId, optionsTypes, options, user } : MovieVersionListProps) {
     const [versions, setVersions] = useState(movie.versions);
-    const modalRef = useRef<LoadObjectAndShowModalRef<MovieVersion>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<MovieVersion>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     const errorModalRef = useRef<ErrorModalRef>(null);
 

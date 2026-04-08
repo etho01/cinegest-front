@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle } from "react";
-import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShowModalUpdate";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../ui/table/Table";
@@ -23,7 +23,7 @@ interface AddSessionModalProps {
 
 
 export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms }: AddSessionModalProps, ref) => {
-    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<AddSessionModalElement>({
+    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<AddSessionModalElement>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

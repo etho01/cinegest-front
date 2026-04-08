@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-export interface LoadObjectAndShowModalRef<T> {
+export interface useLoadObjectAndShowModalRef<T> {
     loadFromId: (id: number) => Promise<void>;
     loadFromObject: (entity: T) => void;
     createNew: () => void;
 }
 
-export interface loadObjectAndShowModalObjectProps<T> {
+export interface useLoadObjectAndShowModalObjectProps<T> {
     initialObject: T | null;
     isOpen: boolean;
     showErrorsBase : boolean;
@@ -15,7 +15,7 @@ export interface loadObjectAndShowModalObjectProps<T> {
 
 }
 
-export function loadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBase, emptyObject, setDefaultValues }: loadObjectAndShowModalObjectProps<T>) {
+export function useLoadObjectAndShowModal<T>({ initialObject, isOpen, showErrorsBase, emptyObject, setDefaultValues }: useLoadObjectAndShowModalObjectProps<T>) {
     if (initialObject == null) {
         initialObject = emptyObject;
     }

@@ -4,7 +4,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
 import { Input, Select } from "../ui/form";
 import { Button } from "../ui/btn/button";
-import { loadObjectAndShowModalUpdate } from "../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../hook/useLoadObjectAndShowModalUpdate";
 import { addOrUpdateCinemaApiController } from "@/src/controller/app/CinemaApiController";
 
 
@@ -18,7 +18,7 @@ interface CinaApiModalProps {
 }
 
 export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onSaved, entityId, cinemas }: CinaApiModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<CinemaApi>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<CinemaApi>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

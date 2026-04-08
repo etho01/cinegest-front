@@ -1,4 +1,4 @@
-import { loadObjectAndShowModalUpdate } from "@/src/component/hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "@/src/component/hook/useLoadObjectAndShowModalUpdate";
 import { Button } from "@/src/component/ui/btn/button";
 import Input from "@/src/component/ui/form/Input";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/component/ui/modal/Modal";
@@ -17,7 +17,7 @@ interface OptionTypeModalProps {
 }
 
 export const OptionTypeModal = forwardRef(({ isOpen, initialObject, onSaved, entityId, cinemaId }: OptionTypeModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<OptionType>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<OptionType>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

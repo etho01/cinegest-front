@@ -1,4 +1,4 @@
-import { loadObjectAndShowModalUpdate } from "@/src/component/hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "@/src/component/hook/useLoadObjectAndShowModalUpdate";
 import { Button } from "@/src/component/ui/btn/button";
 import Input from "@/src/component/ui/form/Input";
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from "@/src/component/ui/modal";
@@ -18,7 +18,7 @@ interface StorageTypeModalProps {
 
 
 export const StorageTypeModal = forwardRef(({ isOpen, initialObject, onSaved, entityId, cinemaId }: StorageTypeModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<StorageType>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<StorageType>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

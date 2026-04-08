@@ -1,6 +1,6 @@
 import { Role, RoleEmpty } from "@/src/domain/User";
 import { forwardRef, useImperativeHandle } from "react";
-import { loadObjectAndShowModalUpdate } from "../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../hook/useLoadObjectAndShowModalUpdate";
 import { addOrUpdateRoleController } from "@/src/controller/app/RoleController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
 import { Button } from "../ui/btn/button";
@@ -17,7 +17,7 @@ interface RoleModalProps {
 }
 
 export const RoleModal = forwardRef(({ isOpen, initialObject, onSaved, entityId }: RoleModalProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Role>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<Role>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

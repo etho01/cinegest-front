@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { Modal, ModalBody, ModalFooter, ModalTitle, ModalHeader } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
 import { Room } from "@/src/domain/Cinema/Settings/Room";
-import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShowModalUpdate";
 import { MovieVersion } from "@/src/domain/Cinema/Movie";
 import { addStorageItemsController } from "@/src/controller/app/Cinema/StorageItemController";
 import { Select } from "../../ui/form/Select";
@@ -23,7 +23,7 @@ interface AddStorageItemModalProps {
 }
 
 export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject, onSaved, entityId, cinemaId, rooms, storages }: AddStorageItemModalProps, ref) => {
-    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<addStorageItemObjectParams>({
+    const { object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<addStorageItemObjectParams>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

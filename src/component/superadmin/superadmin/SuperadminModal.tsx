@@ -4,7 +4,7 @@ import { Button } from "../../ui/btn/button";
 import Input from "../../ui/form/Input";
 import { Superadmin, SuperadminEmpty } from "@/src/domain/superadmin";
 import { addOrUpdateSuperadminController } from "@/src/controller/app/SuperadminController";
-import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShowModalUpdate";
 
 interface SuperadminModelProps {
     isOpen: boolean;
@@ -14,7 +14,7 @@ interface SuperadminModelProps {
 }
 
 export const SuperadminModal = forwardRef(({ isOpen, initialObject, onSaved }: SuperadminModelProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Superadmin>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<Superadmin>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

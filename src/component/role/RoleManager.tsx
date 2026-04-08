@@ -6,7 +6,7 @@ import Input from "../ui/form/Input";
 import { Button } from "../ui/btn/button";
 import { PaginationTab, PaginationTabRef } from "../ui/pagination/PaginationTab";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
-import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../hook/useLoadObjectAndShowModal";
 import { useRef } from "react";
 import { deleteRoleController } from "@/src/controller/app/RoleController";
 import { RoleModal } from "./RoleModal";
@@ -23,7 +23,7 @@ interface PropsFetchRoles {
 
 export const RoleManager = ({ initialData, initialParams, entityId, user }: PropsFetchRoles) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Role>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Role>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

@@ -4,7 +4,7 @@ import { User, UserHasRight } from "@/src/domain/User";
 import { Paginator } from "../ui/pagination/PaginationType";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
 import { PaginationTab, PaginationTabRef } from "../ui/pagination/PaginationTab";
-import { LoadObjectAndShowModalRef } from "../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../hook/useLoadObjectAndShowModal";
 import { useRef } from "react";
 import Card from "../ui/card";
 import Input from "../ui/form/Input";
@@ -24,7 +24,7 @@ interface PropsFetchEntities {
 
 export const UserManager = ({ initialData, initialParams, entityId, user }: PropsFetchEntities) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<User>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<User>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

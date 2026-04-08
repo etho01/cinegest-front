@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 import { PaginationTab, PaginationTabRef } from "../../ui/pagination/PaginationTab";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { useRef } from "react";
@@ -32,7 +32,7 @@ interface PropsKeyManager {
 
 export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, initialData, rooms, user }: PropsKeyManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const addModalRef = useRef<LoadObjectAndShowModalRef<Key>>(null);
+    const addModalRef = useRef<useLoadObjectAndShowModalRef<Key>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     
     return (

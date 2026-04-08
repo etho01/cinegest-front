@@ -1,5 +1,5 @@
 "use client";
-import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObjectAndShowModal";
 import { Button } from "@/src/component/ui/btn/button";
 import Card from "@/src/component/ui/card";
 import Input from "@/src/component/ui/form/Input";
@@ -30,7 +30,7 @@ interface PropsFetchStorageTypes {
 
 export const StorageManager = ({ initialData, initialParams, entityId, cinemaId, allStorageTypes, user }: PropsFetchStorageTypes) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Storage>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Storage>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

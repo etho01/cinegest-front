@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui
 import { Button } from "../../ui/btn/button";
 import Input from "../../ui/form/Input";
 import { addOrUpdateEntityController } from "@/src/controller/app/EntityController";
-import { loadObjectAndShowModalUpdate } from "../../hook/loadObjectAndShowModalUpdate";
+import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShowModalUpdate";
 
 interface EntityModelProps {
     isOpen: boolean;
@@ -15,7 +15,7 @@ interface EntityModelProps {
 }
 
 export const EntityModal = forwardRef(({ isOpen, initialObject, onSaved }: EntityModelProps, ref) => {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = loadObjectAndShowModalUpdate<Entity>({
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, loadFromObject, createNew, setObject, onSubmit, hasErrored, result } = useLoadObjectAndShowModalUpdate<Entity>({
         initialObject: initialObject ? initialObject : null,
         isOpen: isOpen,
         showErrorsBase: false,

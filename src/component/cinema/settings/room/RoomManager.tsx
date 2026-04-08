@@ -1,5 +1,5 @@
 "use client";
-import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObjectAndShowModal";
 import { Button } from "@/src/component/ui/btn/button";
 import Card from "@/src/component/ui/card";
 import Input from "@/src/component/ui/form/Input";
@@ -34,7 +34,7 @@ interface PropsFetchRooms {
 
 export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, allOptions, allStorages, user }: PropsFetchRooms) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Room>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Room>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
 
     return (

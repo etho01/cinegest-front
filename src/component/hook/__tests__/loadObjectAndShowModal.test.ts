@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { loadObjectAndShowModal, loadObjectAndShowModalObjectProps } from '../loadObjectAndShowModal'
+import { useLoadObjectAndShowModal, useLoadObjectAndShowModalObjectProps } from '../useLoadObjectAndShowModal'
 
 interface TestUser {
   id: number
@@ -7,7 +7,7 @@ interface TestUser {
   email: string
 }
 
-describe('loadObjectAndShowModal', () => {
+describe('useLoadObjectAndShowModal', () => {
   const emptyUser: TestUser = {
     id: 0,
     name: '',
@@ -21,14 +21,14 @@ describe('loadObjectAndShowModal', () => {
   }
 
   it('should initialize with empty object when initialObject is null', () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: null,
       isOpen: false,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     expect(result.current.object).toEqual(emptyUser)
     // When initialObject is null, it's replaced with emptyObject, so !!emptyObject is true
@@ -39,14 +39,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should initialize with initialObject when provided', () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: mockUser,
       isOpen: true,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     expect(result.current.object).toEqual(mockUser)
     expect(result.current.isEdit).toBe(true)
@@ -54,14 +54,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should load object and set edit mode', async () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: null,
       isOpen: false,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     // Initially in edit mode because initialObject becomes emptyObject (truthy)
     expect(result.current.isEdit).toBe(true)
@@ -78,14 +78,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should create new object and set creation mode', () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: mockUser,
       isOpen: true,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     expect(result.current.isEdit).toBe(true)
 
@@ -100,14 +100,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should close modal', () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: mockUser,
       isOpen: true,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     expect(result.current.isOpenState).toBe(true)
 
@@ -119,14 +119,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should enable show errors', () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: null,
       isOpen: false,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     expect(result.current.showErrors).toBe(false)
 
@@ -143,7 +143,7 @@ describe('loadObjectAndShowModal', () => {
       email: user.email.toLowerCase(),
     })
 
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: null,
       isOpen: false,
       showErrorsBase: false,
@@ -151,7 +151,7 @@ describe('loadObjectAndShowModal', () => {
       setDefaultValues,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     const userWithUppercaseEmail: TestUser = {
       id: 2,
@@ -167,14 +167,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should update object', () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: mockUser,
       isOpen: true,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     const updatedUser: TestUser = {
       ...mockUser,
@@ -189,14 +189,14 @@ describe('loadObjectAndShowModal', () => {
   })
 
   it('should handle edit mode properly through createNew and loadFromObject', async () => {
-    const props: loadObjectAndShowModalObjectProps<TestUser> = {
+    const props: useLoadObjectAndShowModalObjectProps<TestUser> = {
       initialObject: mockUser,
       isOpen: true,
       showErrorsBase: false,
       emptyObject: emptyUser,
     }
 
-    const { result } = renderHook(() => loadObjectAndShowModal(props))
+    const { result } = renderHook(() => useLoadObjectAndShowModal(props))
 
     expect(result.current.isEdit).toBe(true)
 

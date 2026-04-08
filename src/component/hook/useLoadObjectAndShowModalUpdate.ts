@@ -1,15 +1,15 @@
 import { HookSafeActionFn, useAction } from "next-safe-action/hooks";
-import { loadObjectAndShowModal, loadObjectAndShowModalObjectProps } from "./loadObjectAndShowModal";
+import { useLoadObjectAndShowModal, useLoadObjectAndShowModalObjectProps } from "./useLoadObjectAndShowModal";
 
-interface LoadObjectAndShowModalUpdateProps<T> extends loadObjectAndShowModalObjectProps<T> {
+interface useLoadObjectAndShowModalUpdateProps<T> extends useLoadObjectAndShowModalObjectProps<T> {
     action: HookSafeActionFn<any, any, any, any>;
     onSaved?: (entity: T) => void | Promise<void>;
     customData?: any;
     customDataFunc?: (object: T) => any;
 }
 
-export function loadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData, setDefaultValues, customDataFunc }: LoadObjectAndShowModalUpdateProps<T>) {
-    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject } = loadObjectAndShowModal<T>({
+export function useLoadObjectAndShowModalUpdate<T>({ initialObject, isOpen, showErrorsBase, emptyObject, action, onSaved, customData, setDefaultValues, customDataFunc }: useLoadObjectAndShowModalUpdateProps<T>) {
+    const { isEdit, object, isOpenState, showErrors, setIsOpenState, setShowErrors, loadFromObject, createNew, setObject } = useLoadObjectAndShowModal<T>({
         initialObject: initialObject ? initialObject : null,
         isOpen,
         showErrorsBase,

@@ -7,7 +7,7 @@ import { Storage } from "@/src/domain/Cinema/Settings/Storage";
 import Card from "../../ui/card";
 import { Select } from "../../ui/form/Select";
 import { PaginationTab, PaginationTabRef } from "../../ui/pagination/PaginationTab";
-import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { useRef } from "react";
 import { Td } from "../../ui/table/Table";
@@ -35,7 +35,7 @@ interface PropsStorageItemManager {
 
 export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, storages, initialParams, initialData, user}: PropsStorageItemManager) => {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const addModalRef = useRef<LoadObjectAndShowModalRef<addStorageItemObjectParams>>(null);
+    const addModalRef = useRef<useLoadObjectAndShowModalRef<addStorageItemObjectParams>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     
     return (

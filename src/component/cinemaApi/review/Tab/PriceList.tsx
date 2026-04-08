@@ -2,7 +2,7 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
 import { Price } from "@/src/domain/CinemaApi";
 import { useRef, useState } from "react";
-import { LoadObjectAndShowModalRef } from "@/src/component/hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObjectAndShowModal";
 import { Button } from "@/src/component/ui/btn/button";
 import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
 import { ErrorModal, ErrorModalRef } from "@/src/component/ui/modal/ErrorModal";
@@ -19,7 +19,7 @@ interface PriceListProps {
 
 export const PriceList = ({ entityId, cinemaApiId, prices: initialPrices, user }: PriceListProps) => {
     const [prices, setPrices] = useState(initialPrices);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Price>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Price>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     const errorModalRef = useRef<ErrorModalRef>(null);
 

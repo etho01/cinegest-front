@@ -9,7 +9,7 @@ import { Paginator } from "../../ui/pagination/PaginationType";
 import { useRef } from "react";
 import { SuperadminModal } from "./SuperadminModal";
 import { deleteSuperadminController } from "@/src/controller/app/SuperadminController";
-import { LoadObjectAndShowModalRef } from "../../hook/loadObjectAndShowModal";
+import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 
 interface PropsFetchEntities {
     initialData : Paginator<Superadmin>;
@@ -18,7 +18,7 @@ interface PropsFetchEntities {
 
 export default function SuperadminManager({ initialData, initialParams }: PropsFetchEntities) {
     const paginationRef = useRef<PaginationTabRef>(null);
-    const modalRef = useRef<LoadObjectAndShowModalRef<Superadmin>>(null);
+    const modalRef = useRef<useLoadObjectAndShowModalRef<Superadmin>>(null);
     const confirmationModalRef = useRef<ConfirmationModalRef>(null);
     
     return (
