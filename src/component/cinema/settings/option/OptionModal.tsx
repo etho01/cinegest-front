@@ -123,3 +123,5 @@ export const OptionModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         </Modal>
     );
 });
+
+OptionModal.displayName = 'OptionModal';

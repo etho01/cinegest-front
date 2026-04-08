@@ -186,3 +186,5 @@ export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onS
         </Modal>
     );
 });
+
+AddSessionModal.displayName = 'AddSessionModal';

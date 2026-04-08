@@ -100,4 +100,6 @@ export const SuperadminModal = forwardRef(({ isOpen, initialObject, onSaved }: S
             </form>
         </Modal>
     );
-})
+});
+
+SuperadminModal.displayName = 'SuperadminModal';

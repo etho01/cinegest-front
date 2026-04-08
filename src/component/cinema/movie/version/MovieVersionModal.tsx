@@ -197,3 +197,5 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
         </Modal>
     );
 });
+
+MovieVersionModal.displayName = 'MovieVersionModal';

@@ -73,3 +73,5 @@ export const OptionTypeModal = forwardRef(({ isOpen, initialObject, onSaved, ent
         </Modal>
     );
 });
+
+OptionTypeModal.displayName = 'OptionTypeModal';

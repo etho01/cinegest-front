@@ -336,6 +336,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(({
     return modalContent;
 });
 
+Modal.displayName = 'Modal';
+
 interface ModalHeaderProps extends
     HTMLAttributes<HTMLDivElement>,
     PropsWithChildren {

@@ -97,3 +97,5 @@ export const PriceModal = forwardRef(({ isOpen, onClose, initialObject, onSaved,
         </Modal>
     );
 });
+
+PriceModal.displayName = 'PriceModal';

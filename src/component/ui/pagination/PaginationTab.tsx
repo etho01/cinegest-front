@@ -67,3 +67,5 @@ export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams,
         </>
     )
 });
+
+PaginationTab.displayName = 'PaginationTab';

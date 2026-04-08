@@ -183,3 +183,5 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         </Modal>
     );
 });
+
+AddKeyModal.displayName = 'AddKeyModal';

@@ -65,4 +65,6 @@ export const EntityModal = forwardRef(({ isOpen, initialObject, onSaved }: Entit
             </form>
         </Modal>
     );
-})
+});
+
+EntityModal.displayName = 'EntityModal';

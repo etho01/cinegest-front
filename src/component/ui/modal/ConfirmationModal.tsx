@@ -38,3 +38,5 @@ export const ConfirmationModal = React.forwardRef((_, ref) => {
         </Modal>
     );
 });
+
+ConfirmationModal.displayName = 'ConfirmationModal';

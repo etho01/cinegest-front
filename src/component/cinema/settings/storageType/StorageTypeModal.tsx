@@ -74,3 +74,5 @@ export const StorageTypeModal = forwardRef(({ isOpen, initialObject, onSaved, en
         </Modal>
     );
 });
+
+StorageTypeModal.displayName = 'StorageTypeModal';

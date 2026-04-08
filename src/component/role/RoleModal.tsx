@@ -88,3 +88,5 @@ export const RoleModal = forwardRef(({ isOpen, initialObject, onSaved, entityId 
         </Modal>
     );
 });
+
+RoleModal.displayName = 'RoleModal';

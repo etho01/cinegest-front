@@ -109,3 +109,5 @@ export const StorageModal = forwardRef(({ isOpen, initialObject, onSaved, entity
         </Modal>
     );
 });
+
+StorageModal.displayName = 'StorageModal';

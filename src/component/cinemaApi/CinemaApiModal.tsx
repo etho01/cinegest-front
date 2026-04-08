@@ -106,3 +106,5 @@ export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onS
         </Modal>
     );
 });
+
+CinemaApiModal.displayName = 'CinemaApiModal';

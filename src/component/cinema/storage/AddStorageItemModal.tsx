@@ -206,3 +206,5 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
         </Modal>
     );
 });
+
+AddStorageItemModal.displayName = 'AddStorageItemModal';

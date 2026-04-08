@@ -130,3 +130,5 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
         </Modal>
     );
 });
+
+CinemaModal.displayName = 'CinemaModal';

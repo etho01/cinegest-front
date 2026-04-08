@@ -81,3 +81,5 @@ export const UpdateSizeMovie = forwardRef(({ movie, entityId, cinemaId, onSaved,
         </Modal>
     );
 });
+
+UpdateSizeMovie.displayName = 'UpdateSizeMovie';

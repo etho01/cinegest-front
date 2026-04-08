@@ -96,3 +96,5 @@ export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSav
         </Modal>
     );
 });
+
+AddMovieModal.displayName = 'AddMovieModal';

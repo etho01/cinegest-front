@@ -21,12 +21,14 @@ jest.mock('next-safe-action/hooks', () => ({
 
 // Mock Next.js Link
 jest.mock('next/link', () => {
-  return ({ children, href }: any) => <a href={href}>{children}</a>
+  const MockLink = ({ children, href }: any) => <a href={href}>{children}</a>;
+  MockLink.displayName = 'MockLink';
+  return MockLink;
 })
 
 // Mock Input component
 jest.mock('../../ui/form/Input', () => {
-  return function MockInput({ label, name, type, required, errors }: any) {
+  const MockInput = function ({ label, name, type, required, errors }: any) {
     return (
       <div>
         <label htmlFor={name}>{label}</label>
@@ -43,6 +45,8 @@ jest.mock('../../ui/form/Input', () => {
       </div>
     )
   }
+  MockInput.displayName = 'MockInput';
+  return MockInput;
 })
 
 // Mock FormButton component

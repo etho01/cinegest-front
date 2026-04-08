@@ -142,3 +142,5 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
         </Modal>
     )
 });
+
+RoomModal.displayName = 'RoomModal';

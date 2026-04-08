@@ -106,3 +106,5 @@ export const UserCreationModal = forwardRef(({ isOpen, onClose, initialObject, o
         </Modal>
     );
 });
+
+UserCreationModal.displayName = 'UserCreationModal';
