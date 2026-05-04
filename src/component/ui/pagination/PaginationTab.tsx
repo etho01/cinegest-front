@@ -4,11 +4,11 @@ import { Paginator } from "./PaginationType";
 import Pagination from "./Pagination";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../table/Table";
 
-export interface PaginationTabProps {
-    initialData?: Paginator<any>;
+export interface PaginationTabProps<T> {
+    initialData?: Paginator<T>;
     endpoint: string;
-    initialParams?: Record<string, any>;
-    lineRenderer: (item: any, index: number) => React.ReactNode;
+    initialParams?: Record<string, unknown>;
+    lineRenderer: (item: T, index: number) => React.ReactNode;
     colList : string[];
 
 }
@@ -18,8 +18,8 @@ export type PaginationTabRef = {
     refresh: () => void;
 }
 
-export const PaginationTab = forwardRef(({ initialData, endpoint, initialParams, lineRenderer, colList }: PaginationTabProps, ref) => {
-    const { data, error, isPending, page, setPage, updateParam, refresh } = usePaginatedResource<any>({
+export const PaginationTab = forwardRef(<T extends { id: string | number },>({ initialData, endpoint, initialParams, lineRenderer, colList }: PaginationTabProps<T>, ref: React.Ref<PaginationTabRef>) => {
+    const { data, error, isPending, page, setPage, updateParam, refresh } = usePaginatedResource<T>({
         endpoint,
         initialData,
         initialParams,

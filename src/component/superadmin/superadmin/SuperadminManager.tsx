@@ -13,7 +13,7 @@ import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowMod
 
 interface PropsFetchEntities {
     initialData : Paginator<Superadmin>;
-    initialParams?: Record<string, any>;
+    initialParams?: Record<string, unknown | string>;
 }
 
 export default function SuperadminManager({ initialData, initialParams }: PropsFetchEntities) {

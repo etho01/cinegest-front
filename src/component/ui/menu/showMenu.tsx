@@ -16,7 +16,7 @@ interface ShowMenuProps {
     entityId : number | null;
     cinemaId : number | null;
     page : string;
-    customParam? : any;
+    customParam? : unknown;
 }
 
 export interface MenuProps {
@@ -24,7 +24,7 @@ export interface MenuProps {
     entity : Entity | null;
     cinema : Cinema | null;
     page : string;
-    customParam? : any;
+    customParam? : unknown;
 }
 
 export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: ShowMenuProps) => {
@@ -75,7 +75,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: 
             </Menu>
         )
     } 
-    catch (e : any)
+    catch (e : unknown)
     {
         if (e instanceof Unauthenticated)
         {
