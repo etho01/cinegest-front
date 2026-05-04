@@ -1,16 +1,18 @@
 import { addStorageItems } from '../addStorageItems'
 import { getStorageItems } from '../getStorageItems'
 import { deleteStorageItem } from '../deleteStorageItem'
+import { StorageItemRepository } from '@/src/application/repositories/Cinema/StorageItemRepository'
+import { addStorageItemObjectParams } from '../addStorageItems'
 
 describe('StorageItem Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<StorageItemRepository>
 
   beforeEach(() => {
     mockRepo = {
       addStorageItems: jest.fn(),
       getStorageItems: jest.fn(),
       deleteStorageItem: jest.fn(),
-    }
+    } as jest.Mocked<StorageItemRepository>
   })
 
   describe('addStorageItems', () => {
@@ -36,7 +38,7 @@ describe('StorageItem Use Cases', () => {
       const error = new Error('Storage not found')
       mockRepo.addStorageItems.mockRejectedValueOnce(error)
 
-      await expect(addStorageItems(mockRepo, 1, 5, {} as any)).rejects.toThrow('Storage not found')
+      await expect(addStorageItems(mockRepo, 1, 5, {} as unknown as addStorageItemObjectParams)).rejects.toThrow('Storage not found')
     })
   })
 

@@ -5,7 +5,7 @@ import { Paginator } from "../../ui/pagination/PaginationType";
 import { StorageItem } from "@/src/domain/Cinema/StorageItem";
 import { Storage } from "@/src/domain/Cinema/Settings/Storage";
 import Card from "../../ui/card";
-import { Select } from "../../ui/form/Select";
+import { SelectMultiple } from "../../ui/form/Select";
 import { PaginationTab, PaginationTabRef } from "../../ui/pagination/PaginationTab";
 import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowModal";
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
@@ -42,42 +42,39 @@ export const StorageItemManager  = ({entityId, cinemaId, activeMovies, rooms, st
         <Card>
             <div className="flex justify-between">
                 <div className="flex gap-3">
-                    <Select
+                    <SelectMultiple
                         label="Film"
                         placeholder="Film"
                         onChange={(value) => {
                             const movies = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("movies", movies);
                         }}
-                        isMulti={true}
                         options={activeMovies ? activeMovies.map((movie) => ({
                             label: movie.title,
                             value: movie.id.toString(),
                         })) : []}
                         initialValue={initialParams?.movies ? initialParams.movies.map((id) => id.toString()) : []}
                     />
-                    <Select
+                    <SelectMultiple
                         label="Salle"
                         placeholder="Salle"
                         onChange={(value) => {
                             const rooms = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("rooms", rooms);
                         }}
-                        isMulti={true}
                         options={rooms ? rooms.map((room) => ({
                             label: room.name,
                             value: room.id.toString(),
                         })) : []}
                         initialValue={initialParams?.rooms ? initialParams.rooms.map((id) => id.toString()) : []}
                     />
-                    <Select
+                    <SelectMultiple
                         label="Stockage"
                         placeholder="Stockage"
                         onChange={(value) => {
                             const storage = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("storage", storage);
                         }}
-                        isMulti={true}
                         options={storages ? storages.map((storage) => ({
                             label: storage.name,
                             value: storage.id.toString(),

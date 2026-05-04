@@ -2,9 +2,11 @@ import { addMovieVersion } from '../addMovieVersion'
 import { updateMovieVersion } from '../updateMovieVersion'
 import { deleteMovieVersion } from '../deleteMovieVersion'
 import { searchMovieVersion } from '../searchMovieVersion'
+import { MovieRepository } from '@/src/application/repositories/Cinema/MovieRepository'
+import { MovieVersion } from '@/src/domain/Cinema/Movie'
 
 describe('MovieVersion Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<MovieRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -12,7 +14,7 @@ describe('MovieVersion Use Cases', () => {
       updateMovieVersion: jest.fn(),
       deleteMovieVersion: jest.fn(),
       searchMovieVersion: jest.fn(),
-    }
+    } as jest.Mocked<MovieRepository>
   })
 
   describe('addMovieVersion', () => {
@@ -28,7 +30,7 @@ describe('MovieVersion Use Cases', () => {
       const createdVersion = { id: 20, ...version }
       mockRepo.addMovieVersion.mockResolvedValueOnce(createdVersion)
 
-      const result = await addMovieVersion(mockRepo, entityId, cinemaId, version as any)
+      const result = await addMovieVersion(mockRepo, entityId, cinemaId, version as unknown as MovieVersion)
 
       expect(mockRepo.addMovieVersion).toHaveBeenCalledWith(entityId, cinemaId, version)
       expect(result.id).toBe(20)
@@ -39,7 +41,7 @@ describe('MovieVersion Use Cases', () => {
       const error = new Error('Version already exists')
       mockRepo.addMovieVersion.mockRejectedValueOnce(error)
 
-      await expect(addMovieVersion(mockRepo, 1, 5, {} as any)).rejects.toThrow('Version already exists')
+      await expect(addMovieVersion(mockRepo, 1, 5, {} as unknown as MovieVersion)).rejects.toThrow('Version already exists')
     })
   })
 
@@ -55,7 +57,7 @@ describe('MovieVersion Use Cases', () => {
 
       mockRepo.updateMovieVersion.mockResolvedValueOnce(version)
 
-      const result = await updateMovieVersion(mockRepo, entityId, cinemaId, version as any)
+      const result = await updateMovieVersion(mockRepo, entityId, cinemaId, version as unknown as MovieVersion)
 
       expect(mockRepo.updateMovieVersion).toHaveBeenCalledWith(entityId, cinemaId, version)
       expect(result.format).toBe('IMAX')
@@ -65,7 +67,7 @@ describe('MovieVersion Use Cases', () => {
       const error = new Error('Version not found')
       mockRepo.updateMovieVersion.mockRejectedValueOnce(error)
 
-      await expect(updateMovieVersion(mockRepo, 1, 5, {} as any)).rejects.toThrow('Version not found')
+      await expect(updateMovieVersion(mockRepo, 1, 5, {} as unknown as MovieVersion)).rejects.toThrow('Version not found')
     })
   })
 

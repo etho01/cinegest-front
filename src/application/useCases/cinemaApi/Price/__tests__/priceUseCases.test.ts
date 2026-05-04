@@ -1,16 +1,23 @@
 import { addPrice } from '../addPrice'
 import { updatePrice } from '../updatePrice'
 import { deletePrice } from '../deletePrice'
+import { CinemaApiRepository } from '@/src/application/repositories/CinemaApiRepository'
+import { Price } from '@/src/domain/CinemaApi'
 
 describe('CinemaApi Price Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<CinemaApiRepository>
 
   beforeEach(() => {
     mockRepo = {
       addPrice: jest.fn(),
       updatePrice: jest.fn(),
       deletePrice: jest.fn(),
-    }
+      getCinemaApi: jest.fn(),
+      getCinemaApis: jest.fn(),
+      createCinemaApi: jest.fn(),
+      updateCinemaApi: jest.fn(),
+      deleteCinemaApi: jest.fn(),
+    } as jest.Mocked<CinemaApiRepository>
   })
 
   describe('addPrice', () => {
@@ -37,7 +44,7 @@ describe('CinemaApi Price Use Cases', () => {
       const error = new Error('Price already exists')
       mockRepo.addPrice.mockRejectedValueOnce(error)
 
-      await expect(addPrice(mockRepo, 1, 5, {} as any)).rejects.toThrow('Price already exists')
+      await expect(addPrice(mockRepo, 1, 5, {} as unknown as Price)).rejects.toThrow('Price already exists')
     })
   })
 
@@ -53,7 +60,7 @@ describe('CinemaApi Price Use Cases', () => {
 
       mockRepo.updatePrice.mockResolvedValueOnce(price)
 
-      const result = await updatePrice(mockRepo, entityId, cinemaApiId, price as any)
+      const result = await updatePrice(mockRepo, entityId, cinemaApiId, { ...price, currency: 'EUR' } as Price)
 
       expect(mockRepo.updatePrice).toHaveBeenCalledWith(entityId, cinemaApiId, price)
       expect(result.amount).toBe(9.50)
@@ -63,7 +70,7 @@ describe('CinemaApi Price Use Cases', () => {
       const error = new Error('Price not found')
       mockRepo.updatePrice.mockRejectedValueOnce(error)
 
-      await expect(updatePrice(mockRepo, 1, 5, {} as any)).rejects.toThrow('Price not found')
+      await expect(updatePrice(mockRepo, 1, 5, {} as unknown as Price)).rejects.toThrow('Price not found')
     })
   })
 

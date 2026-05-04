@@ -3,9 +3,11 @@ import { getStorageTypes } from '../getStorageTypes'
 import { getAllStorageTypes } from '../getAllStorageTypes'
 import { updateStorageType } from '../updateStorageType'
 import { deleteStorageType } from '../deleteStorageType'
+import { StorageTypeRepository } from '@/src/application/repositories/Cinema/Settings/StorageTypeRepository'
+import { StorageType } from '@/src/domain/Cinema/Settings/StorageType'
 
 describe('StorageType Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<StorageTypeRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -14,7 +16,7 @@ describe('StorageType Use Cases', () => {
       getAllStorageTypes: jest.fn(),
       updateStorageType: jest.fn(),
       deleteStorageType: jest.fn(),
-    }
+    } as jest.Mocked<StorageTypeRepository>
   })
 
   describe('addStorageType', () => {
@@ -39,7 +41,7 @@ describe('StorageType Use Cases', () => {
       const error = new Error('Storage type already exists')
       mockRepo.addStorageType.mockRejectedValueOnce(error)
 
-      await expect(addStorageType(mockRepo, 1, 5, {} as any)).rejects.toThrow('Storage type already exists')
+      await expect(addStorageType(mockRepo, 1, 5, {} as unknown as StorageType)).rejects.toThrow('Storage type already exists')
     })
   })
 

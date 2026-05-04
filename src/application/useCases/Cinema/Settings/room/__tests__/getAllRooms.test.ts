@@ -1,12 +1,13 @@
 import { getAllRooms } from '../getAllRooms'
+import { RoomRepository } from '@/src/application/repositories/Cinema/Settings/RoomRepository'
 
 describe('Room getAllRooms Use Case', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<RoomRepository>
 
   beforeEach(() => {
     mockRepo = {
       getAllRooms: jest.fn(),
-    }
+    } as jest.Mocked<RoomRepository>
   })
 
   describe('getAllRooms', () => {

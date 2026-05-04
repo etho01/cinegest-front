@@ -80,7 +80,7 @@ describe('PaginationType', () => {
   });
 
   it('should handle empty data array', () => {
-    const paginator: Paginator<any> = {
+    const paginator: Paginator<unknown> = {
       current_page: 1,
       data: [],
       first_page_url: null,

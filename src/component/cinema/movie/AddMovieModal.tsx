@@ -4,7 +4,7 @@ import { useLoadObjectAndShowModalUpdate } from "../../hook/useLoadObjectAndShow
 import { addMovieController } from "@/src/controller/app/Cinema/MovieController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../../ui/modal";
 import { Button } from "../../ui/btn/button";
-import { AsyncSelect } from "../../ui/form/AsyncSelect";
+import { AsyncSelect, Option } from "../../ui/form/AsyncSelect";
 
 
 interface AddMovieModalProps {
@@ -51,10 +51,10 @@ export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSav
                 <ModalBody>
                     <div className="grid grid-cols-2 gap-2">
                         <AsyncSelect
-                        containerClassName=" col-span-2 "
+                            containerClassName=" col-span-2 "
                             label="Films"
                             placeholder="Sélectionner le film"
-                            loadOptions={(inputValue: string, callback: (options: any[]) => void) => {
+                            loadOptions={(inputValue: string, callback: (options: Option<MovieSearchResult>[]) => void) => {
                                 if (inputValue.length < 3) {
                                     callback([]);
                                     return;
@@ -79,7 +79,6 @@ export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSav
                                     releaseDate: value ? value.value.release_date : null,
                                 });
                             }}
-                            isMulti={false}
                         />
                     </div>
                     { hasErrored && showErrors ? <div className="text-red-500">{ result.serverError }</div> : null }

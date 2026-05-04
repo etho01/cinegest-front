@@ -5,7 +5,7 @@ import { addOrUpdateRoleController } from "@/src/controller/app/RoleController";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
 import { Button } from "../ui/btn/button";
 import Input from "../ui/form/Input";
-import { Select } from "../ui/form/Select";
+import { SelectMultiple } from "../ui/form/Select";
 import { ROLES } from "@/src/const/RolesConst";
 
 interface RoleModalProps {
@@ -60,7 +60,7 @@ export const RoleModal = forwardRef(({ isOpen, initialObject, onSaved, entityId 
                             showErrors={showErrors}
                             containerClassName=""
                         />
-                        <Select 
+                        <SelectMultiple
                             errors={result.validationErrors?.country}
                             label="Pays"
                             value={object.rights}
@@ -70,7 +70,6 @@ export const RoleModal = forwardRef(({ isOpen, initialObject, onSaved, entityId 
                             required
                             showErrors={showErrors}
                             containerClassName=""
-                            isMulti={true}
                             options={ROLES.cinema ? Object.keys(ROLES.cinema).map(key => ({ value: key, label: ROLES.cinema[key].name })) : []}
                         />
                     </div>

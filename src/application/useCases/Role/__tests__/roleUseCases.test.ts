@@ -16,7 +16,7 @@ describe('Role Use Cases', () => {
       getRole: jest.fn(),
       getRoles: jest.fn(),
       getAllRoleByEntity: jest.fn(),
-    } as any
+    } as jest.Mocked<RoleRepository>
   })
 
   describe('updateRole', () => {

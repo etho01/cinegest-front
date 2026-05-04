@@ -351,8 +351,11 @@ describe('usePaginatedResource', () => {
       })
 
       // Mock location without redefining
-      delete (window as any).location
-      ;(window as any).location = { pathname: '/users', search: '' }
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/users', search: '' },
+        writable: true,
+        configurable: true,
+      })
 
       const { result } = renderHook(() =>
         usePaginatedResource({
@@ -392,8 +395,11 @@ describe('usePaginatedResource', () => {
       })
 
       // Mock location without redefining
-      delete (window as any).location
-      ;(window as any).location = { pathname: '/users', search: '' }
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/users', search: '' },
+        writable: true,
+        configurable: true,
+      })
 
       const { result } = renderHook(() =>
         usePaginatedResource({

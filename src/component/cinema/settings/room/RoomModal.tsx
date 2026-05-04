@@ -1,7 +1,7 @@
 import { useLoadObjectAndShowModalUpdate } from "@/src/component/hook/useLoadObjectAndShowModalUpdate";
 import { Button } from "@/src/component/ui/btn/button";
 import Input from "@/src/component/ui/form/Input";
-import { Select } from "@/src/component/ui/form/Select";
+import { SelectMultiple } from "@/src/component/ui/form/Select";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/src/component/ui/modal";
 import { addOrUpdateRoomController } from "@/src/controller/app/Cinema/Settings/RoomController";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
@@ -69,7 +69,7 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                             containerClassName=" col-span-2 "
                         />
 
-                        <Select
+                        <SelectMultiple
                             containerClassName=" col-span-2 "
                             errors={result.validationErrors?.option_id}
                             label="Liste des options"
@@ -78,7 +78,6 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                                 setObject({ ...object, optionsIds: value ? value.map((id: string) => Number(id)) : [] });
                             }}
                             required
-                            isMulti={true}
                             showErrors={showErrors}
                             options={allOptions.map((option) => ({
                                 label: option.name,
@@ -86,7 +85,7 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                             }))}
                             initialValue={object.optionsIds ? object.optionsIds.map((id) => id.toString()) : []}
                         />
-                        <Select
+                        <SelectMultiple
                             containerClassName=" col-span-2 "
                             errors={result.validationErrors?.storage_id}
                             label="Liste des stockages"
@@ -95,7 +94,6 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                                 setObject({ ...object, storagesIds: value ? value.map((id: string) => Number(id)) : [] });
                             }}
                             required
-                            isMulti={true}
                             showErrors={showErrors}
                             options={allStorages.map((storage) => ({
                                 label: storage.name,

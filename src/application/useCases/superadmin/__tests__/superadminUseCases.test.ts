@@ -14,7 +14,7 @@ describe('Superadmin Use Cases', () => {
       updateSuperadmin: jest.fn(),
       deleteSuperadmin: jest.fn(),
       fetchAdmins: jest.fn(),
-    } as any
+    } as jest.Mocked<SuperadminRepository>
   })
 
   describe('addSuperadmin', () => {
@@ -45,7 +45,7 @@ describe('Superadmin Use Cases', () => {
       const error = new Error('Email already exists')
       mockRepo.addSuperadmin.mockRejectedValueOnce(error)
 
-      await expect(addSuperadmin(mockRepo, {} as any)).rejects.toThrow('Email already exists')
+      await expect(addSuperadmin(mockRepo, {} as unknown as Superadmin)).rejects.toThrow('Email already exists')
     })
   })
 
@@ -70,7 +70,7 @@ describe('Superadmin Use Cases', () => {
       const error = new Error('Superadmin not found')
       mockRepo.updateSuperadmin.mockRejectedValueOnce(error)
 
-      await expect(updateSuperadmin(mockRepo, {} as any)).rejects.toThrow('Superadmin not found')
+      await expect(updateSuperadmin(mockRepo, {} as unknown as Superadmin)).rejects.toThrow('Superadmin not found')
     })
   })
 

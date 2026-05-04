@@ -5,9 +5,11 @@ import { getMovies } from '../getMovies'
 import { getMovie } from '../getMovie'
 import { getAllActiveMovie } from '../getAllActiveMovie'
 import { searchMovie } from '../search'
+import { MovieRepository } from '@/src/application/repositories/Cinema/MovieRepository'
+import { Movie } from '@/src/domain/Cinema/Movie'
 
 describe('Movie Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<MovieRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -18,7 +20,7 @@ describe('Movie Use Cases', () => {
       getMovie: jest.fn(),
       getAllActiveMovie: jest.fn(),
       search: jest.fn(),
-    }
+    } as jest.Mocked<MovieRepository>
   })
 
   describe('addMovie', () => {
@@ -46,7 +48,7 @@ describe('Movie Use Cases', () => {
       const error = new Error('Movie already exists')
       mockRepo.addMovie.mockRejectedValueOnce(error)
 
-      await expect(addMovie(mockRepo, 1, 5, {} as any)).rejects.toThrow('Movie already exists')
+      await expect(addMovie(mockRepo, 1, 5, {} as unknown as Movie)).rejects.toThrow('Movie already exists')
     })
   })
 

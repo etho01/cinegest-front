@@ -10,7 +10,7 @@ import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowMod
 import { ConfirmationModal, ConfirmationModalRef } from "../../ui/modal/ConfirmationModal";
 import { useRef } from "react";
 import { AddMovieModal } from "./AddMovieModal";
-import { Select } from "../../ui/form/Select";
+import { SelectMultiple } from "../../ui/form/Select";
 import { Td } from "../../ui/table/Table";
 import { deleteMovieController } from "@/src/controller/app/Cinema/MovieController";
 import { MovieStatus } from "./MovieSatus";
@@ -47,10 +47,9 @@ export const MovieManager = ({ initialData, initialParams, entityId, cinemaId, u
                         }} 
                         initialValue={initialParams?.search || ""}
                     />
-                    <Select
+                    <SelectMultiple
                         label="Statut"
                         placeholder="Filtrer par statut"
-                        isMulti={true}
                         onChange={(value) => {
                             paginationRef.current?.updateParam("status", value);
                         }}

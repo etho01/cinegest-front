@@ -1,3 +1,4 @@
+import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LoginForm } from '../login-form'
@@ -21,14 +22,14 @@ jest.mock('next-safe-action/hooks', () => ({
 
 // Mock Next.js Link
 jest.mock('next/link', () => {
-  const MockLink = ({ children, href }: any) => <a href={href}>{children}</a>;
+  const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>;
   MockLink.displayName = 'MockLink';
   return MockLink;
 })
 
 // Mock Input component
 jest.mock('../../ui/form/Input', () => {
-  const MockInput = function ({ label, name, type, required, errors }: any) {
+  const MockInput = function ({ label, name, type, required, errors }: { label?: string; name?: string; type?: string; required?: boolean; errors?: string[] }) {
     return (
       <div>
         <label htmlFor={name}>{label}</label>
@@ -51,7 +52,7 @@ jest.mock('../../ui/form/Input', () => {
 
 // Mock FormButton component
 jest.mock('../../ui/btn/form-button', () => ({
-  FormButton: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+  FormButton: ({ children, ...props }: { children: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props}>{children}</button>,
 }))
 
 import { useAction } from 'next-safe-action/hooks'

@@ -8,7 +8,7 @@ import { Movie } from "@/src/domain/Cinema/Movie";
 import { Paginator } from "../../ui/pagination/PaginationType";
 import Card from "../../ui/card";
 import { Button } from "../../ui/btn/button";
-import { Select } from "../../ui/form/Select";
+import { SelectMultiple } from "../../ui/form/Select";
 import { Td } from "../../ui/table/Table";
 import { Key } from "@/src/domain/Cinema/Key";
 import { AddKeyModal } from "./AddKeyModal";
@@ -39,28 +39,26 @@ export const KeyManager = ({ entityId, cinemaId, activeMovies, initialParams, in
         <Card>
             <div className="flex justify-between">
                 <div className="flex gap-3">
-                    <Select
+                    <SelectMultiple
                         label="Film"
                         placeholder="Film"
                         onChange={(value) => {
                             const movies = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("movies", movies);
                         }}
-                        isMulti={true}
                         options={activeMovies ? activeMovies.map((movie) => ({
                             label: movie.title,
                             value: movie.id.toString(),
                         })) : []}
                         initialValue={initialParams?.movies ? initialParams.movies.map((id) => id.toString()) : []}
                      />
-                     <Select
+                     <SelectMultiple
                         label="Salle"
                         placeholder="Salle"
                         onChange={(value) => {
                             const rooms = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("rooms", rooms);
                         }}
-                        isMulti={true}
                         options={rooms ? rooms.map((room) => ({
                             label: room.name,
                             value: room.id.toString(),

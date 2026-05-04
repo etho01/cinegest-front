@@ -3,7 +3,7 @@ import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObject
 import { Button } from "@/src/component/ui/btn/button";
 import Card from "@/src/component/ui/card";
 import Input from "@/src/component/ui/form/Input";
-import { Select } from "@/src/component/ui/form/Select";
+import { SelectMultiple } from "@/src/component/ui/form/Select";
 import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
 import { PaginationTab, PaginationTabRef } from "@/src/component/ui/pagination/PaginationTab";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
@@ -46,14 +46,13 @@ export const OptionManager = ({ initialData, initialParams, entityId, cinemaId, 
                         }} 
                         initialValue={initialParams?.search || ""}
                     />
-                    <Select 
+                    <SelectMultiple
                         label="Filtrer par type d'option"
                         placeholder="Filtrer par type d'option"
                         onChange={(value) => {
                             const optionTypes = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("optionTypes", optionTypes);
                         }}
-                        isMulti={true}
                         options={allOptionsTypes.map((type) => ({
                             label: type.name,
                             value: type.id.toString(),

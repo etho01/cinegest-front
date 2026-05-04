@@ -9,7 +9,7 @@ import { MovieVersion } from "@/src/domain/Cinema/Movie";
 import { AsyncSelect } from "../../ui/form/AsyncSelect";
 import { AddKeyModalElement } from "@/src/application/useCases/Cinema/Key/addKeys";
 import { Room } from "@/src/domain/Cinema/Settings/Room";
-import { Select } from "../../ui/form/Select";
+import { SelectMultiple } from "../../ui/form/Select";
 
 interface AddKeyModalProps {
     isOpen: boolean;
@@ -116,8 +116,7 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                                         />
                                     </Td>
                                     <Td>
-                                        <Select
-                                            isMulti={true}
+                                        <SelectMultiple
                                             options={rooms ? rooms.map((room) => ({
                                                 label: room.name,
                                                 value: room.id.toString(),

@@ -3,9 +3,11 @@ import { getOptionsTypes } from '../getOptionsTypes'
 import { getAllOptionsTypes } from '../getAllOptionsTypes'
 import { updateOptionType } from '../updateOptionType'
 import { deleteOptionsType } from '../deleteOptionType'
+import { OptionTypesRepository } from '@/src/application/repositories/Cinema/Settings/OptionTypesRepository'
+import { OptionType } from '@/src/domain/Cinema/Settings/OptionTypes'
 
 describe('OptionType Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<OptionTypesRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -14,7 +16,7 @@ describe('OptionType Use Cases', () => {
       getAllOptionsTypes: jest.fn(),
       updateOptionType: jest.fn(),
       deleteOptionType: jest.fn(),
-    }
+    } as jest.Mocked<OptionTypesRepository>
   })
 
   describe('addOptionType', () => {
@@ -39,7 +41,7 @@ describe('OptionType Use Cases', () => {
       const error = new Error('Option type already exists')
       mockRepo.addOptionType.mockRejectedValueOnce(error)
 
-      await expect(addOptionType(mockRepo, 1, 5, {} as any)).rejects.toThrow('Option type already exists')
+      await expect(addOptionType(mockRepo, 1, 5, {} as unknown as OptionType)).rejects.toThrow('Option type already exists')
     })
   })
 

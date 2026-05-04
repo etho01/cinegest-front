@@ -9,7 +9,7 @@ jest.mock('../../../hook/usePaginatedResource', () => ({
 }))
 
 describe('PaginationTab', () => {
-  const mockData: Paginator<any> = {
+  const mockData: Paginator<{ id: number; name: string }> = {
     data: [
       { id: 1, name: 'Item 1' },
       { id: 2, name: 'Item 2' },
@@ -26,7 +26,7 @@ describe('PaginationTab', () => {
   const defaultProps = {
     endpoint: '/api/items',
     colList: ['ID', 'Name', 'Actions'],
-    lineRenderer: (item: any) => (
+    lineRenderer: (item: { id: number; name: string }) => (
       <>
         <td>{item.id}</td>
         <td>{item.name}</td>

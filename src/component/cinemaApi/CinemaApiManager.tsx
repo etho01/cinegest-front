@@ -7,12 +7,13 @@ import { PaginationTab, PaginationTabRef } from "../ui/pagination/PaginationTab"
 import { useRef } from "react";
 import { ConfirmationModal, ConfirmationModalRef } from "../ui/modal/ConfirmationModal";
 import Card from "../ui/card";
-import { Input, Select } from "../ui/form";
+import { Input } from "../ui/form";
 import { Button, LinkButton } from "../ui/btn/button";
 import { Td } from "../ui/table/Table";
 import { CinemaApiModal } from "./CinemaApiModal";
 import { deleteCinemaApiController } from "@/src/controller/app/CinemaApiController";
 import { useLoadObjectAndShowModalRef } from "../hook/useLoadObjectAndShowModal";
+import { SelectMultiple } from "../ui/form/Select";
 
 
 interface PropsFetchCinemaApis {
@@ -44,14 +45,13 @@ export const CinemaApiManager = ({ initialData, initialParams, entityId, user, c
                         }} 
                         initialValue={initialParams?.search || ""}
                     />
-                    <Select 
+                    <SelectMultiple
                         label="Filtrer par cinéma"
                         placeholder="Filtrer par cinéma"
                         onChange={(value) => {
                             const cinemaIds = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("cinemaIds", cinemaIds);
                         }}
-                        isMulti={true}
                         options={cinemas.map((cinema) => ({
                             label: cinema.name,
                             value: cinema.id.toString(),

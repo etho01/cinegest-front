@@ -5,7 +5,7 @@ import { updateMePassword } from '../updateMePassword';
 import { updateUserRights } from '../updateUserRights';
 import { updateUserRole, rolesCinemaListType } from '../updateUserRole';
 import { UserRepository } from '@/src/application/repositories/UserRepository';
-import { UserLog, PasswordResetRequest } from '@/src/domain/User';
+import { UserLog, PasswordResetRequest, User } from '@/src/domain/User';
 import { CustomError } from '@/src/domain/global';
 
 describe('User Authentication Use Cases', () => {
@@ -19,7 +19,7 @@ describe('User Authentication Use Cases', () => {
       updateMePassword: jest.fn(),
       updateUserRights: jest.fn(),
       updateUserRoles: jest.fn(),
-    } as any;
+    } as jest.Mocked<UserRepository>;
   });
 
   describe('connect', () => {
@@ -134,7 +134,7 @@ describe('User Authentication Use Cases', () => {
         email: 'user@example.com',
         rights,
       };
-      mockRepo.updateUserRights.mockResolvedValue(mockUpdatedUser as any);
+      mockRepo.updateUserRights.mockResolvedValue(mockUpdatedUser as unknown as User);
 
       const result = await updateUserRights(mockRepo, entityId, userId, rights);
 
@@ -151,7 +151,7 @@ describe('User Authentication Use Cases', () => {
         email: 'user@example.com',
         rights: [],
       };
-      mockRepo.updateUserRights.mockResolvedValue(mockUpdatedUser as any);
+      mockRepo.updateUserRights.mockResolvedValue(mockUpdatedUser as unknown as User);
 
       const result = await updateUserRights(mockRepo, entityId, userId, rights);
 
@@ -182,7 +182,7 @@ describe('User Authentication Use Cases', () => {
         email: 'user@example.com',
         roles: rolesUser,
       };
-      mockRepo.updateUserRoles.mockResolvedValue(mockUpdatedUser as any);
+      mockRepo.updateUserRoles.mockResolvedValue(mockUpdatedUser as unknown as User);
 
       const result = await updateUserRole(mockRepo, entityId, userId, rolesUser);
 
@@ -199,7 +199,7 @@ describe('User Authentication Use Cases', () => {
         email: 'user@example.com',
         roles: [],
       };
-      mockRepo.updateUserRoles.mockResolvedValue(mockUpdatedUser as any);
+      mockRepo.updateUserRoles.mockResolvedValue(mockUpdatedUser as unknown as User);
 
       const result = await updateUserRole(mockRepo, entityId, userId, rolesUser);
 
@@ -231,7 +231,7 @@ describe('User Authentication Use Cases', () => {
         email: 'user@example.com',
         roles: rolesUser,
       };
-      mockRepo.updateUserRoles.mockResolvedValue(mockUpdatedUser as any);
+      mockRepo.updateUserRoles.mockResolvedValue(mockUpdatedUser as unknown as User);
 
       const result = await updateUserRole(mockRepo, entityId, userId, rolesUser);
 

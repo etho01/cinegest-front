@@ -3,7 +3,7 @@ import { useLoadObjectAndShowModalRef } from "@/src/component/hook/useLoadObject
 import { Button } from "@/src/component/ui/btn/button";
 import Card from "@/src/component/ui/card";
 import Input from "@/src/component/ui/form/Input";
-import { Select } from "@/src/component/ui/form/Select";
+import { SelectMultiple } from "@/src/component/ui/form/Select";
 import { ConfirmationModal, ConfirmationModalRef } from "@/src/component/ui/modal/ConfirmationModal";
 import { PaginationTab, PaginationTabRef } from "@/src/component/ui/pagination/PaginationTab";
 import { Paginator } from "@/src/component/ui/pagination/PaginationType";
@@ -49,28 +49,26 @@ export const RoomManager = ({ initialData, initialParams, entityId, cinemaId, al
                         }} 
                         initialValue={initialParams?.search || ""}
                     />
-                    <Select 
+                    <SelectMultiple
                         label="Filtrer par option"
                         placeholder="Filtrer par option"
                         onChange={(value) => {
                             const options = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("options", options);
                         }}
-                        isMulti={true}
                         options={allOptions.map((option) => ({
                             label: option.name,
                             value: option.id.toString(),
                         }))}
                         initialValue={initialParams?.options ? initialParams.options.map((id) => id.toString()) : []}
                     />
-                    <Select 
+                    <SelectMultiple
                         label="Filtrer par stockage"
                         placeholder="Filtrer par stockage"
                         onChange={(value) => {
                             const storages = value ? value.map((id: string) => Number(id)) : undefined;
                             paginationRef.current?.updateParam("storages", storages);
                         }}
-                        isMulti={true}
                         options={allStorages.map((storage) => ({
                             label: storage.name,
                             value: storage.id.toString(),

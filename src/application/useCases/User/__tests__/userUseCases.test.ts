@@ -18,7 +18,7 @@ describe('User Use Cases', () => {
       getUsers: jest.fn(),
       updateMe: jest.fn(),
       me: jest.fn(),
-    } as any
+    } as jest.Mocked<UserRepository>
   })
 
   describe('addUser', () => {

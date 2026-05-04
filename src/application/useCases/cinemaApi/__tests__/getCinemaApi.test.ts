@@ -1,12 +1,20 @@
 import { getCinemaApi } from '../getCinemaApi'
+import { CinemaApiRepository } from '@/src/application/repositories/CinemaApiRepository'
 
 describe('CinemaApi getCinemaApi Use Case', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<CinemaApiRepository>
 
   beforeEach(() => {
     mockRepo = {
       getCinemaApi: jest.fn(),
-    }
+      getCinemaApis: jest.fn(),
+      createCinemaApi: jest.fn(),
+      updateCinemaApi: jest.fn(),
+      deleteCinemaApi: jest.fn(),
+      addPrice: jest.fn(),
+      updatePrice: jest.fn(),
+      deletePrice: jest.fn(),
+    } as jest.Mocked<CinemaApiRepository>
   })
 
   describe('getCinemaApi', () => {

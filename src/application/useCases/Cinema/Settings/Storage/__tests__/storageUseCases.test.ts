@@ -3,9 +3,11 @@ import { getStorages } from '../getStorages'
 import { getAllStorages } from '../getAllStorage'
 import { updateStorage } from '../updateStorage'
 import { deleteStorage } from '../deleteStorage'
+import { StorageRepository } from '@/src/application/repositories/Cinema/Settings/StorageRepository'
+import { Storage } from '@/src/domain/Cinema/Settings/Storage'
 
 describe('Storage Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<StorageRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -14,7 +16,7 @@ describe('Storage Use Cases', () => {
       getAllStorage: jest.fn(),
       updateStorage: jest.fn(),
       deleteStorage: jest.fn(),
-    }
+    } as jest.Mocked<StorageRepository>
   })
 
   describe('addStorage', () => {
@@ -40,7 +42,7 @@ describe('Storage Use Cases', () => {
       const error = new Error('Storage type not found')
       mockRepo.addStorage.mockRejectedValueOnce(error)
 
-      await expect(addStorage(mockRepo, 1, 5, {} as any)).rejects.toThrow('Storage type not found')
+      await expect(addStorage(mockRepo, 1, 5, {} as unknown as Storage)).rejects.toThrow('Storage type not found')
     })
   })
 

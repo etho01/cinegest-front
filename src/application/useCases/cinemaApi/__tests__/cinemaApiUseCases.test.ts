@@ -14,7 +14,11 @@ describe('CinemaApi Use Cases', () => {
       updateCinemaApi: jest.fn(),
       deleteCinemaApi: jest.fn(),
       getCinemaApis: jest.fn(),
-    } as any
+      getCinemaApi: jest.fn(),
+      addPrice: jest.fn(),
+      updatePrice: jest.fn(),
+      deletePrice: jest.fn(),
+    } as jest.Mocked<CinemaApiRepository>
   })
 
   describe('addCinemaApi', () => {

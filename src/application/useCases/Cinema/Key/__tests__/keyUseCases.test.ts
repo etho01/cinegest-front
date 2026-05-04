@@ -1,16 +1,18 @@
 import { addKeys } from '../addKeys'
 import { getKeys } from '../getKeys'
 import { deleteKey } from '../deleteKey'
+import { KeyRepository } from '@/src/application/repositories/Cinema/KeyRepository'
+import { AddKeyModalElement } from '../addKeys'
 
 describe('Key Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<KeyRepository>
 
   beforeEach(() => {
     mockRepo = {
       addKeys: jest.fn(),
       getKeys: jest.fn(),
       deleteKey: jest.fn(),
-    }
+    } as jest.Mocked<KeyRepository>
   })
 
   describe('addKeys', () => {
@@ -38,7 +40,7 @@ describe('Key Use Cases', () => {
       const error = new Error('Invalid key data')
       mockRepo.addKeys.mockRejectedValueOnce(error)
 
-      await expect(addKeys(mockRepo, 1, 5, {} as any)).rejects.toThrow('Invalid key data')
+      await expect(addKeys(mockRepo, 1, 5, {} as unknown as AddKeyModalElement)).rejects.toThrow('Invalid key data')
     })
   })
 

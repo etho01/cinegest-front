@@ -8,7 +8,7 @@ describe('addRole', () => {
   beforeEach(() => {
     mockRepo = {
       addRole: jest.fn(),
-    } as any
+    } as jest.Mocked<RoleRepository>
   })
 
   it('should create a new role successfully', async () => {

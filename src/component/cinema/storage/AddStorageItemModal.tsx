@@ -153,8 +153,8 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                                             }}
                                             showErrors={showErrors}
                                             errors={
-                                                
-                                                result.validationErrors?.movieVersions[index]}
+                                                result.validationErrors?.movieVersions[index]
+                                            }
                                         />
                                     </Td>
                                     <Td>

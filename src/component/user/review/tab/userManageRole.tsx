@@ -2,7 +2,7 @@
 import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Button } from "@/src/component/ui/btn/button";
 import { FormButton } from "@/src/component/ui/btn/form-button";
-import { Select } from "@/src/component/ui/form/Select";
+import { Select, SelectMultiple } from "@/src/component/ui/form/Select";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
 import { ROLES } from "@/src/const/RolesConst";
 import { updateUserRoleController } from "@/src/controller/app/UserController";
@@ -101,10 +101,9 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
                     {rolesUser.map((roleCinema, index) => (
                         <Tr index={index} key={index}>
                             <Td>
-                                <Select
+                                <SelectMultiple
                                     options={allRoleList.map(role => ({ value: role.id, label: role.name }))}
                                     value={roleCinema.roles}
-                                    isMulti={true}
                                     errors={result.validationErrors?.rolesUser ? undefined : undefined}
                                     onChange={(newValue) => {
                                         const updatedList = [...rolesUser];
@@ -114,10 +113,9 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
                                 />
                             </Td>
                             <Td>
-                                <Select
+                                <SelectMultiple
                                     options={allCinemaList.map(cinema => ({ value: cinema.id, label: cinema.name }))}
                                     value={roleCinema.cinemas}
-                                    isMulti={true}
                                     errors={result.validationErrors?.rolesUser ? undefined : undefined}
                                     onChange={(newValue) => {
                                         const updatedList = [...rolesUser];

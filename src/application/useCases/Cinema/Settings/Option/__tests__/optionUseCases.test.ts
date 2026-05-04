@@ -3,9 +3,11 @@ import { getOptions } from '../getOptions'
 import { getAllOptions } from '../getAllOptions'
 import { updateOption } from '../updateOption'
 import { deleteOption } from '../deleteOption'
+import { OptionsRepository } from '@/src/application/repositories/Cinema/Settings/OptionsRepository'
+import { Option } from '@/src/domain/Cinema/Settings/Option'
 
 describe('Option Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<OptionsRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -14,7 +16,7 @@ describe('Option Use Cases', () => {
       getAllOptions: jest.fn(),
       updateOption: jest.fn(),
       deleteOption: jest.fn(),
-    }
+    } as jest.Mocked<OptionsRepository>
   })
 
   describe('addOption', () => {
@@ -40,7 +42,7 @@ describe('Option Use Cases', () => {
       const error = new Error('Option type not found')
       mockRepo.addOption.mockRejectedValueOnce(error)
 
-      await expect(addOption(mockRepo, 1, 5, {} as any)).rejects.toThrow('Option type not found')
+      await expect(addOption(mockRepo, 1, 5, {} as unknown as Option)).rejects.toThrow('Option type not found')
     })
   })
 

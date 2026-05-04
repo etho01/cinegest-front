@@ -10,15 +10,15 @@ interface Props {
     cinema : Cinema | null;
     page : string;
     user : User;
-    customParam? : any;
+    customParam? : unknown;
 }
 
 export interface BreadcrumbLevel {
-    name: string | ((entity: Entity | null, cinema: Cinema | null, user: User, customParam?: any) => string);
-    link: string | ((entity: Entity | null, cinema: Cinema | null, user: User, customParam?: any) => string);
+    name: string | ((entity: Entity | null, cinema: Cinema | null, user: User, customParam?: unknown) => string);
+    link: string | ((entity: Entity | null, cinema: Cinema | null, user: User, customParam?: unknown) => string);
     subLevel?: BreadcrumbLevel;
-    showCondition?: (entity: Entity | null, cinema: Cinema | null, user: User, customParam?: any) => boolean;
-    customParam? : any;
+    showCondition?: (entity: Entity | null, cinema: Cinema | null, user: User, customParam?: unknown) => boolean;
+    customParam? : unknown;
 }
 
 export const Breadcrumb = ({ entity, cinema, page, user, customParam } : Props) => {
@@ -41,7 +41,7 @@ interface BreadcrumbLevelProps {
     cinema : Cinema | null,
     entity : Entity | null,
     user : User
-    customParam? : any;
+    customParam? : unknown;
 }
 
 const BreadcrumbLevelComponent = ({ level, entity, cinema, user, customParam } : BreadcrumbLevelProps) => {

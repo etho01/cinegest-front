@@ -1,16 +1,17 @@
 import { addSessions } from '../addSessions'
 import { getSessions } from '../getSessions'
 import { deleteSession } from '../deleteSession'
+import { SessionRepository } from '@/src/application/repositories/Cinema/SessionRepository'
 
 describe('Session Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<SessionRepository>
 
   beforeEach(() => {
     mockRepo = {
       addSessions: jest.fn(),
       getSessions: jest.fn(),
       deleteSession: jest.fn(),
-    }
+    } as jest.Mocked<SessionRepository>
   })
 
   describe('addSessions', () => {

@@ -8,7 +8,7 @@ describe('addEntity', () => {
   beforeEach(() => {
     mockRepo = {
       addEntity: jest.fn(),
-    } as any
+    } as jest.Mocked<EntityRepository>
   })
 
   it('should create a new entity successfully', async () => {

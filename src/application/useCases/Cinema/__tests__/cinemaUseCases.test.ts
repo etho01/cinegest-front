@@ -16,7 +16,7 @@ describe('Cinema Use Cases', () => {
       deleteCinema: jest.fn(),
       getCinemas: jest.fn(),
       getAllCinemasByEntity: jest.fn(),
-    } as any
+    } as jest.Mocked<CinemaRepository>
   })
 
   describe('addCinema', () => {

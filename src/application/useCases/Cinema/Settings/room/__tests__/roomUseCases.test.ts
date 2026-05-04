@@ -2,9 +2,11 @@ import { addRoom } from '../addRoom'
 import { getRooms } from '../getRooms'
 import { deleteRoom } from '../deleteRoom'
 import { updateRoom } from '../updateRoom'
+import { RoomRepository } from '@/src/application/repositories/Cinema/Settings/RoomRepository'
+import { Room } from '@/src/domain/Cinema/Settings/Room'
 
 describe('Room Use Cases', () => {
-  let mockRepo: any
+  let mockRepo: jest.Mocked<RoomRepository>
 
   beforeEach(() => {
     mockRepo = {
@@ -12,7 +14,7 @@ describe('Room Use Cases', () => {
       getRooms: jest.fn(),
       deleteRoom: jest.fn(),
       updateRoom: jest.fn(),
-    }
+    } as jest.Mocked<RoomRepository>
   })
 
   describe('addRoom', () => {
@@ -38,7 +40,7 @@ describe('Room Use Cases', () => {
       const error = new Error('Room already exists')
       mockRepo.addRoom.mockRejectedValueOnce(error)
 
-      await expect(addRoom(mockRepo, 1, 5, {} as any)).rejects.toThrow('Room already exists')
+      await expect(addRoom(mockRepo, 1, 5, {} as unknown as Room)).rejects.toThrow('Room already exists')
     })
   })
 

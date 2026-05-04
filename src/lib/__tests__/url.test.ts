@@ -3,13 +3,13 @@ import { withSearchParams, readArrayFromURL, readNumber, getObjectFromSearchPara
 describe('url utilities', () => {
   describe('withSearchParams', () => {
     it('should return base URL when params is undefined', () => {
-      const result = withSearchParams('/api/users', undefined as any)
+      const result = withSearchParams('/api/users', undefined)
       expect(result).toContain('/api/users')
     })
 
     it('should return base URL when params is FormData', () => {
       const formData = new FormData()
-      const result = withSearchParams('/api/users', formData as any)
+      const result = withSearchParams('/api/users', formData)
       expect(result).toContain('/api/users')
     })
 
@@ -57,7 +57,7 @@ describe('url utilities', () => {
 
     it('should filter out null/undefined/empty items from arrays', () => {
       const result = withSearchParams('/api/users', {
-        roles: ['admin', null, undefined, '', 'user'] as any,
+        roles: ['admin', null, undefined, '', 'user'] as unknown as string,
       })
       expect(result).toContain('roles%5B%5D=admin')
       expect(result).toContain('roles%5B%5D=user')
@@ -186,7 +186,7 @@ describe('url utilities', () => {
     })
 
     it('should convert values to strings', () => {
-      const sp = { 'ids[]': [1, 2, 3] as any }
+      const sp = { 'ids[]': [1, 2, 3] as unknown as string[] }
       const result = getObjectFromSearchParams(sp, 'ids')
       expect(result).toEqual(['1', '2', '3'])
     })
