@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { AsyncSelect } from '../AsyncSelect';
+import { AsyncSelect, Option } from '../AsyncSelect';
 import '@testing-library/jest-dom';
 
 describe('AsyncSelect Component', () => {

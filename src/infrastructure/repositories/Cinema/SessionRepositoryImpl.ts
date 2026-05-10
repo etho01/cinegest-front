@@ -5,7 +5,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { ApiRequestServeur } from "@/src/lib/request/ApiRequestServeur";
 import { buildApiUrl } from "@/src/lib/config/api";
 import { throwErrorResponse } from "@/src/lib/request/Request";
-import { Session } from "inspector/promises";
+import { Session } from "@/src/domain/Cinema/Session";
 
 
 export const SessionRepositoryImpl : SessionRepository = {

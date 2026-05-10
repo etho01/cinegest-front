@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import type { ActionMeta } from "react-select";
 import { FormError, formError } from "./FormError";
 import Label from "./Label";
 
@@ -18,7 +17,7 @@ interface SelectProps<T> {
     showErrors?: boolean;
     onChange?: (fullValue: Option<T>) => void;
     isMulti?: boolean;
-    [key: string]: any;
+    [key: string]: unknown | undefined | string;
     loadOptions : (inputValue: string, callback: (options: Option<T>[]) => void) => void | Promise<Option<T>[]>;
 }
 
@@ -26,10 +25,10 @@ export const AsyncSelect = <T,>({className = '', label = '', containerClassName 
     let htmlFor = "";
     if (props['id'] != undefined)
     {
-        htmlFor = props['id']
+        htmlFor = props['id'] as string
     }
 
-    const handleChange = (newValue: unknown, _actionMeta: ActionMeta<unknown>) => {
+    const handleChange = (newValue: unknown) => {
         if (onChange) {
             const option = newValue as Option<T> | null;
             onChange(option as Option<T>);

@@ -1,4 +1,4 @@
-import type { Paginator, PaginatorLink } from '../pagination/PaginationType';
+import type { Paginator, PaginatorLink } from '../PaginationType';
 
 describe('PaginationType', () => {
   it('should define PaginatorLink type', () => {

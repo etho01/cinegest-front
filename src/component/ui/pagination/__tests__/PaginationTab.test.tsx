@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { PaginationTab } from '../PaginationTab'
+import { PaginationTab, PaginationTabProps } from '../PaginationTab'
 import { Paginator } from '../PaginationType'
 
 // Mock the hook
@@ -21,9 +21,15 @@ describe('PaginationTab', () => {
     total: 25,
     from: 1,
     to: 3,
+    first_page_url: '/api/items?page=1',
+    last_page_url: '/api/items?page=3',
+    links: [],
+    next_page_url: '/api/items?page=2',
+    path: '/api/items',
+    prev_page_url: null,
   }
 
-  const defaultProps = {
+  const defaultProps: PaginationTabProps<{ id: number; name: string }> = {
     endpoint: '/api/items',
     colList: ['ID', 'Name', 'Actions'],
     lineRenderer: (item: { id: number; name: string }) => (
@@ -42,7 +48,7 @@ describe('PaginationTab', () => {
   })
 
   it('should render loading state', () => {
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: null,
       error: null,
       isPending: true,
@@ -58,7 +64,7 @@ describe('PaginationTab', () => {
   })
 
   it('should render table headers', () => {
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
       error: null,
       isPending: false,
@@ -76,7 +82,7 @@ describe('PaginationTab', () => {
   })
 
   it('should render data rows', () => {
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
       error: null,
       isPending: false,
@@ -94,7 +100,7 @@ describe('PaginationTab', () => {
   })
 
   it('should render empty state when no data', () => {
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: { ...mockData, data: [] },
       error: null,
       isPending: false,
@@ -111,7 +117,7 @@ describe('PaginationTab', () => {
 
   it('should render error state', () => {
     const error = new Error('Failed to load data')
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: null,
       error,
       isPending: false,
@@ -128,7 +134,7 @@ describe('PaginationTab', () => {
   })
 
   it('should render pagination when not pending', () => {
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
       error: null,
       isPending: false,
@@ -146,7 +152,7 @@ describe('PaginationTab', () => {
   })
 
   it('should not render pagination when pending', () => {
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: null,
       error: null,
       isPending: true,
@@ -166,7 +172,7 @@ describe('PaginationTab', () => {
   it('should pass initial data to hook', () => {
     const initialData = mockData
 
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: initialData,
       error: null,
       isPending: false,
@@ -189,7 +195,7 @@ describe('PaginationTab', () => {
   it('should pass initial params to hook', () => {
     const initialParams = { filter: 'active', sort: 'name' }
 
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
       error: null,
       isPending: false,
@@ -213,7 +219,7 @@ describe('PaginationTab', () => {
     const mockRefresh = jest.fn()
     const ref = { current: null }
 
-    usePaginatedResource.mockReturnValue({
+    (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
       error: null,
       isPending: false,
