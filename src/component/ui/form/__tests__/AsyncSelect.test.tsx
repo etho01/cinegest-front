@@ -3,7 +3,7 @@ import { AsyncSelect, Option } from '../AsyncSelect';
 import '@testing-library/jest-dom';
 
 describe('AsyncSelect Component', () => {
-  const mockLoadOptions = jest.fn((inputValue: string, callback: (options: unknown[]) => void) => {
+  const mockLoadOptions = jest.fn((inputValue: string, callback: (options: Option<unknown>[]) => void) => {
     const options = [
       { value: '1', label: 'Async Option 1' },
       { value: '2', label: 'Async Option 2' },
