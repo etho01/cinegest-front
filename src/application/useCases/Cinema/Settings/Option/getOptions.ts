@@ -3,7 +3,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { Option } from "@/src/domain/Cinema/Settings/Option";
 
 export type getOptionsProps = {
-    search : string;
+    search?: string;
     page : number;
     optionTypes ?: number[];
 }

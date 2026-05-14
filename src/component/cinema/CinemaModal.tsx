@@ -109,7 +109,7 @@ export const CinemaModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                             label="Pays"
                             value={object.country}
                             onChange={(value) => {
-                                setObject({ ...object, country: value });
+                                setObject({ ...object, country: value ?? '' });
                             }}
                             required
                             showErrors={showErrors}

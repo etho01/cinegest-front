@@ -1,5 +1,6 @@
 import { getAllRooms } from '../getAllRooms'
 import { RoomRepository } from '@/src/application/repositories/Cinema/Settings/RoomRepository'
+import { Room } from '@/src/domain/Cinema/Settings/Room'
 
 describe('Room getAllRooms Use Case', () => {
   let mockRepo: jest.Mocked<RoomRepository>
@@ -7,7 +8,7 @@ describe('Room getAllRooms Use Case', () => {
   beforeEach(() => {
     mockRepo = {
       getAllRooms: jest.fn(),
-    } as jest.Mocked<RoomRepository>
+    } as unknown as jest.Mocked<RoomRepository>
   })
 
   describe('getAllRooms', () => {
@@ -21,7 +22,7 @@ describe('Room getAllRooms Use Case', () => {
         { id: 3, name: 'Salle VIP', capacity: 50 },
       ]
 
-      mockRepo.getAllRooms.mockResolvedValueOnce(allRooms)
+      mockRepo.getAllRooms.mockResolvedValueOnce(allRooms as unknown as Room[])
 
       const result = await getAllRooms(mockRepo, entityId, cinemaId)
 

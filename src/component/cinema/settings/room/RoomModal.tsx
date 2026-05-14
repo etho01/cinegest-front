@@ -73,7 +73,7 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                             containerClassName=" col-span-2 "
                             errors={result.validationErrors?.option_id}
                             label="Liste des options"
-                            value={object.optionsIds ? object.optionsIds : []}
+                            value={object.optionsIds ? object.optionsIds.map(String) : []}
                             onChange={(value) => {
                                 setObject({ ...object, optionsIds: value ? value.map((id: string) => Number(id)) : [] });
                             }}
@@ -89,7 +89,7 @@ export const RoomModal = forwardRef(({ isOpen, initialObject, onSaved, entityId,
                             containerClassName=" col-span-2 "
                             errors={result.validationErrors?.storage_id}
                             label="Liste des stockages"
-                            value={object.storagesIds ? object.storagesIds : []}
+                            value={object.storagesIds ? object.storagesIds.map(String) : []}
                             onChange={(value) => {
                                 setObject({ ...object, storagesIds: value ? value.map((id: string) => Number(id)) : [] });
                             }}

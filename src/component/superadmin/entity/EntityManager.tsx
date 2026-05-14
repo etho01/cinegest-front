@@ -13,7 +13,7 @@ import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowMod
 
 interface PropsFetchEntities {
     initialData : Paginator<Entity>;
-    initialParams?: Record<string, string>;
+    initialParams?: Record<string, unknown>;
 }
 
 export default function EntityManager({ initialData, initialParams }: PropsFetchEntities) {

@@ -31,7 +31,7 @@ describe('StorageType Use Cases', () => {
       const createdType = { id: 10, ...storageType }
       mockRepo.addStorageType.mockResolvedValueOnce(createdType)
 
-      const result = await addStorageType(mockRepo, entityId, cinemaId, storageType)
+      const result = await addStorageType(mockRepo, entityId, cinemaId, storageType as unknown as StorageType)
 
       expect(mockRepo.addStorageType).toHaveBeenCalledWith(entityId, cinemaId, storageType)
       expect(result.id).toBe(10)

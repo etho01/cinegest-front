@@ -71,6 +71,12 @@ describe('usePaginatedResource', () => {
         total: 50,
         from: 1,
         to: 10,
+        first_page_url: '/api/users?page=1',
+        last_page_url: '/api/users?page=5',
+        links: [],
+        next_page_url: '/api/users?page=2',
+        path: '/api/users',
+        prev_page_url: null,
       }
 
       const { result } = renderHook(() =>
@@ -94,6 +100,12 @@ describe('usePaginatedResource', () => {
         total: 1,
         from: 1,
         to: 1,
+        first_page_url: '/api/users?page=1',
+        last_page_url: '/api/users?page=1',
+        links: [],
+        next_page_url: null,
+        path: '/api/users',
+        prev_page_url: null,
       }
 
       ;(global.fetch as jest.Mock).mockResolvedValueOnce({

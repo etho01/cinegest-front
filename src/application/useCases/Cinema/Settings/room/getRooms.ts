@@ -3,7 +3,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { Room } from "@/src/domain/Cinema/Settings/Room";
 
 export type getRoomsProps = {
-    search : string;
+    search?: string;
     page : number;
     options ?: number[];
     storages ?: number[];

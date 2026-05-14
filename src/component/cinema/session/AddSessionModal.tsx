@@ -85,9 +85,10 @@ export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onS
                                                     version: version,
                                                 }));
                                             }}
-                                            onChange={(selectedOption: { value: string; label: string; version: MovieVersion } | null) => {
+                                            onChange={(selectedOption) => {
+                                                const opt = selectedOption as { version: MovieVersion } | null;
                                                 const newsessions = [...object.sessions];
-                                                newsessions[index].movieVersionId = selectedOption ? selectedOption.version.id : null;
+                                                newsessions[index].movieVersionId = opt ? opt.version.id : null;
                                                 setObject({
                                                     ...object,
                                                     sessions: newsessions,
@@ -106,7 +107,7 @@ export const AddSessionModal = forwardRef(({ isOpen, onClose, initialObject, onS
                                             })) : []}
                                             onChange={(value) => {
                                                 const newsessions = [...object.sessions];
-                                                newsessions[index].roomId = value
+                                                newsessions[index].roomId = value ?? 0
                                                 setObject({
                                                     ...object,
                                                     sessions: newsessions,

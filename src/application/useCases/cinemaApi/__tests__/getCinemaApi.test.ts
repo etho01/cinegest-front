@@ -1,5 +1,6 @@
 import { getCinemaApi } from '../getCinemaApi'
 import { CinemaApiRepository } from '@/src/application/repositories/CinemaApiRepository'
+import { CinemaApi } from '@/src/domain/CinemaApi'
 
 describe('CinemaApi getCinemaApi Use Case', () => {
   let mockRepo: jest.Mocked<CinemaApiRepository>
@@ -30,7 +31,7 @@ describe('CinemaApi getCinemaApi Use Case', () => {
         cinemaIds: [1, 2, 3],
       }
 
-      mockRepo.getCinemaApi.mockResolvedValueOnce(cinemaApi)
+      mockRepo.getCinemaApi.mockResolvedValueOnce(cinemaApi as unknown as CinemaApi)
 
       const result = await getCinemaApi(mockRepo, entityId, cinemaApiId)
 
@@ -55,7 +56,7 @@ describe('CinemaApi getCinemaApi Use Case', () => {
         cinemaIds: [],
       }
 
-      mockRepo.getCinemaApi.mockResolvedValueOnce(cinemaApi)
+      mockRepo.getCinemaApi.mockResolvedValueOnce(cinemaApi as unknown as CinemaApi)
 
       const result = await getCinemaApi(mockRepo, 1, 5)
 

@@ -73,10 +73,10 @@ export const AddMovieModal = forwardRef(({ isOpen, onClose, initialObject, onSav
                             onChange={(value) => {
                                 setObject({
                                     ...object,
-                                    externalId: value ? value.value.id : null,
+                                    externalId: value ? value.value.id : 0,
                                     title: value ? value.value.title : '',
                                     description: value ? value.value.overview : '',
-                                    releaseDate: value ? value.value.release_date : null,
+                                    releaseDate: value ? value.value.release_date : '',
                                 });
                             }}
                         />

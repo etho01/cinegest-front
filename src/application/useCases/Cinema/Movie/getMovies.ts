@@ -3,7 +3,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { Movie } from "@/src/domain/Cinema/Movie";
 
 export type PropsGetMovies = {
-    search : string;
+    search?: string;
     page : number;
     status?: string[];
 };

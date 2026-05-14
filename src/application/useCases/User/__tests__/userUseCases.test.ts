@@ -18,7 +18,7 @@ describe('User Use Cases', () => {
       getUsers: jest.fn(),
       updateMe: jest.fn(),
       me: jest.fn(),
-    } as jest.Mocked<UserRepository>
+    } as unknown as jest.Mocked<UserRepository>
   })
 
   describe('addUser', () => {
@@ -32,18 +32,18 @@ describe('User Use Cases', () => {
         role_id: 2,
       }
 
-      const createdUser: User = {
+      const createdUser = {
         id: 10,
         firstname: 'John',
         lastname: 'Doe',
         email: 'john.doe@example.com',
         role_id: 2,
         entity_id: entityId,
-      }
+      } as unknown as User
 
       mockRepo.addUser.mockResolvedValueOnce(createdUser)
 
-      const result = await addUser(mockRepo, entityId, newUser)
+      const result = await addUser(mockRepo, entityId, newUser as unknown as Parameters<typeof addUser>[2])
 
       expect(mockRepo.addUser).toHaveBeenCalledWith(entityId, newUser)
       expect(result).toEqual(createdUser)
@@ -62,21 +62,21 @@ describe('User Use Cases', () => {
       const error = new Error('Email already exists')
       mockRepo.addUser.mockRejectedValueOnce(error)
 
-      await expect(addUser(mockRepo, 1, newUser)).rejects.toThrow('Email already exists')
+      await expect(addUser(mockRepo, 1, newUser as unknown as Parameters<typeof addUser>[2])).rejects.toThrow('Email already exists')
     })
   })
 
   describe('updateUser', () => {
     it('should update user successfully', () => {
       const entityId = 1
-      const updatedUser: User = {
+      const updatedUser = {
         id: 10,
         firstname: 'John Updated',
         lastname: 'Doe',
         email: 'john.updated@example.com',
         role_id: 2,
         entity_id: entityId,
-      }
+      } as unknown as User
 
       mockRepo.updateUser.mockResolvedValueOnce(updatedUser)
 
@@ -91,14 +91,14 @@ describe('User Use Cases', () => {
     it('should fetch single user successfully', async () => {
       const entityId = 1
       const userId = 10
-      const user: User = {
+      const user = {
         id: userId,
         firstname: 'John',
         lastname: 'Doe',
         email: 'john@example.com',
         role_id: 2,
         entity_id: entityId,
-      }
+      } as unknown as User
 
       mockRepo.getUser.mockResolvedValueOnce(user)
 
@@ -133,7 +133,8 @@ describe('User Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getUsers.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getUsers.mockResolvedValueOnce(mockData as any)
 
       const result = await getUsers(mockRepo, entityId, params)
 
@@ -151,18 +152,18 @@ describe('User Use Cases', () => {
         email: 'john.new@example.com',
       }
 
-      const updatedUser: User = {
+      const updatedUser = {
         id: 5,
         firstname: 'John Updated',
         lastname: 'Doe',
         email: 'john.new@example.com',
         role_id: 2,
         entity_id: 1,
-      }
+      } as unknown as User
 
       mockRepo.updateMe.mockResolvedValueOnce(updatedUser)
 
-      const result = await updateMe(mockRepo, updateData)
+      const result = await updateMe(mockRepo, updateData as unknown as Parameters<typeof updateMe>[1])
 
       expect(mockRepo.updateMe).toHaveBeenCalledWith(updateData)
       expect(result).toEqual(updatedUser)
@@ -171,14 +172,14 @@ describe('User Use Cases', () => {
 
   describe('me', () => {
     it('should fetch current user profile successfully', async () => {
-      const currentUser: User = {
+      const currentUser = {
         id: 5,
         firstname: 'John',
         lastname: 'Doe',
         email: 'john@example.com',
         role_id: 2,
         entity_id: 1,
-      }
+      } as unknown as User
 
       mockRepo.me.mockResolvedValueOnce(currentUser)
 

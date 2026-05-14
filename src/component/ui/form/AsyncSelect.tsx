@@ -15,7 +15,7 @@ interface SelectProps<T> {
     containerClassName?: string;
     errors?: formError;
     showErrors?: boolean;
-    onChange?: (fullValue: Option<T>) => void;
+    onChange?: (fullValue: Option<T> | null) => void;
     isMulti?: boolean;
     [key: string]: unknown | undefined | string;
     loadOptions : (inputValue: string, callback: (options: Option<T>[]) => void) => void | Promise<Option<T>[]>;
@@ -31,7 +31,7 @@ export const AsyncSelect = <T,>({className = '', label = '', containerClassName 
     const handleChange = (newValue: unknown) => {
         if (onChange) {
             const option = newValue as Option<T> | null;
-            onChange(option as Option<T>);
+            onChange(option);
         }
     }
 

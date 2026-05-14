@@ -1,6 +1,6 @@
 "use client";
 import { FormButton } from "@/src/component/ui/btn/form-button";
-import { formError, Select } from "@/src/component/ui/form";
+import { formError, SelectMultiple } from "@/src/component/ui/form";
 import Input from "@/src/component/ui/form/Input";
 import { updateCinemaApiController } from "@/src/controller/app/CinemaApiController";
 import { Cinema } from "@/src/domain/Cinema";
@@ -41,7 +41,7 @@ export const CinemaApiReviewcard = ({ cinemaApi, entityId, cinemas }: CinemaApiR
                         required
                         placeholder="https://exemple.com"
                     />
-                    <Select 
+                    <SelectMultiple 
                         errors={result.validationErrors?.cinemaIds as formError | undefined}
                         label="Cinémas" 
                         placeholder="Sélectionner les cinémas"
@@ -50,7 +50,6 @@ export const CinemaApiReviewcard = ({ cinemaApi, entityId, cinemas }: CinemaApiR
                             setCinemaApiUpdated({ ...cinemaApiUpdated, cinemaIds: value });
                         }} 
                         options={cinemas.map((cinema) => ({ label: cinema.name, value: cinema.id }))}
-                        isMulti
                         required
                         containerClassName=" col-span-2 "
                     />

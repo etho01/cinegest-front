@@ -16,7 +16,7 @@ describe('Storage Use Cases', () => {
       getAllStorage: jest.fn(),
       updateStorage: jest.fn(),
       deleteStorage: jest.fn(),
-    } as jest.Mocked<StorageRepository>
+    } as unknown as jest.Mocked<StorageRepository>
   })
 
   describe('addStorage', () => {
@@ -32,7 +32,7 @@ describe('Storage Use Cases', () => {
       const createdStorage = { id: 10, ...storage }
       mockRepo.addStorage.mockResolvedValueOnce(createdStorage)
 
-      const result = await addStorage(mockRepo, entityId, cinemaId, storage)
+      const result = await addStorage(mockRepo, entityId, cinemaId, storage as unknown as Storage)
 
       expect(mockRepo.addStorage).toHaveBeenCalledWith(entityId, cinemaId, storage)
       expect(result.id).toBe(10)
@@ -86,7 +86,7 @@ describe('Storage Use Cases', () => {
       ]
 
       mockRepo.getAllStorages = jest.fn()
-      mockRepo.getAllStorages.mockResolvedValueOnce(allStorages)
+      mockRepo.getAllStorages.mockResolvedValueOnce(allStorages as unknown as Storage[])
 
       const result = await getAllStorages(mockRepo, entityId, cinemaId)
 

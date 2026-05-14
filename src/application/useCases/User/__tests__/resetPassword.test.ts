@@ -8,7 +8,7 @@ describe('resetPassword', () => {
   beforeEach(() => {
     mockRepo = {
       resetPassword: jest.fn(),
-    } as jest.Mocked<UserRepository>
+    } as unknown as jest.Mocked<UserRepository>
   })
 
   it('should call repository resetPassword method', async () => {

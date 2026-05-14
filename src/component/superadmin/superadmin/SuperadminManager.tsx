@@ -13,7 +13,7 @@ import { useLoadObjectAndShowModalRef } from "../../hook/useLoadObjectAndShowMod
 
 interface PropsFetchEntities {
     initialData : Paginator<Superadmin>;
-    initialParams?: Record<string, unknown | string>;
+    initialParams?: Record<string, unknown>;
 }
 
 export default function SuperadminManager({ initialData, initialParams }: PropsFetchEntities) {
@@ -30,7 +30,7 @@ export default function SuperadminManager({ initialData, initialParams }: PropsF
                     onChange={(value) => {
                         paginationRef.current?.updateParam("search", value);
                     }} 
-                    initialValue={initialParams?.search || ""}
+                    initialValue={(initialParams?.search as string) || ""}
                 />
                 <Button
                     className="mt-auto" 

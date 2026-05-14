@@ -31,11 +31,12 @@ describe('Superadmin Use Cases', () => {
         firstname: 'Admin',
         lastname: 'Super',
         email: 'admin@cinegest.com',
+        phone: null,
       }
 
       mockRepo.addSuperadmin.mockResolvedValueOnce(createdSuperadmin)
 
-      const result = await addSuperadmin(mockRepo, newSuperadmin)
+      const result = await addSuperadmin(mockRepo, newSuperadmin as unknown as Superadmin)
 
       expect(mockRepo.addSuperadmin).toHaveBeenCalledWith(newSuperadmin)
       expect(result).toEqual(createdSuperadmin)
@@ -56,6 +57,7 @@ describe('Superadmin Use Cases', () => {
         firstname: 'Updated',
         lastname: 'Admin',
         email: 'updated@cinegest.com',
+        phone: null,
       }
 
       mockRepo.updateSuperadmin.mockResolvedValueOnce(superadmin)
@@ -107,7 +109,8 @@ describe('Superadmin Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.fetchAdmins.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.fetchAdmins.mockResolvedValueOnce(mockData as any)
 
       const result = await fetchSuperadmins(mockRepo, params)
 

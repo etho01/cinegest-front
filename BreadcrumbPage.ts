@@ -372,8 +372,8 @@ export const BreadcrumbPageList: Record<string, BreadcrumbLevel> = {
                             name : 'Liste des films',
                             link : (entity, cinema) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/movie',
                             subLevel : {
-                                name : (entity, cinema, user, movie) => movie?.title || 'Détail film',
-                                link : (entity, cinema, user, movie) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/movie/' + movie?.id,
+                                name : (entity, cinema, user, movie) => (movie as { title?: string })?.title || 'Détail film',
+                                link : (entity, cinema, user, movie) => '/app/' + entity?.id + '/cinema/' + cinema?.id + '/movie/' + (movie as { id?: number })?.id,
                             }
                         }
                     }

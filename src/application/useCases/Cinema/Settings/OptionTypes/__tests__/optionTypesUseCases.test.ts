@@ -31,7 +31,7 @@ describe('OptionType Use Cases', () => {
       const createdType = { id: 10, ...optionType }
       mockRepo.addOptionType.mockResolvedValueOnce(createdType)
 
-      const result = await addOptionType(mockRepo, entityId, cinemaId, optionType)
+      const result = await addOptionType(mockRepo, entityId, cinemaId, optionType as unknown as OptionType)
 
       expect(mockRepo.addOptionType).toHaveBeenCalledWith(entityId, cinemaId, optionType)
       expect(result.id).toBe(10)
@@ -118,7 +118,7 @@ describe('OptionType Use Cases', () => {
       const cinemaId = 5
       const typeId = 10
 
-      mockRepo.deleteOptionType.mockResolvedValueOnce(undefined)
+      mockRepo.deleteOptionType.mockResolvedValueOnce(true)
 
       await deleteOptionsType(mockRepo, entityId, cinemaId, typeId)
 

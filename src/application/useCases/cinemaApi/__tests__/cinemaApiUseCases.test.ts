@@ -24,17 +24,17 @@ describe('CinemaApi Use Cases', () => {
   describe('addCinemaApi', () => {
     it('should create a new cinema API successfully', async () => {
       const entityId = 1
-      const newApi: CinemaApi = {
+      const newApi = {
         id: 0,
         name: 'Allocine API',
         url: 'https://api.allocine.fr',
         cinema_id: 5,
-      }
+      } as unknown as CinemaApi
 
-      const createdApi: CinemaApi = {
+      const createdApi = {
         ...newApi,
         id: 15,
-      }
+      } as unknown as CinemaApi
 
       mockRepo.createCinemaApi.mockResolvedValueOnce(createdApi)
 
@@ -46,12 +46,12 @@ describe('CinemaApi Use Cases', () => {
     })
 
     it('should handle creation errors', async () => {
-      const newApi: CinemaApi = {
+      const newApi = {
         id: 0,
         name: 'Test API',
         url: 'https://api.test.com',
         cinema_id: 5,
-      }
+      } as unknown as CinemaApi
 
       const error = new Error('API creation failed')
       mockRepo.createCinemaApi.mockRejectedValueOnce(error)
@@ -63,12 +63,12 @@ describe('CinemaApi Use Cases', () => {
   describe('updateCinemaApi', () => {
     it('should update cinema API successfully', async () => {
       const entityId = 1
-      const api: CinemaApi = {
+      const api = {
         id: 15,
         name: 'Updated API',
         url: 'https://api.updated.com',
         cinema_id: 5,
-      }
+      } as unknown as CinemaApi
 
       mockRepo.updateCinemaApi.mockResolvedValueOnce(api)
 
@@ -79,12 +79,12 @@ describe('CinemaApi Use Cases', () => {
     })
 
     it('should handle update errors', async () => {
-      const api: CinemaApi = {
+      const api = {
         id: 15,
         name: 'API',
         url: 'https://api.test.com',
         cinema_id: 5,
-      }
+      } as unknown as CinemaApi
 
       const error = new Error('Update failed')
       mockRepo.updateCinemaApi.mockRejectedValueOnce(error)
@@ -130,7 +130,8 @@ describe('CinemaApi Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getCinemaApis.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getCinemaApis.mockResolvedValueOnce(mockData as any)
 
       const result = await getCinemaApis(mockRepo, entityId, props)
 

@@ -14,7 +14,7 @@ describe('Room Use Cases', () => {
       getRooms: jest.fn(),
       deleteRoom: jest.fn(),
       updateRoom: jest.fn(),
-    } as jest.Mocked<RoomRepository>
+    } as unknown as jest.Mocked<RoomRepository>
   })
 
   describe('addRoom', () => {
@@ -28,9 +28,9 @@ describe('Room Use Cases', () => {
       }
 
       const createdRoom = { id: 10, ...room }
-      mockRepo.addRoom.mockResolvedValueOnce(createdRoom)
+      mockRepo.addRoom.mockResolvedValueOnce(createdRoom as unknown as Room)
 
-      const result = await addRoom(mockRepo, entityId, cinemaId, room)
+      const result = await addRoom(mockRepo, entityId, cinemaId, room as unknown as Room)
 
       expect(mockRepo.addRoom).toHaveBeenCalledWith(entityId, cinemaId, room)
       expect(result.id).toBe(10)
@@ -63,7 +63,8 @@ describe('Room Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getRooms.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getRooms.mockResolvedValueOnce(mockData as any)
 
       const result = await getRooms(mockRepo, entityId, cinemaId, params)
 
@@ -82,9 +83,9 @@ describe('Room Use Cases', () => {
         capacity: 50,
       }
 
-      mockRepo.updateRoom.mockResolvedValueOnce(room)
+      mockRepo.updateRoom.mockResolvedValueOnce(room as unknown as Room)
 
-      const result = await updateRoom(mockRepo, entityId, cinemaId, room)
+      const result = await updateRoom(mockRepo, entityId, cinemaId, room as unknown as Room)
 
       expect(mockRepo.updateRoom).toHaveBeenCalledWith(entityId, cinemaId, room)
       expect(result.name).toBe('Salle VIP')

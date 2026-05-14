@@ -31,9 +31,9 @@ describe('CinemaApi Price Use Cases', () => {
       }
 
       const createdPrice = { id: 10, ...price }
-      mockRepo.addPrice.mockResolvedValueOnce(createdPrice)
+      mockRepo.addPrice.mockResolvedValueOnce(createdPrice as unknown as Price)
 
-      const result = await addPrice(mockRepo, entityId, cinemaApiId, price)
+      const result = await addPrice(mockRepo, entityId, cinemaApiId, price as unknown as Price)
 
       expect(mockRepo.addPrice).toHaveBeenCalledWith(entityId, cinemaApiId, price)
       expect(result.id).toBe(10)
@@ -58,7 +58,7 @@ describe('CinemaApi Price Use Cases', () => {
         amount: 9.50,
       }
 
-      mockRepo.updatePrice.mockResolvedValueOnce(price)
+      mockRepo.updatePrice.mockResolvedValueOnce(price as unknown as Price)
 
       const result = await updatePrice(mockRepo, entityId, cinemaApiId, { ...price, currency: 'EUR' } as Price)
 

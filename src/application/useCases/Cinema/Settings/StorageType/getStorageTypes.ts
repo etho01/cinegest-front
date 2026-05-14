@@ -3,7 +3,7 @@ import { Paginator } from "@/src/component/ui/pagination/PaginationType";
 import { StorageType } from "@/src/domain/Cinema/Settings/StorageType";
 
 export type getOptionsProps = {
-    search : string;
+    search?: string;
     page : number;
 }
 

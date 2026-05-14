@@ -1,7 +1,7 @@
 import { OptionTypesRepository } from "@/src/application/repositories/Cinema/Settings/OptionTypesRepository";
 
 export type getOptionsTypesProps = {
-    search : string;
+    search?: string;
     page : number;
 }
 

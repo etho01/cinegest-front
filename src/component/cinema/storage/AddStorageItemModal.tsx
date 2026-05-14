@@ -143,9 +143,10 @@ export const AddStorageItemModal = forwardRef(({ isOpen, onClose, initialObject,
                                                     version: version,
                                                 }));
                                             }}
-                                            onChange={(selectedOption: { value: string; label: string; version: MovieVersion } | null) => {
+                                            onChange={(selectedOption) => {
+                                                const opt = selectedOption as { version: MovieVersion } | null;
                                                 const newVersions = [...object.movieVersions];
-                                                newVersions[index] = selectedOption ? selectedOption.version.id : null;
+                                                newVersions[index] = opt ? opt.version.id : null;
                                                 setObject({
                                                     ...object,
                                                     movieVersions: newVersions,

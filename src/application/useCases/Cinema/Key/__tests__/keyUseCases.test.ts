@@ -63,7 +63,8 @@ describe('Key Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getKeys.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getKeys.mockResolvedValueOnce(mockData as any)
 
       const result = await getKeys(mockRepo, entityId, cinemaId, params)
 

@@ -12,7 +12,7 @@ describe('Entity Use Cases', () => {
       updateEntity: jest.fn(),
       delete: jest.fn(),
       fetchEntities: jest.fn(),
-    } as jest.Mocked<EntityRepository>
+    } as unknown as jest.Mocked<EntityRepository>
   })
 
   describe('updateEntity', () => {

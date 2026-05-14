@@ -103,9 +103,10 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                                                     version: version,
                                                 }));
                                             }}
-                                            onChange={(selectedOption: { value: string; label: string; version: MovieVersion } | null) => {
+                                            onChange={(selectedOption) => {
+                                                const opt = selectedOption as { version: MovieVersion } | null;
                                                 const newVersions = [...object.versions];
-                                                newVersions[index].movieVersionId = selectedOption ? selectedOption.version.id : null;
+                                                newVersions[index].movieVersionId = opt ? opt.version.id : null;
                                                 setObject({
                                                     ...object,
                                                     versions: newVersions,
@@ -123,7 +124,7 @@ export const AddKeyModal = forwardRef(({ isOpen, onClose, initialObject, onSaved
                                             })) : []}
                                             onChange={(value) => {
                                                 const newVersions = [...object.versions];
-                                                newVersions[index].rooms = value
+                                                newVersions[index].rooms = value.map(Number)
                                                 setObject({
                                                     ...object,
                                                     versions: newVersions,

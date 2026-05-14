@@ -14,7 +14,7 @@ describe('MovieVersion Use Cases', () => {
       updateMovieVersion: jest.fn(),
       deleteMovieVersion: jest.fn(),
       searchMovieVersion: jest.fn(),
-    } as jest.Mocked<MovieRepository>
+    } as unknown as jest.Mocked<MovieRepository>
   })
 
   describe('addMovieVersion', () => {
@@ -28,13 +28,13 @@ describe('MovieVersion Use Cases', () => {
       }
 
       const createdVersion = { id: 20, ...version }
-      mockRepo.addMovieVersion.mockResolvedValueOnce(createdVersion)
+      mockRepo.addMovieVersion.mockResolvedValueOnce(createdVersion as unknown as MovieVersion)
 
       const result = await addMovieVersion(mockRepo, entityId, cinemaId, version as unknown as MovieVersion)
 
       expect(mockRepo.addMovieVersion).toHaveBeenCalledWith(entityId, cinemaId, version)
       expect(result.id).toBe(20)
-      expect(result.language).toBe('FR')
+      expect((result as unknown as { language: string }).language).toBe('FR')
     })
 
     it('should handle creation errors', async () => {
@@ -55,12 +55,12 @@ describe('MovieVersion Use Cases', () => {
         format: 'IMAX',
       }
 
-      mockRepo.updateMovieVersion.mockResolvedValueOnce(version)
+      mockRepo.updateMovieVersion.mockResolvedValueOnce(version as unknown as MovieVersion)
 
       const result = await updateMovieVersion(mockRepo, entityId, cinemaId, version as unknown as MovieVersion)
 
       expect(mockRepo.updateMovieVersion).toHaveBeenCalledWith(entityId, cinemaId, version)
-      expect(result.format).toBe('IMAX')
+      expect((result as unknown as { format: string }).format).toBe('IMAX')
     })
 
     it('should handle update errors', async () => {
@@ -104,7 +104,7 @@ describe('MovieVersion Use Cases', () => {
         { id: 21, language: 'EN', format: '3D' },
       ]
 
-      mockRepo.searchMovieVersion.mockResolvedValueOnce(searchResults)
+      mockRepo.searchMovieVersion.mockResolvedValueOnce(searchResults as unknown as MovieVersion[])
 
       const result = await searchMovieVersion(mockRepo, entityId, cinemaId, query)
 

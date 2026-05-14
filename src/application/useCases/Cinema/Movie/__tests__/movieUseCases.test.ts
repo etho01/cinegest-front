@@ -6,7 +6,7 @@ import { getMovie } from '../getMovie'
 import { getAllActiveMovie } from '../getAllActiveMovie'
 import { searchMovie } from '../search'
 import { MovieRepository } from '@/src/application/repositories/Cinema/MovieRepository'
-import { Movie } from '@/src/domain/Cinema/Movie'
+import { Movie, MovieSearchResult } from '@/src/domain/Cinema/Movie'
 
 describe('Movie Use Cases', () => {
   let mockRepo: jest.Mocked<MovieRepository>
@@ -20,7 +20,7 @@ describe('Movie Use Cases', () => {
       getMovie: jest.fn(),
       getAllActiveMovie: jest.fn(),
       search: jest.fn(),
-    } as jest.Mocked<MovieRepository>
+    } as unknown as jest.Mocked<MovieRepository>
   })
 
   describe('addMovie', () => {
@@ -35,9 +35,9 @@ describe('Movie Use Cases', () => {
       }
 
       const createdMovie = { id: 10, ...movie }
-      mockRepo.addMovie.mockResolvedValueOnce(createdMovie)
+      mockRepo.addMovie.mockResolvedValueOnce(createdMovie as unknown as Movie)
 
-      const result = await addMovie(mockRepo, entityId, cinemaId, movie)
+      const result = await addMovie(mockRepo, entityId, cinemaId, movie as unknown as Movie)
 
       expect(mockRepo.addMovie).toHaveBeenCalledWith(entityId, cinemaId, movie)
       expect(result.id).toBe(10)
@@ -59,7 +59,7 @@ describe('Movie Use Cases', () => {
       const movieId = 10
       const size = 2500
 
-      mockRepo.updateMovieSize.mockResolvedValueOnce({ id: movieId, size })
+      mockRepo.updateMovieSize.mockResolvedValueOnce({ id: movieId, size } as unknown as Movie)
 
       const result = await updateMovieSize(mockRepo, entityId, cinemaId, movieId, size)
 
@@ -115,7 +115,8 @@ describe('Movie Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getMovies.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getMovies.mockResolvedValueOnce(mockData as any)
 
       const result = await getMovies(mockRepo, entityId, cinemaId, params)
 
@@ -137,7 +138,7 @@ describe('Movie Use Cases', () => {
         duration: 148,
       }
 
-      mockRepo.getMovie.mockResolvedValueOnce(movie)
+      mockRepo.getMovie.mockResolvedValueOnce(movie as unknown as Movie)
 
       const result = await getMovie(mockRepo, entityId, cinemaId, movieId)
 
@@ -157,7 +158,7 @@ describe('Movie Use Cases', () => {
       ]
 
       mockRepo.getAllActiveByCinema = jest.fn()
-      mockRepo.getAllActiveByCinema.mockResolvedValueOnce(activeMovies)
+      mockRepo.getAllActiveByCinema.mockResolvedValueOnce(activeMovies as unknown as Movie[])
 
       const result = await getAllActiveMovie(mockRepo, entityId, cinemaId)
 
@@ -176,7 +177,7 @@ describe('Movie Use Cases', () => {
         { id: 10, title: 'Inception', director: 'Nolan' },
       ]
 
-      mockRepo.search.mockResolvedValueOnce(searchResults)
+      mockRepo.search.mockResolvedValueOnce(searchResults as unknown as MovieSearchResult[])
 
       const result = await searchMovie(mockRepo, entityId, cinemaId, query)
 

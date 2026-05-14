@@ -3,7 +3,7 @@ import { useLoadObjectAndShowModal, useLoadObjectAndShowModalObjectProps } from 
 
 interface useLoadObjectAndShowModalUpdateProps<T> extends useLoadObjectAndShowModalObjectProps<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    action: HookSafeActionFn<any, any, any, T>;
+    action: HookSafeActionFn<any, any, any, any>;
     onSaved?: (entity: T) => void | Promise<void>;
     customData?: unknown;
     customDataFunc?: (object: T) => T;

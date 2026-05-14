@@ -2,7 +2,7 @@
 import { rolesCinemaListType } from "@/src/application/useCases/User/updateUserRole";
 import { Button } from "@/src/component/ui/btn/button";
 import { FormButton } from "@/src/component/ui/btn/form-button";
-import { Select, SelectMultiple } from "@/src/component/ui/form/Select";
+import { SelectMultiple } from "@/src/component/ui/form/Select";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@/src/component/ui/table/Table";
 import { ROLES } from "@/src/const/RolesConst";
 import { updateUserRoleController } from "@/src/controller/app/UserController";
@@ -80,10 +80,9 @@ export default function UserManageRole({ user, entityId, allCinemaList, allRoleL
             e.preventDefault();
             await executeAsync({ entityId: parseInt(entityId + ''), userId: user.id, rolesUser, globalRight });
         }}>
-            <Select
+            <SelectMultiple
                 label="Roles glôbaux"
                 options={ROLES.global ? Object.keys(ROLES.global).map(key => ({ value: key, label: ROLES.global[key].name })) : []}
-                isMulti
                 value={globalRight}
                 onChange={(newValue) => {
                     setGlobalRight(newValue);

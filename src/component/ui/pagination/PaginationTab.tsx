@@ -18,7 +18,11 @@ export type PaginationTabRef = {
     refresh: () => void;
 }
 
-export const PaginationTab = forwardRef(<T extends { id: string | number },>({ initialData, endpoint, initialParams, lineRenderer, colList }: PaginationTabProps<T>, ref: React.Ref<PaginationTabRef>) => {
+type PaginationTabComponent = <T extends { id: string | number }>(
+    props: PaginationTabProps<T> & React.RefAttributes<PaginationTabRef>
+) => React.ReactElement | null;
+
+export const PaginationTab = forwardRef(function PaginationTabInner<T extends { id: string | number }>({ initialData, endpoint, initialParams, lineRenderer, colList }: PaginationTabProps<T>, ref: React.Ref<PaginationTabRef>) {
     const { data, error, isPending, page, setPage, updateParam, refresh } = usePaginatedResource<T>({
         endpoint,
         initialData,
@@ -66,6 +70,6 @@ export const PaginationTab = forwardRef(<T extends { id: string | number },>({ i
         { !isPending ? <Pagination currentPage={page} lastPage={data?.last_page} onPageChange={setPage} disabled={isPending} /> : null }
         </>
     )
-});
+}) as unknown as PaginationTabComponent;
 
-PaginationTab.displayName = 'PaginationTab';
+(PaginationTab as React.ForwardRefExoticComponent<unknown>).displayName = 'PaginationTab';

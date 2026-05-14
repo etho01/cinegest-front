@@ -32,7 +32,7 @@ describe('Option Use Cases', () => {
       const createdOption = { id: 10, ...option }
       mockRepo.addOption.mockResolvedValueOnce(createdOption)
 
-      const result = await addOption(mockRepo, entityId, cinemaId, option)
+      const result = await addOption(mockRepo, entityId, cinemaId, option as unknown as Option)
 
       expect(mockRepo.addOption).toHaveBeenCalledWith(entityId, cinemaId, option)
       expect(result.id).toBe(10)

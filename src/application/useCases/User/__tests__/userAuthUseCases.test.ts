@@ -19,7 +19,7 @@ describe('User Authentication Use Cases', () => {
       updateMePassword: jest.fn(),
       updateUserRights: jest.fn(),
       updateUserRoles: jest.fn(),
-    } as jest.Mocked<UserRepository>;
+    } as unknown as jest.Mocked<UserRepository>;
   });
 
   describe('connect', () => {
@@ -42,7 +42,7 @@ describe('User Authentication Use Cases', () => {
         email: 'test@example.com',
         password: 'wrongpassword',
       };
-      mockRepo.connect.mockResolvedValue(null);
+      mockRepo.connect.mockResolvedValue(null as unknown as string);
 
       await expect(connect(mockRepo, userLog)).rejects.toThrow(CustomError);
       await expect(connect(mockRepo, userLog)).rejects.toThrow('Les informations de connexion sont invalides');

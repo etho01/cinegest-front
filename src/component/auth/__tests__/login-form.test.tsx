@@ -63,7 +63,7 @@ describe('LoginForm', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    useAction.mockReturnValue({
+    ;(useAction as jest.Mock).mockReturnValue({
       executeAsync: mockExecuteAsync,
       hasErrored: false,
       result: {
@@ -110,7 +110,7 @@ describe('LoginForm', () => {
   })
 
   it('should display validation errors for email', () => {
-    useAction.mockReturnValue({
+    (useAction as jest.Mock).mockReturnValue({
       executeAsync: mockExecuteAsync,
       hasErrored: false,
       result: {
@@ -126,7 +126,7 @@ describe('LoginForm', () => {
   })
 
   it('should display validation errors for password', () => {
-    useAction.mockReturnValue({
+    (useAction as jest.Mock).mockReturnValue({
       executeAsync: mockExecuteAsync,
       hasErrored: false,
       result: {
@@ -142,7 +142,7 @@ describe('LoginForm', () => {
   })
 
   it('should display server error when hasErrored is true', () => {
-    useAction.mockReturnValue({
+    (useAction as jest.Mock).mockReturnValue({
       executeAsync: mockExecuteAsync,
       hasErrored: true,
       result: {
@@ -157,7 +157,7 @@ describe('LoginForm', () => {
   })
 
   it('should not display server error when hasErrored is false', () => {
-    useAction.mockReturnValue({
+    (useAction as jest.Mock).mockReturnValue({
       executeAsync: mockExecuteAsync,
       hasErrored: false,
       result: {

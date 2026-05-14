@@ -125,10 +125,10 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                                             options={optionsTypes.filter(optionType => {
                                                 return !optionSelectList.some((os, i) => os.optionTypeId === optionType.id && i !== index);
                                             }).map(optionType => ({ value: optionType.id, label: optionType.name }))}
-                                            value={optionSelect.optionTypeId ? optionSelect.optionTypeId : null}
+                                            value={optionSelect.optionTypeId ? optionSelect.optionTypeId : undefined}
                                             onChange={(optionTypeId) => {
                                                 const updatedList = [...optionSelectList];
-                                                updatedList[index].optionTypeId = optionTypeId;
+                                                updatedList[index].optionTypeId = optionTypeId ?? undefined;
                                                 updatedList[index].optionId = undefined;
                                                 setOptionSelectList(updatedList);
                                             }}
@@ -141,10 +141,10 @@ export const MovieVersionModal = forwardRef(({ isOpen, onClose, initialObject, o
                                                 options={options.filter(opt => {
                                                     return opt.option_type_id === optionSelect.optionTypeId;
                                                 }).map(option => ({ value: option.id, label: option.name }))}
-                                                value={optionSelect.optionId ? optionSelect.optionId : null}
+                                                value={optionSelect.optionId ? optionSelect.optionId : undefined}
                                                 onChange={(optionId) => {
                                                     const updatedList = [...optionSelectList];
-                                                    updatedList[index].optionId = optionId;
+                                                    updatedList[index].optionId = optionId ?? undefined;
                                                     setOptionSelectList(updatedList);
                                                 }}
                                             />

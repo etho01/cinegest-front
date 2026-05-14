@@ -85,7 +85,7 @@ export const SessionManager = ({ entityId, cinemaId, activeMovies, initialParams
             </div>
             <PaginationTab 
                 initialData={initialData} 
-                initialParams={initialParams} 
+                initialParams={initialParams as Record<string, unknown> | undefined} 
                 endpoint={`api/${entityId}/cinema/${cinemaId}/session`} 
                 ref={paginationRef} 
                 lineRenderer={(item : Session) => {

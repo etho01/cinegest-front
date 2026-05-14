@@ -59,7 +59,8 @@ describe('Session Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getSessions.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getSessions.mockResolvedValueOnce(mockData as any)
 
       const result = await getSessions(mockRepo, entityId, cinemaId, params)
 

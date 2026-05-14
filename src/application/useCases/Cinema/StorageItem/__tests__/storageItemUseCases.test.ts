@@ -2,6 +2,7 @@ import { addStorageItems } from '../addStorageItems'
 import { getStorageItems } from '../getStorageItems'
 import { deleteStorageItem } from '../deleteStorageItem'
 import { StorageItemRepository } from '@/src/application/repositories/Cinema/StorageItemRepository'
+import { StorageItem } from '@/src/domain/Cinema/StorageItem'
 import { addStorageItemObjectParams } from '../addStorageItems'
 
 describe('StorageItem Use Cases', () => {
@@ -26,12 +27,12 @@ describe('StorageItem Use Cases', () => {
       }
 
       const createdItems = { success: true, created: 3 }
-      mockRepo.addStorageItems.mockResolvedValueOnce(createdItems)
+      mockRepo.addStorageItems.mockResolvedValueOnce(createdItems as unknown as StorageItem)
 
       const result = await addStorageItems(mockRepo, entityId, cinemaId, params)
 
       expect(mockRepo.addStorageItems).toHaveBeenCalledWith(entityId, cinemaId, params)
-      expect(result.success).toBe(true)
+      expect((result as unknown as { success: boolean; created: number }).success).toBe(true)
     })
 
     it('should handle creation errors', async () => {
@@ -61,7 +62,8 @@ describe('StorageItem Use Cases', () => {
         to: 2,
       }
 
-      mockRepo.getStorageItems.mockResolvedValueOnce(mockData)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      mockRepo.getStorageItems.mockResolvedValueOnce(mockData as any)
 
       const result = await getStorageItems(mockRepo, entityId, cinemaId, params)
 

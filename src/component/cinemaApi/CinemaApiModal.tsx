@@ -2,7 +2,7 @@ import { Cinema } from "@/src/domain/Cinema";
 import { CinemaApi, CinemaApiEmpty } from "@/src/domain/CinemaApi";
 import { forwardRef, useImperativeHandle } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "../ui/modal";
-import { Input, Select } from "../ui/form";
+import { Input, SelectMultiple } from "../ui/form";
 import { Button } from "../ui/btn/button";
 import { useLoadObjectAndShowModalUpdate } from "../hook/useLoadObjectAndShowModalUpdate";
 import { addOrUpdateCinemaApiController } from "@/src/controller/app/CinemaApiController";
@@ -77,7 +77,7 @@ export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onS
                             containerClassName=" col-span-2 "
                             placeholder="https://exemple.com"
                         />
-                        <Select 
+                        <SelectMultiple 
                             errors={result.validationErrors?.cinemaIds}
                             label="Cinémas" 
                             placeholder="Sélectionner les cinémas"
@@ -86,7 +86,6 @@ export const CinemaApiModal = forwardRef (({ isOpen, onClose, initialObject, onS
                                 setObject({ ...object, cinemaIds: value });
                             }} 
                             options={cinemas.map((cinema) => ({ label: cinema.name, value: cinema.id }))}
-                            isMulti
                             required
                             showErrors={showErrors}
                             containerClassName=" col-span-2 "

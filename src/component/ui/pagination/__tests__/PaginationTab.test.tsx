@@ -116,7 +116,7 @@ describe('PaginationTab', () => {
   })
 
   it('should render error state', () => {
-    const error = new Error('Failed to load data')
+    const error = new Error('Failed to load data');
     (usePaginatedResource as jest.Mock).mockReturnValue({
       data: null,
       error,
@@ -170,7 +170,7 @@ describe('PaginationTab', () => {
   })
 
   it('should pass initial data to hook', () => {
-    const initialData = mockData
+    const initialData = mockData;
 
     (usePaginatedResource as jest.Mock).mockReturnValue({
       data: initialData,
@@ -193,7 +193,7 @@ describe('PaginationTab', () => {
   })
 
   it('should pass initial params to hook', () => {
-    const initialParams = { filter: 'active', sort: 'name' }
+    const initialParams = { filter: 'active', sort: 'name' };
 
     (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
@@ -217,7 +217,7 @@ describe('PaginationTab', () => {
   it('should expose updateParam and refresh via ref', () => {
     const mockUpdateParam = jest.fn()
     const mockRefresh = jest.fn()
-    const ref = { current: null }
+    const ref = { current: null };
 
     (usePaginatedResource as jest.Mock).mockReturnValue({
       data: mockData,
