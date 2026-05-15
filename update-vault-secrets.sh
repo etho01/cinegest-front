@@ -1,10 +1,10 @@
 #!/bin/bash
-# Script de mise à jour des secrets Vault - Cinegest Site Cinema
+# Script de mise à jour des secrets Vault - Cinegest Frontend
 
 set -e
 
-echo "🔐 Mise à jour des secrets Vault - Cinegest Site Cinema"
-echo "========================================================"
+echo "🔐 Mise à jour des secrets Vault - Cinegest Frontend"
+echo "======================================================"
 echo ""
 
 # Couleurs
@@ -91,7 +91,7 @@ echo ""
 
 # Récupérer les secrets actuels
 echo -e "${CYAN}📥 Récupération des secrets actuels...${NC}"
-if ! vault kv get -format=json secret/cinegest-site/site-cinema/app > "$TEMP_FILE" 2>/dev/null; then
+if ! vault kv get -format=json secret/cinegest-site/cinegest-front/app > "$TEMP_FILE" 2>/dev/null; then
     echo -e "${YELLOW}⚠️  Aucun secret existant, création d'une nouvelle configuration${NC}"
     echo '{"data":{"data":{}}}' > "$TEMP_FILE"
 fi
@@ -155,28 +155,16 @@ echo ""
 echo -e "${CYAN}══════════════════════════════════${NC}"
 echo -e "${CYAN}     Configuration API${NC}"
 echo -e "${CYAN}══════════════════════════════════${NC}"
-API_URL=$(ask_value "API_URL" "URL du backend (server-side, ex: https://api.cinegest.nicolasbarbey.fr/)")
-API_TOKEN=$(ask_secret "API_TOKEN" "Token d'authentification API (server-side)")
-NEXT_PUBLIC_API_URL=$(ask_value "NEXT_PUBLIC_API_URL" "URL du backend (client-side, ex: https://api.cinegest.nicolasbarbey.fr/)")
-
-# Stripe Configuration
-echo ""
-echo -e "${CYAN}══════════════════════════════════${NC}"
-echo -e "${CYAN}     Configuration Stripe${NC}"
-echo -e "${CYAN}══════════════════════════════════${NC}"
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$(ask_value "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" "Clé publique Stripe (pk_test_... ou pk_live_...)")
-STRIPE_SECRET_KEY=$(ask_secret "STRIPE_SECRET_KEY" "Clé secrète Stripe (sk_test_... ou sk_live_...)")
+API_URL=$(ask_value "API_URL" "URL du backend (ex: https://api.cinegest.nicolasbarbey.fr/)")
+ENV_REFERER=$(ask_value "ENV_REFERER" "Referer interne (ex: https://front.cinegest.nicolasbarbey.fr)")
 
 echo ""
 echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${YELLOW}📋 RÉSUMÉ DE LA CONFIGURATION${NC}"
 echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
-echo "API_URL                          : $API_URL"
-echo "API_TOKEN                        : ${API_TOKEN:0:10}... (masqué)"
-echo "NEXT_PUBLIC_API_URL              : $NEXT_PUBLIC_API_URL"
-echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:0:20}..."
-echo "STRIPE_SECRET_KEY                : ${STRIPE_SECRET_KEY:0:10}... (masqué)"
+echo "API_URL     : $API_URL"
+echo "ENV_REFERER : $ENV_REFERER"
 echo ""
 
 read -p "Voulez-vous sauvegarder cette configuration dans Vault ? (o/N): " confirm
@@ -188,19 +176,16 @@ fi
 echo ""
 echo -e "${CYAN}💾 Sauvegarde des secrets dans Vault...${NC}"
 
-vault kv put secret/cinegest-site/site-cinema/app \
+vault kv put secret/cinegest-site/cinegest-front/app \
   API_URL="$API_URL" \
-  API_TOKEN="$API_TOKEN" \
-  NEXT_PUBLIC_API_URL="$NEXT_PUBLIC_API_URL" \
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" \
-  STRIPE_SECRET_KEY="$STRIPE_SECRET_KEY"
+  ENV_REFERER="$ENV_REFERER"
 
 echo ""
 echo -e "${GREEN}✅ Secrets sauvegardés dans Vault${NC}"
 echo ""
 
 echo -e "${CYAN}🔍 Vérification des secrets...${NC}"
-vault kv get secret/cinegest-site/site-cinema/app
+vault kv get secret/cinegest-site/cinegest-front/app
 
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -213,12 +198,12 @@ echo "1. Les secrets seront automatiquement synchronisés vers Kubernetes"
 echo "   (délai: jusqu'à 15 minutes ou au prochain redémarrage des pods)"
 echo ""
 echo "2. Pour forcer la resynchronisation immédiate:"
-echo "   kubectl -n cinegest-site annotate externalsecret site-cinema-vault force-sync=\$(date +%s) --overwrite"
+echo "   kubectl -n cinegest-site annotate externalsecret cinegest-front-vault force-sync=\$(date +%s) --overwrite"
 echo ""
 echo "3. Vérifier la synchronisation:"
 echo "   kubectl -n cinegest-site get externalsecret"
-echo "   kubectl -n cinegest-site describe externalsecret site-cinema-vault"
-echo "   kubectl -n cinegest-site get secret site-cinema-secret"
+echo "   kubectl -n cinegest-site describe externalsecret cinegest-front-vault"
+echo "   kubectl -n cinegest-site get secret cinegest-front-secret"
 echo ""
 
 # Cleanup automatique via trap
