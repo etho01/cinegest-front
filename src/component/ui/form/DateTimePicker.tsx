@@ -75,7 +75,8 @@ export const DateTimePicker = ({
             )}
             
             <DatePicker
-                value={value !== undefined ? value : internalValue}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                value={(value !== undefined ? value : internalValue) as any}
                 onChange={handleChange}
                 onBlur={onBlur}
                 onFocus={onFocus}
@@ -91,7 +92,8 @@ export const DateTimePicker = ({
                 size="md"
                 radius="md"
                 labelPlacement="outside"
-                defaultValue={defaultValue}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                defaultValue={defaultValue as any}
                 classNames={{
                     base: "bg-white shadow-xl rounded-xl calendarContainer group",
                     timeInput: "bg-gray-50",

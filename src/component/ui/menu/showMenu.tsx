@@ -31,6 +31,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: 
     let user = null;
     let entity = null;
     let cinema = null;
+    let bodyContent: React.ReactNode = null;
     user = await me(UserRepositoryImpl);
     try {
         
@@ -69,11 +70,7 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: 
             cinema = entity.cinemas[0];
         }
 
-        return (
-            <Menu user={user} entity={entity} cinema={cinema} page={page} customParam={customParam}>
-                { await body(user, entity, cinema) }
-            </Menu>
-        )
+        bodyContent = await body(user, entity, cinema);
     } 
     catch (e : unknown)
     {
@@ -101,6 +98,8 @@ export const ShowMenu = async ({ body, entityId, cinemaId, page, customParam }: 
     }
     
     return (
-        <div>Erreur inconnue</div>
+        <Menu user={user} entity={entity} cinema={cinema} page={page} customParam={customParam}>
+            {bodyContent}
+        </Menu>
     )
 }

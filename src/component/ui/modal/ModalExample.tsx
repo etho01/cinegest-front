@@ -97,7 +97,7 @@ export const ModalExample = () => {
                 isOpen={isConfirmOpen}
                 onClose={closeConfirmModal}
                 size="sm"
-                initialFocus={cancelButtonRef}
+                initialFocus={() => cancelButtonRef.current}
             >
                 <ModalHeader>
                     <ModalTitle>Confirmation</ModalTitle>

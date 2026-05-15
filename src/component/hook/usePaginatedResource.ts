@@ -37,7 +37,7 @@ export function usePaginatedResource<T>({
 }: PaginatedOptions<T>) {
 
     const [data, setData] = useState<Paginator<T> | null>(initialData ?? null);
-    const [isInit, setIsInit] = useState(false);
+    const isInitRef = useRef(false);
     const [page, setPage] = useState(initialData?.current_page ?? initialPage);
     const [params, setParamsState] = useState<Record<string, unknown>>(initialParams);
     const [error, setError] = useState<Error | null>(null);
@@ -79,16 +79,16 @@ export function usePaginatedResource<T>({
 
     // refetch à chaque changement de url (interactions)
     useEffect(() => {
-        if (initialData && !isInit) 
+        if (initialData && !isInitRef.current) 
         {
-            setIsInit(true);
-            return
+            isInitRef.current = true;
+            return;
         }
 
-        setIsInit(true);
+        isInitRef.current = true;
         //if (!data) return; // si déjà SSR, on attend une interaction
-            runFetch(url).catch((e) => setErrorState(e as Error));
-    }, [url, initialData, runFetch, isInit]); 
+        runFetch(url).catch((e) => setErrorState(e as Error));
+    }, [url, initialData, runFetch]); 
 
     // Sync URL (page/per_page/params)
     useEffect(() => {

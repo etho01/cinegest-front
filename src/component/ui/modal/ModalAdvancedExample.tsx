@@ -4,11 +4,9 @@ import * as React from 'react';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from './Modal';
 import { Button } from '../btn/button';
 
-// Hook personnalisé pour la gestion avancée des modals
+// Hook personnalisé - gestion d'état uniquement, sans refs
 const useAdvancedModal = () => {
     const [isOpen, setIsOpen] = React.useState(false);
-    const modalRef = React.useRef<HTMLDivElement>(null);
-    const triggerRef = React.useRef<HTMLButtonElement>(null);
 
     const openModal = React.useCallback(() => {
         setIsOpen(true);
@@ -16,40 +14,45 @@ const useAdvancedModal = () => {
 
     const closeModal = React.useCallback(() => {
         setIsOpen(false);
-        // Focus retourne automatiquement sur le déclencheur
-        setTimeout(() => {
-            triggerRef.current?.focus();
-        }, 100);
     }, []);
 
-    return {
-        isOpen,
-        openModal,
-        closeModal,
-        modalRef,
-        triggerRef
-    };
+    return { isOpen, openModal, closeModal };
 };
 
 // Exemple avancé avec useRef intégré
 export const ModalAdvancedExample = () => {
-    // Hooks pour différentes modals
     const basicModal = useAdvancedModal();
     const formModal = useAdvancedModal();
     const confirmModal = useAdvancedModal();
 
-    // Refs pour les éléments de focus spécifiques
+    // Refs définis directement dans le composant
+    const basicModalRef = React.useRef<HTMLDivElement>(null);
+    const basicTriggerRef = React.useRef<HTMLButtonElement>(null);
+    const formTriggerRef = React.useRef<HTMLButtonElement>(null);
+    const confirmTriggerRef = React.useRef<HTMLButtonElement>(null);
     const firstInputRef = React.useRef<HTMLInputElement>(null);
     const cancelButtonRef = React.useRef<HTMLButtonElement>(null);
-    const dangerButtonRef = React.useRef<HTMLButtonElement>(null);
-    
-    // État du formulaire
+
     const [formData, setFormData] = React.useState({ name: '', email: '' });
 
-    // Gestionnaires de formulaire
+    const closeBasicModal = React.useCallback(() => {
+        basicModal.closeModal();
+        setTimeout(() => basicTriggerRef.current?.focus(), 100);
+    }, [basicModal]);
+
+    const closeFormModal = React.useCallback(() => {
+        formModal.closeModal();
+        setTimeout(() => formTriggerRef.current?.focus(), 100);
+    }, [formModal]);
+
+    const closeConfirmModal = React.useCallback(() => {
+        confirmModal.closeModal();
+        setTimeout(() => confirmTriggerRef.current?.focus(), 100);
+    }, [confirmModal]);
+
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        formModal.closeModal();
+        closeFormModal();
         setFormData({ name: '', email: '' });
     };
 
@@ -62,7 +65,7 @@ export const ModalAdvancedExample = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Bouton Modal Basique */}
                 <Button 
-                    ref={basicModal.triggerRef}
+                    ref={basicTriggerRef}
                     onClick={basicModal.openModal}
                     variant="outline"
                 >
@@ -71,7 +74,7 @@ export const ModalAdvancedExample = () => {
 
                 {/* Bouton Modal Formulaire */}
                 <Button 
-                    ref={formModal.triggerRef}
+                    ref={formTriggerRef}
                     onClick={formModal.openModal}
                 >
                     Modal Formulaire
@@ -79,7 +82,7 @@ export const ModalAdvancedExample = () => {
 
                 {/* Bouton Modal Confirmation */}
                 <Button 
-                    ref={confirmModal.triggerRef}
+                    ref={confirmTriggerRef}
                     onClick={confirmModal.openModal}
                     variant="destructive"
                 >
@@ -89,9 +92,9 @@ export const ModalAdvancedExample = () => {
 
             {/* Modal Basique avec useRef */}
             <Modal
-                ref={basicModal.modalRef}
+                ref={basicModalRef}
                 isOpen={basicModal.isOpen}
-                onClose={basicModal.closeModal}
+                onClose={closeBasicModal}
                 size="lg"
             >
                 <ModalHeader>
@@ -125,7 +128,7 @@ export const ModalAdvancedExample = () => {
                 </ModalBody>
                 
                 <ModalFooter>
-                    <Button variant="outline" onClick={basicModal.closeModal}>
+                    <Button variant="outline" onClick={closeBasicModal}>
                         Fermer
                     </Button>
                 </ModalFooter>
@@ -134,9 +137,9 @@ export const ModalAdvancedExample = () => {
             {/* Modal Formulaire avec focus initial */}
             <Modal
                 isOpen={formModal.isOpen}
-                onClose={formModal.closeModal}
+                onClose={closeFormModal}
                 size="md"
-                initialFocus={firstInputRef}
+                initialFocus={() => firstInputRef.current}
             >
                 <ModalHeader>
                     <ModalTitle>Formulaire avec Focus Initial</ModalTitle>
@@ -183,7 +186,7 @@ export const ModalAdvancedExample = () => {
                     </ModalBody>
                     
                     <ModalFooter>
-                        <Button type="button" variant="outline" onClick={formModal.closeModal}>
+                        <Button type="button" variant="outline" onClick={closeFormModal}>
                             Annuler
                         </Button>
                         <Button type="submit">
@@ -196,9 +199,9 @@ export const ModalAdvancedExample = () => {
             {/* Modal Confirmation avec focus sur Annuler */}
             <Modal
                 isOpen={confirmModal.isOpen}
-                onClose={confirmModal.closeModal}
+                onClose={closeConfirmModal}
                 size="sm"
-                initialFocus={cancelButtonRef}
+                initialFocus={() => cancelButtonRef.current}
             >
                 <ModalHeader>
                     <ModalTitle>⚠️ Action Destructive</ModalTitle>
@@ -221,16 +224,15 @@ export const ModalAdvancedExample = () => {
                     <Button 
                         ref={cancelButtonRef}
                         variant="outline" 
-                        onClick={confirmModal.closeModal}
+                        onClick={closeConfirmModal}
                     >
                         Annuler
                     </Button>
                     <Button 
-                        ref={dangerButtonRef}
                         variant="destructive" 
                         onClick={() => {
                             alert('Action destructive exécutée !');
-                            confirmModal.closeModal();
+                            closeConfirmModal();
                         }}
                     >
                         Supprimer

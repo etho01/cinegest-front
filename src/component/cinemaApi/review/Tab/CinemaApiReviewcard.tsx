@@ -15,11 +15,12 @@ interface CinemaApiReviewcardProps {
 }
 
 export const CinemaApiReviewcard = ({ cinemaApi, entityId, cinemas }: CinemaApiReviewcardProps) => {
-    cinemaApi.cinemaIds = cinemaApi.cinemas?.map(cinema => cinema.id) || [];
-
     const { executeAsync, hasErrored, result } = useAction(updateCinemaApiController);
 
-    const [cinemaApiUpdated, setCinemaApiUpdated] = useState<CinemaApi>(cinemaApi);
+    const [cinemaApiUpdated, setCinemaApiUpdated] = useState<CinemaApi>({
+        ...cinemaApi,
+        cinemaIds: cinemaApi.cinemas?.map(cinema => cinema.id) || [],
+    });
 
     return (
         <>

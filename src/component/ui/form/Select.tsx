@@ -75,7 +75,7 @@ export const Select = <T,>({
 
     useEffect(() => {
         const selectedOption = options.find(option => option.value === value) || null;
-        
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedValue(selectedOption);
     }, [value, options]);
     
@@ -88,7 +88,7 @@ export const Select = <T,>({
         {
             selectedOption = options.find(option => option.value === initialValue) || null;
         }
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedValue(selectedOption);
     }, [initialValue, options]);
 
@@ -190,7 +190,7 @@ export const SelectMultiple = <T,>({
         {
             selectedOption = options.filter(option => value.includes(option.value));
         }
-        
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedValue(selectedOption);
     }, [value, options]);
     
@@ -203,7 +203,7 @@ export const SelectMultiple = <T,>({
         {
             selectedOption = options.filter(option => initialValue.includes(option.value));
         }
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedValue(selectedOption);
     }, [initialValue, options]);
 

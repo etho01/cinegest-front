@@ -57,7 +57,7 @@ export interface ModalProps
     closeOnOverlayClick?: boolean;
     closeOnEscape?: boolean;
     showCloseButton?: boolean;
-    initialFocus?: React.RefObject<HTMLElement | null>;
+    initialFocus?: () => HTMLElement | null;
     usePortal?: boolean;
 }
 
@@ -65,7 +65,7 @@ export interface ModalProps
 const useModalFocus = (
     isOpen: boolean,
     modalRef: React.RefObject<HTMLDivElement | null>,
-    initialFocus?: React.RefObject<HTMLElement | null>
+    initialFocus?: () => HTMLElement | null
 ) => {
     const lastFocusedElement = React.useRef<HTMLElement | null>(null);
     const firstFocusableElement = React.useRef<HTMLElement | null>(null);
@@ -98,7 +98,7 @@ const useModalFocus = (
             lastFocusableElement.current = focusableElements[focusableElements.length - 1];
 
             // Focus initial personnalisé ou premier élément
-            const elementToFocus = initialFocus?.current || firstFocusableElement.current;
+            const elementToFocus = initialFocus?.() || firstFocusableElement.current;
             if (elementToFocus) {
                 // Petit délai pour s'assurer que la modal est rendue
                 setTimeout(() => elementToFocus.focus(), 10);
@@ -243,9 +243,11 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(({
     );
 
     // Gestion du mounting côté client
+    /* eslint-disable react-hooks/set-state-in-effect */
     React.useEffect(() => {
         setMounted(true);
     }, []);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     // Gestionnaire d'overlay avec useCallback pour optimisation
     const handleOverlayClick = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {

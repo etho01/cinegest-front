@@ -54,15 +54,14 @@ export const CustomDateRangePicker = ({className = '', label = '', containerClas
 
     const startDate = parseDate(props.dateStart ? props.dateStart : null);
     const endDate = parseDate(props.dateEnd ? props.dateEnd : null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rangeValue: any = startDate && endDate ? { start: startDate, end: endDate } : undefined;
 
     return (
         <div className={containerClassName}>
             { label != '' ? <Label htmlFor={htmlFor}>{label}</Label> : '' }
             <DateRangePicker
-                value={startDate && endDate ? {
-                    start: startDate,
-                    end: endDate
-                } : undefined}
+                value={rangeValue}
                 classNames={{
                     calendar: "bg-white shadow-xl rounded-xl calendarContainer group",
                     timeInput: "bg-gray-50",
