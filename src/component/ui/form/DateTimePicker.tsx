@@ -76,7 +76,7 @@ export const DateTimePicker = ({
             
             <DatePicker
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                value={(value !== undefined ? value : internalValue) as any}
+                value={(value ?? internalValue) as any}
                 onChange={handleChange}
                 onBlur={onBlur}
                 onFocus={onFocus}
