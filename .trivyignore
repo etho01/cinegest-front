@@ -1,0 +1,6 @@
+# Trivy ignore file
+# Syntax: CVE-YYYY-XXXXX or path/to/file
+
+# Vulnérabilités postcss dans next.js (pas de fix disponible côté next)
+# https://github.com/advisories/GHSA-qx2v-qp2m-jg93
+CVE-2025-27789
