@@ -1,0 +1,56 @@
+name: SonarQube Analysis
+
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        description: 'SonarQube authentication token'
+        required: true
+      SONAR_HOST_URL:
+        description: 'SonarQube server URL'
+        required: true
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Disable shallow clone for better analysis
+          fetch-depth: 0
+      
+      - name: Download coverage artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage/
+      
+      - name: Display coverage summary
+        run: |
+          if [ -f coverage/lcov.info ]; then
+            echo "✅ Coverage report available"
+          else
+            echo "⚠️ No coverage report found"
+          fi
+      
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v8.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=cinegest-front
+            -Dsonar.sources=src,app
+            -Dsonar.exclusions=**/*.test.ts,**/*.test.tsx,**/node_modules/**,**/.next/**
+            -Dsonar.verbose=false
+      
+      - name: SonarQube Quality Gate check
+        uses: sonarsource/sonarqube-quality-gate-action@v1.2.0
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

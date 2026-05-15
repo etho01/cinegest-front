@@ -1,0 +1,327 @@
+name: Deploy cinegest-front to K3s
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  NAMESPACE: cinegest-site
+  DEPLOYMENT_NAME: cinegest-front
+  CONTAINER_NAME: app
+
+jobs:
+
+
+  code-quality:
+    uses: ./.github/workflows/code-quality.yml
+        
+  security-scan:
+    uses: ./.github/workflows/security-scan.yml
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+
+  test:
+    needs: [code-quality, security-scan]
+    uses: ./.github/workflows/test.yml
+
+  sonarqube:
+    needs: test
+    uses: ./.github/workflows/sonarqube.yml
+    secrets: inherit
+
+  build-and-push:
+    needs: sonarqube
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+
+    outputs:
+      image_tag: ${{ steps.meta.outputs.image_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare metadata
+        id: meta
+        run: |
+          IMAGE_TAG=${GITHUB_SHA}
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          exit-code: '0'
+          ignore-unfixed: false
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'trivy-image-scan'
+
+      - name: Run Trivy scan for JSON report
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}
+          format: 'json'
+          output: 'trivy-image-results.json'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          exit-code: '0'
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for critical vulnerabilities
+        run: |
+          if [ -f trivy-image-results.json ]; then
+            CRITICAL=$(cat trivy-image-results.json | jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length')
+            HIGH=$(cat trivy-image-results.json | jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length')
+            
+            echo "### 🐳 Scan Trivy de l'Image Docker" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Image:** ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Sévérité | Nombre |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+            echo "| 🔴 Critical | $CRITICAL |" >> $GITHUB_STEP_SUMMARY
+            echo "| 🟠 High | $HIGH |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "$CRITICAL" -gt 0 ]; then
+              echo "⚠️ **Attention:** Des vulnérabilités critiques ont été détectées dans l'image" >> $GITHUB_STEP_SUMMARY
+              echo "Consultez l'onglet **Security** → **Code scanning** pour plus de détails" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "**Vulnérabilités Critiques:**" >> $GITHUB_STEP_SUMMARY
+              cat trivy-image-results.json | jq -r '
+                [.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | 
+                .[:5][] | 
+                "- `" + .PkgName + "`: " + .VulnerabilityID + " - " + .Title
+              ' >> $GITHUB_STEP_SUMMARY 2>/dev/null || true
+              exit 1
+            elif [ "$HIGH" -gt 0 ]; then
+              echo "⚠️ **Attention:** $HIGH vulnérabilité(s) haute(s) détectée(s)" >> $GITHUB_STEP_SUMMARY
+              echo "Consultez l'onglet **Security** → **Code scanning** pour plus de détails" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "✅ **Aucune vulnérabilité critique ou haute détectée**" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
+      - name: Upload Trivy scan results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-image-scan
+          path: |
+            trivy-image-results.json
+            trivy-results.sarif
+          retention-days: 30
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Write kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Check and install External Secrets Operator
+        run: |
+          # Vérifier si les CRDs d'ESO sont installés
+          if ! kubectl get crd secretstores.external-secrets.io &>/dev/null; then
+            echo "Installing External Secrets Operator..."
+            helm repo add external-secrets https://charts.external-secrets.io
+            helm repo update
+            helm upgrade --install external-secrets \
+              external-secrets/external-secrets \
+              --namespace external-secrets \
+              --create-namespace \
+              --set installCRDs=true \
+              --wait \
+              --timeout 5m
+            echo "✅ External Secrets Operator installed"
+          else
+            echo "✅ External Secrets Operator already present"
+          fi
+          
+          # Vérification finale : attendre que les CRDs soient disponibles (peu importe si déjà installé ou juste installé)
+          echo "Verifying CRDs availability..."
+          for i in {1..30}; do
+            if kubectl get crd secretstores.external-secrets.io externalsecrets.external-secrets.io &>/dev/null; then
+              echo "✅ External Secrets CRDs are ready"
+              break
+            fi
+            if [ $i -eq 30 ]; then
+              echo "❌ Timeout waiting for ESO CRDs"
+              kubectl get crd | grep external-secrets || echo "No ESO CRDs found"
+              exit 1
+            fi
+            echo "Waiting for CRDs... ($i/30)"
+            sleep 2
+          done
+          
+          # Attendre que l'opérateur soit prêt
+          echo "Waiting for External Secrets operator deployment..."
+          kubectl wait --for=condition=available --timeout=300s \
+            deployment/external-secrets -n external-secrets 2>/dev/null || \
+            kubectl wait --for=condition=available --timeout=300s \
+              deployment/external-secrets-webhook -n external-secrets 2>/dev/null || true
+
+      - name: Deploy Vault integration
+        run: |
+          # Debug : vérifier que les CRDs sont bien là
+          echo "=== Debugging CRDs before deployment ==="
+          kubectl get crd | grep external-secrets || echo "⚠️ No ESO CRDs found!"
+          kubectl api-resources | grep secretstore || echo "⚠️ SecretStore not in API resources!"
+          echo "========================================"
+          
+          # Déployer les namespaces
+          kubectl apply -f k8s/namespace.yaml
+          
+          # Déployer le ServiceAccount et le RBAC pour Vault auth
+          kubectl apply -f k8s/vault/serviceaccount.yaml
+          kubectl apply -f k8s/vault/rbac.yaml
+          
+          # Déployer SecretStore et ExternalSecret avec retry (au cas où les CRDs mettent du temps)
+          echo "Deploying Vault SecretStore..."
+          for i in {1..5}; do
+            if kubectl apply -f k8s/secretstore.yaml; then
+              echo "✅ SecretStore deployed"
+              break
+            fi
+            if [ $i -eq 5 ]; then
+              echo "❌ Failed to deploy SecretStore after 5 attempts"
+              exit 1
+            fi
+            echo "Retry $i/5 - waiting for CRDs to be fully available..."
+            sleep 5
+          done
+          
+          echo "Deploying Vault ExternalSecret..."
+          kubectl apply -f k8s/externalsecret.yaml
+          
+          echo "✅ Vault integration manifests deployed"
+
+      - name: Wait for secrets synchronization
+        run: |
+          echo "⏳ Waiting for secrets to sync from Vault..."
+          
+          # Attendre que l'ExternalSecret soit prêt (max 2 minutes)
+          for i in {1..60}; do
+            STATUS=$(kubectl -n ${NAMESPACE} get externalsecret cinegest-front-vault -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' 2>/dev/null || echo "")
+            
+            if [ "$STATUS" = "True" ]; then
+              echo "✅ Secrets synchronized from Vault"
+              kubectl -n ${NAMESPACE} get secret cinegest-front-secret
+              break
+            fi
+            
+            if [ $i -eq 60 ]; then
+              echo "⚠️ Timeout waiting for Vault secrets synchronization"
+              echo "Checking ExternalSecret status:"
+              kubectl -n ${NAMESPACE} describe externalsecret cinegest-front-vault || true
+              
+              # Vérifier si le secret existe quand même (manuel)
+              if kubectl -n ${NAMESPACE} get secret cinegest-front-secret &>/dev/null; then
+                echo "⚠️ Using existing manual secret (Vault not configured)"
+              else
+                echo "❌ No secret available - deployment will fail"
+                exit 1
+              fi
+            fi
+            
+            sleep 2
+          done
+
+      - name: Save current deployment image
+        id: previous
+        continue-on-error: true
+        run: |
+          PREVIOUS_IMAGE=$(kubectl -n ${NAMESPACE} get deployment ${DEPLOYMENT_NAME} -o jsonpath='{.spec.template.spec.containers[0].image}' 2>/dev/null || echo "")
+          echo "image=$PREVIOUS_IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Apply manifests
+        run: |
+          # Créer le secret pour puller les images du registry privé
+          kubectl create secret docker-registry ghcr-secret \
+            --docker-server=ghcr.io \
+            --docker-username=${{ github.actor }} \
+            --docker-password=${{ secrets.GITHUB_TOKEN }} \
+            --namespace=${NAMESPACE} \
+            --dry-run=client -o yaml | kubectl apply -f -
+          
+          kubectl apply -f k8s/middleware.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/ingress.yaml
+          kubectl apply -f k8s/hpa.yaml
+
+      - name: Update image
+        run: |
+          kubectl -n ${NAMESPACE} set image deployment/${DEPLOYMENT_NAME} \
+            ${CONTAINER_NAME}=${REGISTRY}/${IMAGE_NAME}:${{ needs.build-and-push.outputs.image_tag }}
+
+      - name: Wait rollout
+        id: rollout
+        run: |
+          if ! kubectl -n ${NAMESPACE} rollout status deployment/${DEPLOYMENT_NAME} --timeout=300s; then
+            echo "Deployment failed!"
+            kubectl -n ${NAMESPACE} describe deployment ${DEPLOYMENT_NAME}
+            kubectl -n ${NAMESPACE} logs -l app=cinegest-front --tail=50
+            exit 1
+          fi
+
+      - name: Rollback on failure
+        if: failure() && steps.previous.outputs.image != ''
+        run: |
+          echo "Rolling back to previous image: ${{ steps.previous.outputs.image }}"
+          kubectl -n ${NAMESPACE} set image deployment/${DEPLOYMENT_NAME} \
+            ${CONTAINER_NAME}=${{ steps.previous.outputs.image }}
+          kubectl -n ${NAMESPACE} rollout status deployment/${DEPLOYMENT_NAME} --timeout=300s
