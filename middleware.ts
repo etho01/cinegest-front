@@ -1,17 +1,15 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server"
-import { cookies } from "next/headers";
 
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-    const cookieStore = await cookies();
-    const isLog = cookieStore.has('login-token');
+    const isLog = req.cookies.has('login-token');
 
     // Pages publiques (pas besoin d'être connecté)
     const publicPaths = ['/login', '/forgot-password', '/reset-password'];
     const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
-    console.log(`Middleware - Path: ${pathname}, isLog: ${isLog}, isPublicPath: ${isPublicPath}`, cookieStore.get('login-token')?.value, cookieStore.has('login-token'));
+    console.log(`Middleware - Path: ${pathname}, isLog: ${isLog}, isPublicPath: ${isPublicPath}`, req.cookies.get('login-token')?.value);
 
     if (isPublicPath && isLog)
     {
