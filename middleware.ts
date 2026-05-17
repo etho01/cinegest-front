@@ -11,6 +11,7 @@ export async function middleware(req: NextRequest) {
     // Pages publiques (pas besoin d'être connecté)
     const publicPaths = ['/login', '/forgot-password', '/reset-password'];
     const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+    console.log(`Middleware - Path: ${pathname}, isLog: ${isLog}, isPublicPath: ${isPublicPath}`);
 
     if (isPublicPath && isLog)
     {
