@@ -16,9 +16,11 @@ export const Register = actionClient.schema(
     const token = await connect(UserRepositoryImpl, input);
     cookieStore.set('login-token', token, {
         httpOnly : true,
-        secure: true
+        secure: true,
+        sameSite: 'lax',
+        path: '/'
     });
-    redirect('/app')
+    return { success: true };
 })
 
 export const Logout = async() => {

@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
     // Pages publiques (pas besoin d'être connecté)
     const publicPaths = ['/login', '/forgot-password', '/reset-password'];
     const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
-    console.log(`Middleware - Path: ${pathname}, isLog: ${isLog}, isPublicPath: ${isPublicPath}`, req.cookies.get('login-token')?.value);
+    console.log(`[MW] path=${pathname} isLog=${isLog} cookieHeader=${req.headers.get('cookie')} allCookies=${JSON.stringify(req.cookies.getAll())}`);
 
     if (isPublicPath && isLog)
     {

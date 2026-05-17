@@ -14,10 +14,12 @@ export const LoginForm = () => {
     return (
         <form 
             action={async (formData) => {
-               // await fetch("/api/auth/csrf", { method: "GET", credentials: "include" });
                 const email = formData.get('email') as string;
                 const password = formData.get('password') as string;
-                await executeAsync({email, password});
+                const result = await executeAsync({email, password});
+                if (result?.data?.success) {
+                    window.location.href = '/app';
+                }
             }}>
             <div className="text-center w-full block font-bold text-2xl mb-3">
                 Connexion à mon espace 
