@@ -180,7 +180,6 @@ export const SelectMultiple = <T,>({
     }
 
     const onChangeFunction = (selectedOption: unknown) => {
-        console.log('Selected option:', selectedOption);
         setAndChangeValue(selectedOption as Option<T>[]);
     }
 
