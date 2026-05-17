@@ -73,6 +73,8 @@ export class ApiRequestServeur {
     ): Promise<T> {
         const resp = await this[method](url, params, header);
         await throwErrorResponse(resp);
+        console.log(`API ${method} ${url} - Status: ${resp.status}`);
+        console.log(`Response: ${await resp.clone().text()}`);
         return await resp.json() as T;
     }
 
