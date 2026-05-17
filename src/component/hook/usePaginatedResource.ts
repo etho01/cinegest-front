@@ -48,33 +48,38 @@ export function usePaginatedResource<T>({
         return withSearchParams(endpoint, { page, ...params });
     }, [endpoint, page, params]);
 
-    const setErrorState = (err: Error | null) => {
+    const setErrorState = useCallback((err: Error | null) => {
         if (err instanceof DOMException && err.name === 'AbortError')
         {
-            return ;
+            return;
         }
         setError(err);
-    }
+    }, []);
 
     const runFetch = useCallback(
         async (u: string) => {
             setIsPending(true);
+            let ctrl: AbortController | null = null;
             try {
                 if (abortRef.current) abortRef.current.abort();
-                const ctrl = new AbortController();
+                ctrl = new AbortController();
                 abortRef.current = ctrl;
                 setErrorState(null);
                 const res = await fetcher(u, { signal: ctrl.signal });
                 setData(res);
-                setErrorState(null);
             } 
             catch (error) 
             {
                 setErrorState(error as Error);
             }
-            setIsPending(false);
+            finally
+            {
+                if (!ctrl?.signal.aborted) {
+                    setIsPending(false);
+                }
+            }
         },
-        [fetcher]
+        [fetcher, setErrorState]
     );
 
     // refetch à chaque changement de url (interactions)
@@ -111,7 +116,7 @@ export function usePaginatedResource<T>({
             setPage(p);
             setParamsState(rest);
             runFetch(withSearchParams(endpoint, { page: p, ...rest })).catch((e) =>
-                setError(e as Error)
+                setErrorState(e as Error)
             );
         };
         window.addEventListener("popstate", onPop);
@@ -137,6 +142,6 @@ export function usePaginatedResource<T>({
         setPage,
         setParams,   // 👈 exposé
         updateParam, // 👈 exposé
-        refresh: () => runFetch(url).catch((e) => setError(e as Error)),
+        refresh: () => runFetch(url).catch((e) => setErrorState(e as Error)),
     };
 }
