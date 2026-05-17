@@ -5,10 +5,12 @@ import Input from "../ui/form/Input";
 import { FormButton } from "../ui/btn/form-button";
 import { Register } from "@/src/controller/app/AuthController";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 export const LoginForm = () => {
 
+    const router = useRouter();
     const { executeAsync, hasErrored, result } = useAction(Register)
 
     return (
@@ -18,7 +20,7 @@ export const LoginForm = () => {
                 const password = formData.get('password') as string;
                 const result = await executeAsync({email, password});
                 if (result?.data?.success) {
-                    window.location.href = '/app';
+                    router.push('/app');
                 }
             }}>
             <div className="text-center w-full block font-bold text-2xl mb-3">
