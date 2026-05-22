@@ -1,6 +1,11 @@
-# 🎬 CineGest - Plateforme de Gestion de Cinémas
+# 🎬 CineGest - Plateforme de Gestion de 
+ application web moderne et scalable pour la gestion intégrée de cinémas, développée avec les dernières technologies du web.
 
-Une application web moderne et scalable pour la gestion intégrée de cinémas, développée avec les dernières technologies du web.
+URL https://front.cinegest.nicolasbarbey.fr/app 
+Identifiants :
+Email : barbeynicolas.basly@gmail.com
+Mot de passe : password
+(je sais que le mot de passe est très faible et que dans un vrai contexte de production il faudrait un mot de passe plus fort) 
 
 ## 🎯 Présentation du Projet
 
